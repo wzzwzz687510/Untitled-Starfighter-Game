@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SpaceshipState
+[System.Serializable]
+public class TransformState
 {
     public float yaw;
     public float pitch;
@@ -22,6 +23,13 @@ public class SpaceshipState
         z = t.position.z;
     }
 
+    public void SetPosition(Vector3 pos)
+    {
+        x = pos.x;
+        y = pos.y;
+        z = pos.z;
+    }
+
     public void Translate(Vector3 translation)
     {
         Vector3 rotatedTranslation = Quaternion.Euler(pitch, yaw, roll) * translation;
@@ -31,7 +39,7 @@ public class SpaceshipState
         z += rotatedTranslation.z;
     }
 
-    public void LerpTowards(SpaceshipState target, float positionLerpPct, float rotationLerpPct)
+    public void LerpTowards(TransformState target, float positionLerpPct, float rotationLerpPct)
     {
         yaw = Mathf.Lerp(yaw, target.yaw, rotationLerpPct);
         pitch = Mathf.Lerp(pitch, target.pitch, rotationLerpPct);
@@ -55,10 +63,11 @@ public class SpaceShipController : MonoBehaviour
     [Header("Spaceship Parameters")]
     [Range(0.001f, 1f)] public float positionLerpTime = 0.2f;
     [Range(0.001f, 1f)] public float rotationLerpTime = 0.01f;
+    [Range(0.001f, 1f)] public float viewpointLerpTime = 0.2f;
     public GameObject particle;
-    public RectTransform radarRT;
+    public Transform lookatPoint;
+    public Spaceship m_spaceship;
 
-    Spaceship m_spaceship;
     public float MovementSpeed => m_spaceship.defaultMaxMovementSpeed;
     public float RotationSpeed => m_spaceship.defaultMaxRotationSpeed;
 
@@ -68,12 +77,13 @@ public class SpaceShipController : MonoBehaviour
     Vector2 viewInput;
     bool accelerateInput;
 
-    SpaceshipState m_TargetState = new SpaceshipState();
-    SpaceshipState m_InterpolatingState = new SpaceshipState();
+    TransformState m_TargetState;
+    TransformState m_InterpolatingState;
+    TransformState m_TargetLookatPointState;
+    TransformState m_InterpolatingLookatPointState;
 
     private void Awake()
     {
-        m_spaceship = GetComponent<Spaceship>();
         inputActions = new SpaceShipInputActions();
         inputActions.PlayerControls.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
         inputActions.PlayerControls.Move.canceled += ctx => movementInput = Vector2.zero;
@@ -81,17 +91,23 @@ public class SpaceShipController : MonoBehaviour
         inputActions.PlayerControls.Look.canceled += ctx => viewInput = Vector2.zero;
         inputActions.PlayerControls.Accelerate.performed += ctx => accelerateInput = true;
         inputActions.PlayerControls.Accelerate.canceled += ctx => accelerateInput = false;
+
+        m_TargetState = new TransformState();
+        m_InterpolatingState = new TransformState();
+        m_TargetLookatPointState = new TransformState();
+        m_InterpolatingLookatPointState = new TransformState();
     }
 
     private void FixedUpdate()
     {
-        Rotate(movementInput);
-        Move();
+        TranslateViewpoint(viewInput);
+        RotateSpaceship(movementInput);
+        TranslateSpaceship();
 
         ApplyChanges();
     }
 
-    private void Move()
+    private void TranslateSpaceship()
     {
         if (!accelerateInput) {
             particle.SetActive(false);
@@ -103,7 +119,15 @@ public class SpaceShipController : MonoBehaviour
         m_TargetState.Translate(-Vector3.forward * scaledMoveSpeed);
     }
 
-    private void Rotate(Vector2 input)
+    private void TranslateViewpoint(Vector2 input)
+    {
+        var dir = new Vector2(lookatPoint.localPosition.x - input.x, lookatPoint.localPosition.y + input.y);
+        if (dir.magnitude > 10) dir = dir.normalized * 10;
+        m_TargetLookatPointState.x = dir.x;
+        m_TargetLookatPointState.y = dir.y;
+    }
+
+    private void RotateSpaceship(Vector2 input)
     {
         if (input.sqrMagnitude < 0.01)
             return;
@@ -119,6 +143,10 @@ public class SpaceShipController : MonoBehaviour
         m_InterpolatingState.LerpTowards(m_TargetState, positionLerpPct, rotationLerpPct);
 
         m_InterpolatingState.UpdateTransform(transform);
+
+        var viewPointLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / viewpointLerpTime) * Time.deltaTime);
+        m_InterpolatingLookatPointState.LerpTowards(m_TargetLookatPointState, viewPointLerpPct, 0);
+        lookatPoint.localPosition = new Vector3(m_InterpolatingLookatPointState.x, m_InterpolatingLookatPointState.y, m_InterpolatingLookatPointState.z);
     }
 
     public void OnEnable()
@@ -126,6 +154,8 @@ public class SpaceShipController : MonoBehaviour
         inputActions.Enable();
         m_TargetState.SetFromTransform(transform);
         m_InterpolatingState.SetFromTransform(transform);
+        m_TargetLookatPointState.SetPosition(lookatPoint.localPosition);
+        m_InterpolatingLookatPointState.SetPosition(lookatPoint.localPosition);
     }
 
     public void OnDisable()

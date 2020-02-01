@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 5295669690090323827}
   - component: {fileID: 5295669690090323826}
   m_Layer: 0
-  m_Name: View point
+  m_Name: Lookat point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5295669690090323824}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -18.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDurability: 100
   defaultArmour: 0
-  defaultMaxMovementSpeed: 1
+  defaultMaxMovementSpeed: 10
   defaultAcrMovementSpeed: 1
   defaultMaxRotationSpeed: 1
   defaultAcrRotationSpeed: 1
@@ -207,12 +207,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ebd4569dad885543a7f7c807e0fb4c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  spinSpeed: 1
   positionLerpTime: 0.2
   rotationLerpTime: 0.01
+  viewpointSpeed: 1
   particle: {fileID: 5295669691302909220}
-  radarRT: {fileID: 0}
+  lookatPoint: {fileID: 5295669690090323827}
+  m_spaceship: {fileID: 2659390923500882945}
 --- !u!1 &5295669691302909220
 GameObject:
   m_ObjectHideFlags: 0
