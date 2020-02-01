@@ -66,6 +66,7 @@
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Controllers\SpaceShipInputActions.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\EquipmentObject.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Extensions.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Managers\LevelManager.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Equipment.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Laser.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Weapon.cs" />
