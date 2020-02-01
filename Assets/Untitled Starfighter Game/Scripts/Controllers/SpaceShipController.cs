@@ -49,18 +49,19 @@ public class SpaceshipState
     }
 }
 
-[RequireComponent(typeof(Rigidbody),typeof(Spaceship))]
+[RequireComponent(typeof(Spaceship))]
 public class SpaceShipController : MonoBehaviour
 {
     [Header("Spaceship Parameters")]
-    public float moveSpeed = 2;
-    public float spinSpeed = 20;
     [Range(0.001f, 1f)] public float positionLerpTime = 0.2f;
     [Range(0.001f, 1f)] public float rotationLerpTime = 0.01f;
     public GameObject particle;
     public RectTransform radarRT;
 
-    Rigidbody m_rg;
+    Spaceship m_spaceship;
+    public float MovementSpeed => m_spaceship.defaultMaxMovementSpeed;
+    public float RotationSpeed => m_spaceship.defaultMaxRotationSpeed;
+
     SpaceShipInputActions inputActions;
 
     Vector2 movementInput;
@@ -72,7 +73,7 @@ public class SpaceShipController : MonoBehaviour
 
     private void Awake()
     {
-        m_rg = GetComponent<Rigidbody>();
+        m_spaceship = GetComponent<Spaceship>();
         inputActions = new SpaceShipInputActions();
         inputActions.PlayerControls.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
         inputActions.PlayerControls.Move.canceled += ctx => movementInput = Vector2.zero;
@@ -98,7 +99,7 @@ public class SpaceShipController : MonoBehaviour
         }
             
         particle.SetActive(true);
-        var scaledMoveSpeed = moveSpeed * Time.deltaTime;
+        var scaledMoveSpeed = MovementSpeed * Time.deltaTime;
         m_TargetState.Translate(-Vector3.forward * scaledMoveSpeed);
     }
 
@@ -107,8 +108,8 @@ public class SpaceShipController : MonoBehaviour
         if (input.sqrMagnitude < 0.01)
             return;
 
-        m_TargetState.yaw += input.x * spinSpeed;
-        m_TargetState.pitch += input.y * spinSpeed;
+        m_TargetState.yaw += input.x * RotationSpeed;
+        m_TargetState.pitch += input.y * RotationSpeed;
     }
 
     private void ApplyChanges()
