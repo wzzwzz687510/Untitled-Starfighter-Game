@@ -8,3 +8,4 @@ Library/
 Logs/
 obj/
 *.meta
+Temp/
