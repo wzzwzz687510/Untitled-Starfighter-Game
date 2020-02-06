@@ -161,5 +161,8 @@ public class SpaceShipController : MonoBehaviour
     public void OnDisable()
     {
         inputActions.Disable();
+        movementInput = Vector2.zero;
+        viewInput = Vector2.zero;
+        accelerateInput = false;
     }
 }

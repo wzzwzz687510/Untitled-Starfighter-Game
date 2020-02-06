@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 5295669691188169536}
   - component: {fileID: 5295669691189463904}
   - component: {fileID: 5295669691190593952}
+  - component: {fileID: 7658702402202622192}
   - component: {fileID: 2659390923500882945}
   - component: {fileID: 5295669690146998088}
   m_Layer: 0
@@ -174,6 +175,22 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!54 &7658702402202622192
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295669691188336480}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &2659390923500882945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,7 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   positionLerpTime: 0.2
   rotationLerpTime: 0.01
-  viewpointSpeed: 1
+  viewpointLerpTime: 0.2
   particle: {fileID: 5295669691302909220}
   lookatPoint: {fileID: 5295669690090323827}
   m_spaceship: {fileID: 2659390923500882945}
@@ -314,21 +331,46 @@ PrefabInstance:
     - target: {fileID: 1242463637261521930, guid: de710a4d0489c824290fdf0ebee80fcf,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 4.76e-43
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1242463637261521930, guid: de710a4d0489c824290fdf0ebee80fcf,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 8190.8164
+      value: -3.1632022e-16
       objectReference: {fileID: 0}
     - target: {fileID: 1242463637261521930, guid: de710a4d0489c824290fdf0ebee80fcf,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 4.75e-43
+      value: 7.26e-43
       objectReference: {fileID: 0}
     - target: {fileID: 1242463637261521930, guid: de710a4d0489c824290fdf0ebee80fcf,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
+      value: 8.3e-44
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242463637261521930, guid: de710a4d0489c824290fdf0ebee80fcf,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242463637261521930, guid: de710a4d0489c824290fdf0ebee80fcf,
+        type: 3}
+      propertyPath: m_Range
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242463637261521930, guid: de710a4d0489c824290fdf0ebee80fcf,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242463637261521931, guid: de710a4d0489c824290fdf0ebee80fcf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242463637261521931, guid: de710a4d0489c824290fdf0ebee80fcf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
