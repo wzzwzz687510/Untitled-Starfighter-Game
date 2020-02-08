@@ -3,10 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EquipmentType
+{
+    Weapon,
+    Laser
+}
+
 public abstract class Equipment : ScriptableObject
 {
     public string equipmentName;
     public int Hash => equipmentName.GetStableHashCode();
+
+    public EquipmentType type;
+
     // Maximum reload bullets number.(0 means infinate)
     public float volume;
     // Maximum equipment use time.(0 means infinate)
