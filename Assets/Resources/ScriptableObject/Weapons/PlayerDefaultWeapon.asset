@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66784bf3ba8a5f46af04d6f585ff368, type: 3}
   m_Name: PlayerDefaultWeapon
   m_EditorClassIdentifier: 
-  volume: 0
-  durability: 0
+  equipmentName: DefaultWeapon
+  type: 0
+  volume: 30
+  durability: 100
+  triggerInterval: 0.1
+  bullet: {fileID: 11400000, guid: 8d4c6eedb1ce6bc48bba005ef3d83161, type: 2}

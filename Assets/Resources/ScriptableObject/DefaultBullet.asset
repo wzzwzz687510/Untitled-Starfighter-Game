@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de125748a74c18c4994d4d8d0a4eaa37, type: 3}
-  m_Name: PlayerDefaultLaser
+  m_Script: {fileID: 11500000, guid: 66f333ba514035343af94ebfac041710, type: 3}
+  m_Name: DefaultBullet
   m_EditorClassIdentifier: 
-  equipmentName: DefaultLaser
-  type: 1
-  volume: 0
-  durability: 0
-  triggerInterval: 0.2
-  range: 20
+  damage: 10
+  speed: 50
+  lifeTime: 30
