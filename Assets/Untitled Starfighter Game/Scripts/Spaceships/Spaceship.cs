@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Collider),typeof(Rigidbody))]
 public class Spaceship : MonoBehaviour
 {
     [Header("Preset objects")]
-    public Transform shootingStartPoint;
-    public BulletController bulletPrefab;
+    public Transform shootingStartPoints;
     public Equipment defaultEquipment;
 
     [Header("Status Setting")]
@@ -83,6 +83,7 @@ public class Spaceship : MonoBehaviour
 
     public virtual void Shoot()
     {
+        if (SelectedEquipmentObject.Volume == 0) Reload();
         if (!SelectedEquipmentObject.Triggerable) return;
         reloadTimer = SelectedEquipmentObject.Template.reloadDuration;
 
@@ -104,7 +105,6 @@ public class Spaceship : MonoBehaviour
     public virtual void Reload()
     {
         if (SelectedEquipmentObject.Reloading) return;
-
         SelectedEquipmentObject.SetReload(true);
         StartCoroutine(WaitForReload());
     }
@@ -131,9 +131,9 @@ public class Spaceship : MonoBehaviour
 
     protected virtual void ShootWithWeapon(Weapon weapon)
     {
-        for (int i = 0; i < shootingStartPoint.childCount; i++) {
-            Instantiate(bulletPrefab.gameObject, shootingStartPoint.GetChild(i).position, Quaternion.identity, bulletsHolder).
-                GetComponent<BulletController>().InitializeBullet(gameObject.layer, weapon.bullet, -transform.forward.normalized);
+        for (int i = 0; i < shootingStartPoints.childCount; i++) {
+            Instantiate(weapon.bullet.prefab, shootingStartPoints.GetChild(i).position, Quaternion.identity, bulletsHolder).
+                GetComponent<BulletController>().InitializeBullet(gameObject.layer, weapon.bullet, transform.forward.normalized);
         }
     }
 

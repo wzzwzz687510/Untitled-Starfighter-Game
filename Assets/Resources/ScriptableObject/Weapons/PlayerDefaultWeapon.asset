@@ -16,5 +16,6 @@ MonoBehaviour:
   type: 0
   volume: 30
   durability: 0
-  triggerInterval: 0.1
+  triggerInterval: 0.2
+  reloadDuration: 3
   bullet: {fileID: 11400000, guid: 8d4c6eedb1ce6bc48bba005ef3d83161, type: 2}

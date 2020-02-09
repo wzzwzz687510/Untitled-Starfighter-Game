@@ -76,6 +76,8 @@
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spaceships\PlayerSpaceship.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spaceships\Spaceship.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spaceships\Turret.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Weakspot.cs" />
     <None Include="Assets\Kenney Assets\Space Kit\License.txt" />
     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
       <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>

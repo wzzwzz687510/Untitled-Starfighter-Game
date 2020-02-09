@@ -9,16 +9,16 @@ public class PlayerSpaceship : Spaceship
     public static PlayerSpaceship MainCharacter { get; protected set; }
 
     public bool IsOutsideBoundary { get; protected set; }
+    public SpaceShipController Controller { get; protected set; }
 
     public UnityEvent OnBoundaryEvent;
 
-    private SpaceShipController m_controller;
     private Rigidbody m_rb;
 
     private void Awake()
     {
         if (!MainCharacter) MainCharacter = this;
-        m_controller = GetComponent<SpaceShipController>();
+        Controller = GetComponent<SpaceShipController>();
         m_rb = GetComponent<Rigidbody>();
 
         InitializeStatus();
@@ -51,7 +51,7 @@ public class PlayerSpaceship : Spaceship
 
     protected override void OnDestoryed()
     {
-        m_controller.enabled = false;
+        Controller.enabled = false;
         base.OnDestoryed();
     }
 }

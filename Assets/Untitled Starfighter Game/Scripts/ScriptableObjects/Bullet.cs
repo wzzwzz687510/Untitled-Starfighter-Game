@@ -8,4 +8,5 @@ public class Bullet : ScriptableObject
     public float damage;
     public float speed;
     public float lifeTime;
+    public GameObject prefab;
 }

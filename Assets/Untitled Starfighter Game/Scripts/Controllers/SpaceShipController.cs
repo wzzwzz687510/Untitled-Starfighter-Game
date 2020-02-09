@@ -68,6 +68,8 @@ public class SpaceShipController : MonoBehaviour
     public Transform lookatPoint;
     public Spaceship m_spaceship;
 
+    public float CurrentSpeed { get; private set; }
+
     public float MaxMovementSpeed => m_spaceship.defaultMaxMovementSpeed;
     public float MaxRotationSpeed => m_spaceship.defaultMaxRotationSpeed;
 
@@ -77,8 +79,6 @@ public class SpaceShipController : MonoBehaviour
     bool rightStickInput;
     Vector2 viewInput;
     float accelerateInput;
-    float currentSpeed;
-    bool moveForward;
     bool fireInput;
 
     TransformState m_TargetState;
@@ -89,6 +89,7 @@ public class SpaceShipController : MonoBehaviour
     {
         inputActions = new SpaceShipInputActions();
         inputActions.PlayerControls.MoveHorizontal.performed += ctx => { if (!rightStickInput) movementInput.x = ctx.ReadValue<float>(); };
+        inputActions.PlayerControls.MoveHorizontal.canceled += ctx => { if (!rightStickInput && movementInput.x!=0) movementInput.x = 0; };
         inputActions.PlayerControls.Move.started += ctx => rightStickInput = true;
         inputActions.PlayerControls.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
         inputActions.PlayerControls.Move.canceled += ctx => { movementInput = Vector2.zero; rightStickInput = false; };
@@ -108,6 +109,10 @@ public class SpaceShipController : MonoBehaviour
     private void FixedUpdate()
     {
         if (fireInput) m_spaceship.Shoot();
+        if (accelerateInput == 0 && CurrentSpeed != 0) {
+            if (CurrentSpeed > 0) CurrentSpeed = Mathf.Max(0, CurrentSpeed - Time.deltaTime * MaxMovementSpeed);
+            else CurrentSpeed = Mathf.Min(0, CurrentSpeed + Time.deltaTime * MaxMovementSpeed);
+        }
         //TranslateViewpoint(viewInput);
         RotateSpaceship(movementInput);
         TranslateSpaceship();
@@ -119,23 +124,15 @@ public class SpaceShipController : MonoBehaviour
     {
         if (accelerateInput == 0) {
             engineEffects.SetActive(false);
-            return;
-        }
-
-        if (currentSpeed >0 && moveForward) {
-            currentSpeed = Mathf.Min(currentSpeed += accelerateInput, MaxMovementSpeed);
-        }
-        else if( currentSpeed<0 && !moveForward) {
-            currentSpeed = Mathf.Max(currentSpeed += accelerateInput, -MaxMovementSpeed);
         }
         else {
-            currentSpeed += accelerateInput;
-            moveForward = currentSpeed > 0;
+            engineEffects.SetActive(true);
         }
 
-        engineEffects.SetActive(true);
-        var scaledMoveSpeed = currentSpeed * Time.deltaTime;
-        m_TargetState.Translate(-Vector3.forward * scaledMoveSpeed);
+        CurrentSpeed = Mathf.Clamp(CurrentSpeed += accelerateInput, -MaxMovementSpeed, MaxMovementSpeed);
+
+        var scaledMoveSpeed = CurrentSpeed * Time.deltaTime;
+        m_TargetState.Translate(Vector3.forward * scaledMoveSpeed);
     }
 
     //private void TranslateViewpoint(Vector2 input)
@@ -152,7 +149,7 @@ public class SpaceShipController : MonoBehaviour
             return;
 
         m_TargetState.yaw += input.x * MaxRotationSpeed;
-        m_TargetState.pitch += input.y * MaxRotationSpeed;
+        m_TargetState.pitch -= input.y * MaxRotationSpeed;
     }
 
     private void ApplyChanges()
