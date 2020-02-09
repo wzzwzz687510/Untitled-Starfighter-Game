@@ -68,41 +68,47 @@ public class SpaceShipController : MonoBehaviour
     public Transform lookatPoint;
     public Spaceship m_spaceship;
 
-    public float MovementSpeed => m_spaceship.defaultMaxMovementSpeed;
-    public float RotationSpeed => m_spaceship.defaultMaxRotationSpeed;
+    public float MaxMovementSpeed => m_spaceship.defaultMaxMovementSpeed;
+    public float MaxRotationSpeed => m_spaceship.defaultMaxRotationSpeed;
 
     SpaceShipInputActions inputActions;
 
     Vector2 movementInput;
+    bool rightStickInput;
     Vector2 viewInput;
-    bool accelerateInput;
+    float accelerateInput;
+    float currentSpeed;
+    bool moveForward;
     bool fireInput;
 
     TransformState m_TargetState;
-    TransformState m_TargetLookatPointState;
-    TransformState m_InterpolatingLookatPointState;
+    //TransformState m_TargetLookatPointState;
+    //TransformState m_InterpolatingLookatPointState;
 
     private void Awake()
     {
         inputActions = new SpaceShipInputActions();
+        inputActions.PlayerControls.MoveHorizontal.performed += ctx => { if (!rightStickInput) movementInput.x = ctx.ReadValue<float>(); };
+        inputActions.PlayerControls.Move.started += ctx => rightStickInput = true;
         inputActions.PlayerControls.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
-        inputActions.PlayerControls.Move.canceled += ctx => movementInput = Vector2.zero;
-        inputActions.PlayerControls.Look.performed += ctx => viewInput = ctx.ReadValue<Vector2>();
-        inputActions.PlayerControls.Look.canceled += ctx => viewInput = Vector2.zero;
-        inputActions.PlayerControls.Accelerate.performed += ctx => accelerateInput = true;
-        inputActions.PlayerControls.Accelerate.canceled += ctx => accelerateInput = false;
+        inputActions.PlayerControls.Move.canceled += ctx => { movementInput = Vector2.zero; rightStickInput = false; };
+        //inputActions.PlayerControls.Look.performed += ctx => viewInput = ctx.ReadValue<Vector2>();
+        //inputActions.PlayerControls.Look.canceled += ctx => viewInput = Vector2.zero;
+        inputActions.PlayerControls.Accelerate.performed += ctx => accelerateInput = ctx.ReadValue<float>();
+        inputActions.PlayerControls.Accelerate.canceled += ctx => accelerateInput = 0;
         inputActions.PlayerControls.Fire.performed += ctx => fireInput = true;
         inputActions.PlayerControls.Fire.canceled += ctx => fireInput = false;
+        inputActions.PlayerControls.Reload.started += ctx => m_spaceship.Reload();
 
         m_TargetState = new TransformState();
-        m_TargetLookatPointState = new TransformState();
-        m_InterpolatingLookatPointState = new TransformState();
+        //m_TargetLookatPointState = new TransformState();
+        //m_InterpolatingLookatPointState = new TransformState();
     }
 
     private void FixedUpdate()
     {
         if (fireInput) m_spaceship.Shoot();
-        TranslateViewpoint(viewInput);
+        //TranslateViewpoint(viewInput);
         RotateSpaceship(movementInput);
         TranslateSpaceship();
 
@@ -111,31 +117,42 @@ public class SpaceShipController : MonoBehaviour
 
     private void TranslateSpaceship()
     {
-        if (!accelerateInput) {
+        if (accelerateInput == 0) {
             engineEffects.SetActive(false);
             return;
         }
-            
+
+        if (currentSpeed >0 && moveForward) {
+            currentSpeed = Mathf.Min(currentSpeed += accelerateInput, MaxMovementSpeed);
+        }
+        else if( currentSpeed<0 && !moveForward) {
+            currentSpeed = Mathf.Max(currentSpeed += accelerateInput, -MaxMovementSpeed);
+        }
+        else {
+            currentSpeed += accelerateInput;
+            moveForward = currentSpeed > 0;
+        }
+
         engineEffects.SetActive(true);
-        var scaledMoveSpeed = MovementSpeed * Time.deltaTime;
+        var scaledMoveSpeed = currentSpeed * Time.deltaTime;
         m_TargetState.Translate(-Vector3.forward * scaledMoveSpeed);
     }
 
-    private void TranslateViewpoint(Vector2 input)
-    {
-        var dir = new Vector2(lookatPoint.localPosition.x - input.x, lookatPoint.localPosition.y + input.y);
-        if (dir.magnitude > 10) dir = dir.normalized * 10;
-        m_TargetLookatPointState.x = dir.x;
-        m_TargetLookatPointState.y = dir.y;
-    }
+    //private void TranslateViewpoint(Vector2 input)
+    //{
+    //    var dir = new Vector2(lookatPoint.localPosition.x - input.x, lookatPoint.localPosition.y + input.y);
+    //    if (dir.magnitude > 10) dir = dir.normalized * 10;
+    //    m_TargetLookatPointState.x = dir.x;
+    //    m_TargetLookatPointState.y = dir.y;
+    //}
 
     private void RotateSpaceship(Vector2 input)
     {
         if (input.sqrMagnitude < 0.01)
             return;
 
-        m_TargetState.yaw += input.x * RotationSpeed;
-        m_TargetState.pitch += input.y * RotationSpeed;
+        m_TargetState.yaw += input.x * MaxRotationSpeed;
+        m_TargetState.pitch += input.y * MaxRotationSpeed;
     }
 
     private void ApplyChanges()
@@ -144,17 +161,17 @@ public class SpaceShipController : MonoBehaviour
         var rotationLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / rotationLerpTime) * Time.deltaTime);
         m_spaceship.UpdateTransformState(m_TargetState, positionLerpPct, rotationLerpPct);
 
-        var viewPointLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / viewpointLerpTime) * Time.deltaTime);
-        m_InterpolatingLookatPointState.LerpTowards(m_TargetLookatPointState, viewPointLerpPct, 0);
-        lookatPoint.localPosition = new Vector3(m_InterpolatingLookatPointState.x, m_InterpolatingLookatPointState.y, m_InterpolatingLookatPointState.z);
+        //var viewPointLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / viewpointLerpTime) * Time.deltaTime);
+        //m_InterpolatingLookatPointState.LerpTowards(m_TargetLookatPointState, viewPointLerpPct, 0);
+        //lookatPoint.localPosition = new Vector3(m_InterpolatingLookatPointState.x, m_InterpolatingLookatPointState.y, m_InterpolatingLookatPointState.z);
     }
 
     public void OnEnable()
     {
         inputActions.Enable();
         m_TargetState.SetFromTransform(transform);
-        m_TargetLookatPointState.SetPosition(lookatPoint.localPosition);
-        m_InterpolatingLookatPointState.SetPosition(lookatPoint.localPosition);
+        //m_TargetLookatPointState.SetPosition(lookatPoint.localPosition);
+        //m_InterpolatingLookatPointState.SetPosition(lookatPoint.localPosition);
     }
 
     public void OnDisable()
@@ -162,6 +179,6 @@ public class SpaceShipController : MonoBehaviour
         inputActions.Disable();
         movementInput = Vector2.zero;
         viewInput = Vector2.zero;
-        accelerateInput = false;
+        accelerateInput = 0;
     }
 }

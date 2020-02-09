@@ -6,6 +6,14 @@
             "id": "2d4348fa-5059-49c2-93f4-fbc0d033118f",
             "actions": [
                 {
+                    "name": "MoveHorizontal",
+                    "type": "Button",
+                    "id": "4b3fa7a0-af92-446b-bf22-f851bc2e2986",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Move",
                     "type": "Button",
                     "id": "3803b7f6-087a-4598-b2cf-ea1d8eeb9ffa",
@@ -46,17 +54,25 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Dodge",
+                    "name": "Build",
                     "type": "Button",
-                    "id": "4b3fa7a0-af92-446b-bf22-f851bc2e2986",
+                    "id": "2e61edd7-fb4a-4859-ae1d-eb170c02f142",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
                 {
-                    "name": "Build",
+                    "name": "Dodge",
                     "type": "Button",
-                    "id": "2e61edd7-fb4a-4859-ae1d-eb170c02f142",
+                    "id": "8653fbb4-2551-4dfa-806c-8280f04048b5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "dc733cc4-2769-4f55-92fb-b2e0dde09b7f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
@@ -66,7 +82,7 @@
                 {
                     "name": "",
                     "id": "e642e1ff-ff6b-4434-a11e-c5866d794662",
-                    "path": "<XInputController>/leftStick",
+                    "path": "<XInputController>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -130,17 +146,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "23d58e11-9b8d-45bf-8448-e926d040e8bb",
-                    "path": "<XInputController>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "2D Vector",
                     "id": "a752b6dd-b2e1-4e2e-a8bb-2cfb74035480",
                     "path": "2DVector",
@@ -198,7 +203,7 @@
                 {
                     "name": "",
                     "id": "3c0c9578-eec7-4d0d-b6c2-20a965f7fae0",
-                    "path": "<XInputController>/buttonSouth",
+                    "path": "<XInputController>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -219,17 +224,6 @@
                 },
                 {
                     "name": "",
-                    "id": "f53c0da6-456d-42d8-9fde-d5e2c09db423",
-                    "path": "<XInputController>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Accelerate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "42e6204e-f843-4095-a9a5-0f7dd4ce12dc",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -238,6 +232,39 @@
                     "action": "Accelerate",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "4c7c5039-79e1-4eae-91c8-66a3d7ab9f6f",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Accelerate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "ba1190ad-89b7-488e-802b-6199a69f01dc",
+                    "path": "<XInputController>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Accelerate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "35359dec-368b-4fd4-b241-7b040f8885c1",
+                    "path": "<XInputController>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Accelerate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -263,28 +290,6 @@
                 },
                 {
                     "name": "",
-                    "id": "5280217d-da78-49a3-be08-ec53791df2e0",
-                    "path": "<XInputController>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Dodge",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "19fcf011-9395-41d1-a774-5d0c74a96049",
-                    "path": "<Keyboard>/c",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyBoard",
-                    "action": "Dodge",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "6691b1af-1130-4d64-b95a-210fbee1d1de",
                     "path": "<XInputController>/buttonWest",
                     "interactions": "",
@@ -302,6 +307,39 @@
                     "processors": "",
                     "groups": "KeyBoard",
                     "action": "Build",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c3ef9a46-8cf2-401f-b75d-a28c32b057a1",
+                    "path": "<XInputController>/leftStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MoveHorizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5280217d-da78-49a3-be08-ec53791df2e0",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "446a1c30-99ef-47ca-b74c-b2d0b32e3d26",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

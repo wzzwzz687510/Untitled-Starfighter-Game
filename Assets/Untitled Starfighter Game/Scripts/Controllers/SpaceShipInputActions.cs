@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/SpaceCraft/Scripts/Control/SpaceShipInputActions.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Untitled Starfighter Game/Scripts/Controllers/SpaceShipInputActions.inputactions'
 
 using System;
 using System.Collections;
@@ -18,6 +18,14 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
             ""name"": ""Player Controls"",
             ""id"": ""2d4348fa-5059-49c2-93f4-fbc0d033118f"",
             ""actions"": [
+                {
+                    ""name"": ""MoveHorizontal"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b3fa7a0-af92-446b-bf22-f851bc2e2986"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
                 {
                     ""name"": ""Move"",
                     ""type"": ""Button"",
@@ -59,17 +67,25 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Dodge"",
+                    ""name"": ""Build"",
                     ""type"": ""Button"",
-                    ""id"": ""4b3fa7a0-af92-446b-bf22-f851bc2e2986"",
+                    ""id"": ""2e61edd7-fb4a-4859-ae1d-eb170c02f142"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Build"",
+                    ""name"": ""Dodge"",
                     ""type"": ""Button"",
-                    ""id"": ""2e61edd7-fb4a-4859-ae1d-eb170c02f142"",
+                    ""id"": ""8653fbb4-2551-4dfa-806c-8280f04048b5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""dc733cc4-2769-4f55-92fb-b2e0dde09b7f"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -79,7 +95,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e642e1ff-ff6b-4434-a11e-c5866d794662"",
-                    ""path"": ""<XInputController>/leftStick"",
+                    ""path"": ""<XInputController>/rightStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -143,17 +159,6 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""23d58e11-9b8d-45bf-8448-e926d040e8bb"",
-                    ""path"": ""<XInputController>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""2D Vector"",
                     ""id"": ""a752b6dd-b2e1-4e2e-a8bb-2cfb74035480"",
                     ""path"": ""2DVector"",
@@ -211,7 +216,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3c0c9578-eec7-4d0d-b6c2-20a965f7fae0"",
-                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""path"": ""<XInputController>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -232,17 +237,6 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f53c0da6-456d-42d8-9fde-d5e2c09db423"",
-                    ""path"": ""<XInputController>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Accelerate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""42e6204e-f843-4095-a9a5-0f7dd4ce12dc"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -251,6 +245,39 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Accelerate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""4c7c5039-79e1-4eae-91c8-66a3d7ab9f6f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Accelerate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""ba1190ad-89b7-488e-802b-6199a69f01dc"",
+                    ""path"": ""<XInputController>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Accelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""35359dec-368b-4fd4-b241-7b040f8885c1"",
+                    ""path"": ""<XInputController>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Accelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -276,28 +303,6 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5280217d-da78-49a3-be08-ec53791df2e0"",
-                    ""path"": ""<XInputController>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Dodge"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""19fcf011-9395-41d1-a774-5d0c74a96049"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyBoard"",
-                    ""action"": ""Dodge"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""6691b1af-1130-4d64-b95a-210fbee1d1de"",
                     ""path"": ""<XInputController>/buttonWest"",
                     ""interactions"": """",
@@ -315,6 +320,39 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyBoard"",
                     ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3ef9a46-8cf2-401f-b75d-a28c32b057a1"",
+                    ""path"": ""<XInputController>/leftStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MoveHorizontal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5280217d-da78-49a3-be08-ec53791df2e0"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""446a1c30-99ef-47ca-b74c-b2d0b32e3d26"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -353,13 +391,15 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
 }");
         // Player Controls
         m_PlayerControls = asset.FindActionMap("Player Controls", throwIfNotFound: true);
+        m_PlayerControls_MoveHorizontal = m_PlayerControls.FindAction("MoveHorizontal", throwIfNotFound: true);
         m_PlayerControls_Move = m_PlayerControls.FindAction("Move", throwIfNotFound: true);
         m_PlayerControls_Look = m_PlayerControls.FindAction("Look", throwIfNotFound: true);
         m_PlayerControls_Fire = m_PlayerControls.FindAction("Fire", throwIfNotFound: true);
         m_PlayerControls_Accelerate = m_PlayerControls.FindAction("Accelerate", throwIfNotFound: true);
         m_PlayerControls_Brake = m_PlayerControls.FindAction("Brake", throwIfNotFound: true);
-        m_PlayerControls_Dodge = m_PlayerControls.FindAction("Dodge", throwIfNotFound: true);
         m_PlayerControls_Build = m_PlayerControls.FindAction("Build", throwIfNotFound: true);
+        m_PlayerControls_Dodge = m_PlayerControls.FindAction("Dodge", throwIfNotFound: true);
+        m_PlayerControls_Reload = m_PlayerControls.FindAction("Reload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -409,24 +449,28 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
     // Player Controls
     private readonly InputActionMap m_PlayerControls;
     private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
+    private readonly InputAction m_PlayerControls_MoveHorizontal;
     private readonly InputAction m_PlayerControls_Move;
     private readonly InputAction m_PlayerControls_Look;
     private readonly InputAction m_PlayerControls_Fire;
     private readonly InputAction m_PlayerControls_Accelerate;
     private readonly InputAction m_PlayerControls_Brake;
-    private readonly InputAction m_PlayerControls_Dodge;
     private readonly InputAction m_PlayerControls_Build;
+    private readonly InputAction m_PlayerControls_Dodge;
+    private readonly InputAction m_PlayerControls_Reload;
     public struct PlayerControlsActions
     {
         private @SpaceShipInputActions m_Wrapper;
         public PlayerControlsActions(@SpaceShipInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MoveHorizontal => m_Wrapper.m_PlayerControls_MoveHorizontal;
         public InputAction @Move => m_Wrapper.m_PlayerControls_Move;
         public InputAction @Look => m_Wrapper.m_PlayerControls_Look;
         public InputAction @Fire => m_Wrapper.m_PlayerControls_Fire;
         public InputAction @Accelerate => m_Wrapper.m_PlayerControls_Accelerate;
         public InputAction @Brake => m_Wrapper.m_PlayerControls_Brake;
-        public InputAction @Dodge => m_Wrapper.m_PlayerControls_Dodge;
         public InputAction @Build => m_Wrapper.m_PlayerControls_Build;
+        public InputAction @Dodge => m_Wrapper.m_PlayerControls_Dodge;
+        public InputAction @Reload => m_Wrapper.m_PlayerControls_Reload;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -436,6 +480,9 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerControlsActionsCallbackInterface != null)
             {
+                @MoveHorizontal.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveHorizontal;
+                @MoveHorizontal.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveHorizontal;
+                @MoveHorizontal.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveHorizontal;
                 @Move.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMove;
@@ -451,16 +498,22 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @Brake.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBrake;
                 @Brake.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBrake;
                 @Brake.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBrake;
-                @Dodge.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDodge;
-                @Dodge.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDodge;
-                @Dodge.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDodge;
                 @Build.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBuild;
                 @Build.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBuild;
                 @Build.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBuild;
+                @Dodge.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDodge;
+                @Dodge.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDodge;
+                @Dodge.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDodge;
+                @Reload.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnReload;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
             {
+                @MoveHorizontal.started += instance.OnMoveHorizontal;
+                @MoveHorizontal.performed += instance.OnMoveHorizontal;
+                @MoveHorizontal.canceled += instance.OnMoveHorizontal;
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
@@ -476,12 +529,15 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @Brake.started += instance.OnBrake;
                 @Brake.performed += instance.OnBrake;
                 @Brake.canceled += instance.OnBrake;
-                @Dodge.started += instance.OnDodge;
-                @Dodge.performed += instance.OnDodge;
-                @Dodge.canceled += instance.OnDodge;
                 @Build.started += instance.OnBuild;
                 @Build.performed += instance.OnBuild;
                 @Build.canceled += instance.OnBuild;
+                @Dodge.started += instance.OnDodge;
+                @Dodge.performed += instance.OnDodge;
+                @Dodge.canceled += instance.OnDodge;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
         }
     }
@@ -506,12 +562,14 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
     }
     public interface IPlayerControlsActions
     {
+        void OnMoveHorizontal(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnAccelerate(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
-        void OnDodge(InputAction.CallbackContext context);
         void OnBuild(InputAction.CallbackContext context);
+        void OnDodge(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
 }
