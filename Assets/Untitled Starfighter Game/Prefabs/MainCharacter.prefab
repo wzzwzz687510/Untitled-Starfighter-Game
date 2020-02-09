@@ -181,7 +181,8 @@ GameObject:
   - component: {fileID: 3924664053439660153}
   - component: {fileID: 3924664053439660152}
   - component: {fileID: 3924664053439660135}
-  m_Layer: 0
+  - component: {fileID: 1251516727}
+  m_Layer: 8
   m_Name: MainCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,8 +237,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootingStartPoint: {fileID: 8032974341033849138}
-  bulletPrefab: {fileID: 5140894681501802951, guid: b0edbf5f7e403014893c6f052c7ee34f,
+  bulletPrefab: {fileID: 2855362766851160921, guid: b0edbf5f7e403014893c6f052c7ee34f,
     type: 3}
+  defaultEquipment: {fileID: 11400000, guid: a2f6916b7a59088428dc5ca8424a009f, type: 2}
   defaultDurability: 30
   defaultArmour: 0
   defaultMaxMovementSpeed: 16
@@ -268,6 +270,19 @@ MonoBehaviour:
   engineEffects: {fileID: 3552755133668212545}
   lookatPoint: {fileID: 3924664053238854088}
   m_spaceship: {fileID: 3924664053439660152}
+--- !u!65 &1251516727
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3924664053439660134}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 11.850004, y: 5.150011, z: 14.724998}
+  m_Center: {x: 0.000004053116, y: 1.8229365, z: -0.6375005}
 --- !u!1 &3924664054212812916
 GameObject:
   m_ObjectHideFlags: 0
