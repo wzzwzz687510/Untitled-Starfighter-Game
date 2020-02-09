@@ -22,34 +22,42 @@ public class Spaceship : MonoBehaviour
     public float defaultAcrRotationSpeed = 1;
 
     public TransformState State { get; protected set; }
-    public int SelectEquipmentHash { get; protected set; }
-    public float EquipmentTimer { get; protected set; }
     public float Durability { get; protected set; }
     public float Armour { get; protected set; }
     public bool IsDeath { get; protected set; }
+
+    public int SelectEquipmentID { get; protected set; }
     public List<EquipmentObject> EquipmentObjects { get; protected set; }
+    public EquipmentObject SelectedEquipmentObject => EquipmentObjects[SelectEquipmentID];
 
     private Transform bulletsHolder;
+    private float reloadTimer;
 
-    public delegate void DurabilityChangeDelegate(float curD, float maxD);
-    public DurabilityChangeDelegate OnDurabilityChangedEvent;
+    public delegate void ValueChangeDelegate(float curV, float maxV);
+    public ValueChangeDelegate OnDurabilityChangedEvent;
+    public ValueChangeDelegate OnVolumeChangedEvent;
     [HideInInspector] public UnityEvent DestroyEvent;
 
     protected virtual void Update()
     {
-        if (EquipmentTimer > 0) EquipmentTimer -= Time.deltaTime;
+        if (!SelectedEquipmentObject.Triggerable) SelectedEquipmentObject.UpdateTimer(-Time.deltaTime);
+        reloadTimer -= Time.deltaTime;
+        if (reloadTimer < 0) {
+            ResetEquipmentVolume();
+        }
     }
 
     public virtual void InitializeStatus()
     {
         Durability = defaultDurability;
         Armour = defaultArmour;
-        EquipmentObjects = new List<EquipmentObject>();
+        EquipmentObjects = new List<EquipmentObject> {
+            new EquipmentObject(defaultEquipment.Hash)
+        };
         bulletsHolder = new GameObject("bullets holder").transform;
-        //bulletsHolder.SetParent(transform);
         State = new TransformState();
         State.SetFromTransform(transform);
-        SelectEquipmentHash = defaultEquipment.Hash;
+        SelectEquipmentID = 0;
     }
 
     public virtual void ImpactDurability(float value)
@@ -60,11 +68,27 @@ public class Spaceship : MonoBehaviour
         if (Durability == 0) OnDestoryed();
     }
 
+    public virtual void ImpactEquipmentVolume(float value)
+    {
+        SelectedEquipmentObject.UpdateVolume(value);
+        OnVolumeChangedEvent?.Invoke(SelectedEquipmentObject.Volume, SelectedEquipmentObject.Template.volume);
+    }
+
+    public virtual void ResetEquipmentVolume()
+    {
+        reloadTimer = SelectedEquipmentObject.Template.reloadDuration;
+        SelectedEquipmentObject.ResetVolume();
+        OnVolumeChangedEvent?.Invoke(SelectedEquipmentObject.Volume, SelectedEquipmentObject.Template.volume);
+    }
+
     public virtual void Shoot()
     {
-        if (EquipmentTimer > 0) return;        
-        Equipment equipment = SelectEquipmentHash.GetEquipment();
-        EquipmentTimer = equipment.triggerInterval;
+        if (!SelectedEquipmentObject.Triggerable) return;
+        reloadTimer = SelectedEquipmentObject.Template.reloadDuration;
+
+        Equipment equipment = SelectedEquipmentObject.Template;
+        SelectedEquipmentObject.ResetTimer();
+        ImpactEquipmentVolume(-1);
         switch (equipment.type) {
             case EquipmentType.Weapon:
                 ShootWithWeapon(equipment as Weapon);
@@ -75,6 +99,21 @@ public class Spaceship : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public virtual void Reload()
+    {
+        if (SelectedEquipmentObject.Reloading) return;
+
+        SelectedEquipmentObject.SetReload(true);
+        StartCoroutine(WaitForReload());
+    }
+
+    protected virtual IEnumerator WaitForReload()
+    {
+        yield return new WaitForSeconds(SelectedEquipmentObject.Template.reloadDuration);
+        ResetEquipmentVolume();
+        SelectedEquipmentObject.SetReload(false);
     }
 
     public virtual void UpdateTransformState(TransformState target, float positionLerpPct, float rotationLerpPct)
@@ -93,8 +132,8 @@ public class Spaceship : MonoBehaviour
     protected virtual void ShootWithWeapon(Weapon weapon)
     {
         for (int i = 0; i < shootingStartPoint.childCount; i++) {
-            Instantiate(bulletPrefab.gameObject, shootingStartPoint.GetChild(i).position,Quaternion.identity, bulletsHolder).
-                GetComponent<BulletController>().InitializeBullet(weapon.bullet, -transform.forward.normalized); 
+            Instantiate(bulletPrefab.gameObject, shootingStartPoint.GetChild(i).position, Quaternion.identity, bulletsHolder).
+                GetComponent<BulletController>().InitializeBullet(gameObject.layer, weapon.bullet, -transform.forward.normalized);
         }
     }
 

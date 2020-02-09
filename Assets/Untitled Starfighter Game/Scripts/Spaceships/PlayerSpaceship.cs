@@ -10,8 +10,6 @@ public class PlayerSpaceship : Spaceship
 
     public bool IsOutsideBoundary { get; protected set; }
 
-
-
     public UnityEvent OnBoundaryEvent;
 
     private SpaceShipController m_controller;

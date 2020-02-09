@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("UI Elements")]
     public Slider durability;
+    public Text volume;
 
     [Header("Pages")]
     public GameObject outsideWarningPage;
@@ -17,6 +18,7 @@ public class UIManager : MonoBehaviour
     public void Start()
     {
         Player.OnDurabilityChangedEvent += UpdateDurabilityUI;
+        Player.OnVolumeChangedEvent += UpdateVolumeUI;
         Player.OnBoundaryEvent.AddListener(UpdateOutsideWarningUI);
         Player.DestroyEvent.AddListener(DisplayLosePage);
     }
@@ -30,6 +32,11 @@ public class UIManager : MonoBehaviour
     private void UpdateDurabilityUI(float curD,float maxD)
     {
         durability.value = curD / maxD;
+    }
+
+    private void UpdateVolumeUI(float curV, float maxV)
+    {
+        volume.text = curV + "/" + maxV;
     }
 
     private void UpdateOutsideWarningUI()

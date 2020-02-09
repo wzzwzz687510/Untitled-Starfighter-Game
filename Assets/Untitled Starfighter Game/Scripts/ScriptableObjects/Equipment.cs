@@ -22,6 +22,8 @@ public abstract class Equipment : ScriptableObject
     public float durability;
     // Interval of impact per trigger.
     public float triggerInterval = 0.1f;
+    // Duration of reload.
+    public float reloadDuration = 3;
 
     static Dictionary<int, Equipment> cache;
     public static Dictionary<int,Equipment> Dict {

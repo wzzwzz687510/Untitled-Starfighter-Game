@@ -9,9 +9,11 @@ public class BulletController : MonoBehaviour
     public Vector3 Direction { get; private set; }
 
     private float timer;
+    private LayerMask layerMask;
 
-    public void InitializeBullet(Bullet template, Vector3 direction)
+    public void InitializeBullet(LayerMask mask,Bullet template, Vector3 direction)
     {
+        layerMask = mask;
         Template = template;
         timer = template.lifeTime;
         Direction = direction;
@@ -28,9 +30,17 @@ public class BulletController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        collision.gameObject.GetComponent<Spaceship>().ImpactDurability(Template.damage);
-        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log(layerMask.ToString()+", "+ other.gameObject.layer.ToString());
+        if (layerMask == other.gameObject.layer) return;
+        if(other.gameObject.TryGetComponent(out Spaceship spaceship)) {
+            spaceship.ImpactDurability(Template.damage);
+            Destroy(gameObject);
+        }
     }
 }
