@@ -42,6 +42,7 @@ public class Spaceship : MonoBehaviour
     public ValueChangeDelegate OnDurabilityChangedEvent;
     public ValueChangeDelegate OnVolumeChangedEvent;
     [HideInInspector] public UnityEvent OnDeathEvent;
+    [HideInInspector] public UnityEvent OnSwitchEquipmentEvent;
 
     protected virtual void Update()
     {
@@ -92,6 +93,9 @@ public class Spaceship : MonoBehaviour
 
     public virtual void SwitchEquipment(int id)
     {
+        if(SelectedEquipmentObject.Template.type!= EquipmentObjects[id].Template.type) {
+            OnSwitchEquipmentEvent?.Invoke();
+        }
         SelectEquipmentID = id;
         switch (SelectedEquipmentObject.Template.type) {
             case EquipmentType.Weapon:
