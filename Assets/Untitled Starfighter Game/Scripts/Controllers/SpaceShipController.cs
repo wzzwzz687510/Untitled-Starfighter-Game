@@ -104,6 +104,7 @@ public class SpaceShipController : MonoBehaviour
         inputActions.PlayerControls.Fire.performed += ctx => fireInput = true;
         inputActions.PlayerControls.Fire.canceled += ctx => fireInput = false;
         inputActions.PlayerControls.Reload.started += ctx => m_spaceship.Reload();
+        inputActions.PlayerControls.SwitchEquipment.started += ctx => m_spaceship.SwitchEquipment(ctx.ReadValue<float>() > 0 ? 1 : 0);
 
         m_TargetState = new TransformState();
         //m_TargetLookatPointState = new TransformState();

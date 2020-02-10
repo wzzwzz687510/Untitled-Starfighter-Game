@@ -17,4 +17,9 @@ MonoBehaviour:
   volume: 0
   durability: 0
   triggerInterval: 0.2
+  reloadDuration: 3
   range: 20
+  linePrefab: {fileID: 8339707550564626837, guid: 90a5bba7d5b99064581a4d1937d7afdf,
+    type: 3}
+  impactPrefab: {fileID: 8503280220485365471, guid: 00c54d997d546924a9180b9a31030b35,
+    type: 3}

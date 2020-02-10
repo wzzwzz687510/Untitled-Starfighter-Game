@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6712687261120125324}
   - component: {fileID: 3517303082835568529}
   m_Layer: 0
-  m_Name: LaserBeam
+  m_Name: BeamLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:

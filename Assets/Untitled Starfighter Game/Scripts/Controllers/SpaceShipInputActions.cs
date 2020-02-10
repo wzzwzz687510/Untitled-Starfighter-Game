@@ -59,14 +59,6 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Brake"",
-                    ""type"": ""Button"",
-                    ""id"": ""9ec9d479-7dd1-4d03-a967-a18f607b3e26"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Build"",
                     ""type"": ""Button"",
                     ""id"": ""2e61edd7-fb4a-4859-ae1d-eb170c02f142"",
@@ -86,6 +78,14 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""name"": ""Reload"",
                     ""type"": ""Button"",
                     ""id"": ""dc733cc4-2769-4f55-92fb-b2e0dde09b7f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchEquipment"",
+                    ""type"": ""Button"",
+                    ""id"": ""9539f1e8-893e-42bf-a9a3-1528a30aded2"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -281,28 +281,6 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2fba9781-4008-473c-bab7-72f86a973c6a"",
-                    ""path"": ""<XInputController>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Brake"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""64359669-76bc-436e-b3f5-3dc45a0bd292"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyBoard"",
-                    ""action"": ""Brake"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""6691b1af-1130-4d64-b95a-210fbee1d1de"",
                     ""path"": ""<XInputController>/buttonWest"",
                     ""interactions"": """",
@@ -355,6 +333,39 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""263b5de8-28a6-4312-9cb8-85acf9f90069"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchEquipment"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""3183be28-cb98-4dd6-aa61-4165ebfe6917"",
+                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SwitchEquipment"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""e7664d4e-246f-47d2-bb9c-fc06ebffefab"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SwitchEquipment"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -396,10 +407,10 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         m_PlayerControls_Look = m_PlayerControls.FindAction("Look", throwIfNotFound: true);
         m_PlayerControls_Fire = m_PlayerControls.FindAction("Fire", throwIfNotFound: true);
         m_PlayerControls_Accelerate = m_PlayerControls.FindAction("Accelerate", throwIfNotFound: true);
-        m_PlayerControls_Brake = m_PlayerControls.FindAction("Brake", throwIfNotFound: true);
         m_PlayerControls_Build = m_PlayerControls.FindAction("Build", throwIfNotFound: true);
         m_PlayerControls_Dodge = m_PlayerControls.FindAction("Dodge", throwIfNotFound: true);
         m_PlayerControls_Reload = m_PlayerControls.FindAction("Reload", throwIfNotFound: true);
+        m_PlayerControls_SwitchEquipment = m_PlayerControls.FindAction("SwitchEquipment", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -454,10 +465,10 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControls_Look;
     private readonly InputAction m_PlayerControls_Fire;
     private readonly InputAction m_PlayerControls_Accelerate;
-    private readonly InputAction m_PlayerControls_Brake;
     private readonly InputAction m_PlayerControls_Build;
     private readonly InputAction m_PlayerControls_Dodge;
     private readonly InputAction m_PlayerControls_Reload;
+    private readonly InputAction m_PlayerControls_SwitchEquipment;
     public struct PlayerControlsActions
     {
         private @SpaceShipInputActions m_Wrapper;
@@ -467,10 +478,10 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_PlayerControls_Look;
         public InputAction @Fire => m_Wrapper.m_PlayerControls_Fire;
         public InputAction @Accelerate => m_Wrapper.m_PlayerControls_Accelerate;
-        public InputAction @Brake => m_Wrapper.m_PlayerControls_Brake;
         public InputAction @Build => m_Wrapper.m_PlayerControls_Build;
         public InputAction @Dodge => m_Wrapper.m_PlayerControls_Dodge;
         public InputAction @Reload => m_Wrapper.m_PlayerControls_Reload;
+        public InputAction @SwitchEquipment => m_Wrapper.m_PlayerControls_SwitchEquipment;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -495,9 +506,6 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @Accelerate.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAccelerate;
                 @Accelerate.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAccelerate;
                 @Accelerate.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAccelerate;
-                @Brake.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBrake;
-                @Brake.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBrake;
-                @Brake.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBrake;
                 @Build.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBuild;
                 @Build.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBuild;
                 @Build.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBuild;
@@ -507,6 +515,9 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @Reload.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnReload;
                 @Reload.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnReload;
                 @Reload.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnReload;
+                @SwitchEquipment.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
+                @SwitchEquipment.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
+                @SwitchEquipment.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -526,9 +537,6 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @Accelerate.started += instance.OnAccelerate;
                 @Accelerate.performed += instance.OnAccelerate;
                 @Accelerate.canceled += instance.OnAccelerate;
-                @Brake.started += instance.OnBrake;
-                @Brake.performed += instance.OnBrake;
-                @Brake.canceled += instance.OnBrake;
                 @Build.started += instance.OnBuild;
                 @Build.performed += instance.OnBuild;
                 @Build.canceled += instance.OnBuild;
@@ -538,6 +546,9 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
+                @SwitchEquipment.started += instance.OnSwitchEquipment;
+                @SwitchEquipment.performed += instance.OnSwitchEquipment;
+                @SwitchEquipment.canceled += instance.OnSwitchEquipment;
             }
         }
     }
@@ -567,9 +578,9 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnAccelerate(InputAction.CallbackContext context);
-        void OnBrake(InputAction.CallbackContext context);
         void OnBuild(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnSwitchEquipment(InputAction.CallbackContext context);
     }
 }

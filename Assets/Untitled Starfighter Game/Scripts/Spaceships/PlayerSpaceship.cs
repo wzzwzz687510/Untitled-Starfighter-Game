@@ -8,10 +8,13 @@ public class PlayerSpaceship : Spaceship
 {
     public static PlayerSpaceship MainCharacter { get; protected set; }
 
+    [Header("Preset objects")]
+    public Laser defaultLaser;
+
     public bool IsOutsideBoundary { get; protected set; }
     public SpaceShipController Controller { get; protected set; }
 
-    public UnityEvent OnBoundaryEvent;
+    [HideInInspector] public UnityEvent OnBoundaryEvent;
 
     private Rigidbody m_rb;
 
@@ -22,6 +25,7 @@ public class PlayerSpaceship : Spaceship
         m_rb = GetComponent<Rigidbody>();
 
         InitializeStatus();
+        EquipmentObjects.Add(new EquipmentObject(defaultLaser.Hash));
     }
 
     private void FixedUpdate()
@@ -54,4 +58,10 @@ public class PlayerSpaceship : Spaceship
         Controller.enabled = false;
         base.OnDestoryed();
     }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(laserStartPoint.position, (SelectedEquipmentObject.Template as Laser).range);
+    //}
 }
