@@ -9,6 +9,11 @@ public class Asteroid : MonoBehaviour
 
     public float Durability { get; protected set; }
 
+    private void Start()
+    {
+        Durability = defaultDurability;
+    }
+
     public void ImpactDurability(float value)
     {
         Durability = Mathf.Clamp(Durability + value, 0, defaultDurability);

@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [Header("UI Elements")]
     public Slider durability;
     public Text volume;
+    public Text resource;
 
     [Header("Pages")]
     public GameObject outsideWarningPage;
@@ -24,6 +25,7 @@ public class UIManager : MonoBehaviour
 
     public void Start()
     {
+        Player.OnResourceChangedEvent += UpdateResourceUI;
         Player.OnDurabilityChangedEvent += UpdateDurabilityUI;
         Player.OnVolumeChangedEvent += UpdateVolumeUI;
         Player.OnBoundaryEvent.AddListener(UpdateOutsideWarningUI);
@@ -39,6 +41,11 @@ public class UIManager : MonoBehaviour
     {
         outsideWarningPage.SetActive(false);
         wastedPage.SetActive(false);
+    }
+
+    private void UpdateResourceUI(float value,float useless)
+    {
+        resource.text = value.ToString();
     }
 
     private void UpdateDurabilityUI(float curD,float maxD)

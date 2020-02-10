@@ -165,6 +165,7 @@ public class Spaceship : MonoBehaviour
         if (laserImpactEffect) Destroy(laserImpactEffect.gameObject);
         laserLineRenderer = Instantiate(laser.linePrefab).GetComponent<LineRenderer>();
         laserLineRenderer.SetPosition(0, laserStartPoint.position);
+        laserLineRenderer.SetPosition(1, laserStartPoint.position);
         laserImpactEffect = Instantiate(laser.impactPrefab).GetComponent<ParticleSystem>();
         OnVolumeChangedEvent?.Invoke(0, 0);
     }
@@ -178,7 +179,7 @@ public class Spaceship : MonoBehaviour
         }
     }
 
-    protected virtual void ShootWithLaser(Laser laser)
+    protected virtual GameObject ShootWithLaser(Laser laser)
     {
         var colliders = Physics.OverlapSphere(laserStartPoint.position, laser.range, asteroidLayer);
         if (colliders.Length != 0) {
@@ -201,6 +202,7 @@ public class Spaceship : MonoBehaviour
                 laserLineRenderer.SetPosition(1, hitInfo.point);
                 if (laserImpactEffect.isStopped) laserImpactEffect.Play();
                 laserImpactEffect.transform.position = hitInfo.point;
+                return hitInfo.collider.gameObject;
             }
             else {
                 laserLineRenderer.SetPosition(0, laserStartPoint.position);
@@ -213,5 +215,6 @@ public class Spaceship : MonoBehaviour
             laserLineRenderer.SetPosition(1, laserStartPoint.position);
             laserImpactEffect.Stop();
         }
+        return null;
     }
 }
