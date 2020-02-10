@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance { get; private set; }
+
     [Header("UI Elements")]
     public Slider durability;
     public Text volume;
@@ -15,12 +17,22 @@ public class UIManager : MonoBehaviour
 
     private PlayerSpaceship Player => PlayerSpaceship.MainCharacter;
 
+    private void Awake()
+    {
+        if (!Instance) Instance = this;
+    }
+
     public void Start()
     {
         Player.OnDurabilityChangedEvent += UpdateDurabilityUI;
         Player.OnVolumeChangedEvent += UpdateVolumeUI;
         Player.OnBoundaryEvent.AddListener(UpdateOutsideWarningUI);
-        Player.DestroyEvent.AddListener(DisplayLosePage);
+        Player.OnDeathEvent.AddListener(DisplayLosePage);
+    }
+
+    public void SetReload()
+    {
+        volume.text = "Reloading";
     }
 
     private void HideAllUI()

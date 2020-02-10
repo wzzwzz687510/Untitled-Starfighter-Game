@@ -14,6 +14,17 @@ public class LevelManager : MonoBehaviour
         if (!Instance) Instance = this;
     }
 
+    private void FixedUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) {  
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+    }
+
     public bool CheckIsInsideBoundary(Vector3 position)
     {
         return position.magnitude < boundaryRadius + Mathf.Epsilon;

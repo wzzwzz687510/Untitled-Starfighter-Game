@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Untitled Starfighter Game/Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
+    path: Assets/Untitled Starfighter Game/Scenes/GameScene.unity
+    guid: 1a45f216ad312d342a15adc1404e8305
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 15982da0a4d7d0746819847f4302d584,
       type: 2}

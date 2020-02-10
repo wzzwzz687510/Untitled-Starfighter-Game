@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Collider),typeof(Rigidbody))]
 public class Spaceship : MonoBehaviour
@@ -36,7 +37,7 @@ public class Spaceship : MonoBehaviour
     public delegate void ValueChangeDelegate(float curV, float maxV);
     public ValueChangeDelegate OnDurabilityChangedEvent;
     public ValueChangeDelegate OnVolumeChangedEvent;
-    [HideInInspector] public UnityEvent DestroyEvent;
+    [HideInInspector] public UnityEvent OnDeathEvent;
 
     protected virtual void Update()
     {
@@ -44,6 +45,10 @@ public class Spaceship : MonoBehaviour
         reloadTimer -= Time.deltaTime;
         if (reloadTimer < 0) {
             ResetEquipmentVolume();
+        }
+
+        if(IsDeath&& Input.GetKeyDown(KeyCode.R)) {
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -106,6 +111,7 @@ public class Spaceship : MonoBehaviour
     {
         if (SelectedEquipmentObject.Reloading) return;
         SelectedEquipmentObject.SetReload(true);
+        UIManager.Instance.SetReload();
         StartCoroutine(WaitForReload());
     }
 
@@ -126,7 +132,7 @@ public class Spaceship : MonoBehaviour
     protected virtual void OnDestoryed()
     {
         IsDeath = true;
-        DestroyEvent?.Invoke();
+        OnDeathEvent?.Invoke();
     }
 
     protected virtual void ShootWithWeapon(Weapon weapon)

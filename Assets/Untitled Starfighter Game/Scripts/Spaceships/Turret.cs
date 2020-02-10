@@ -20,7 +20,7 @@ public class Turret : Spaceship
     {
         distance = Vector3.Distance(transform.position, PlayerSpaceship.MainCharacter.transform.position);
         if (distance < detectRange) {
-            Debug.Log("Player Enter Attack Zone");
+            //Debug.Log("Player Enter Attack Zone");
             TryShoot();
         }        
     }
@@ -34,7 +34,6 @@ public class Turret : Spaceship
 
         Vector3 direction = (predictionTarget - transform.position).normalized;
         angle = Vector3.Angle(direction, transform.forward);
-        Debug.Log(angle);
 
         if (angle < 1) Shoot();
         else {

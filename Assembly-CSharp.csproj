@@ -74,6 +74,7 @@
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Laser.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Weapon.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\SimpleCameraController.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spaceships\CapitalShip.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spaceships\PlayerSpaceship.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spaceships\Spaceship.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spaceships\Turret.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class TransformState
@@ -60,6 +61,9 @@ public class TransformState
 [RequireComponent(typeof(Spaceship))]
 public class SpaceShipController : MonoBehaviour
 {
+    [Header("Test")]
+    public Animator shipAnimator;
+
     [Header("Spaceship Parameters")]
     [Range(0.001f, 1f)] public float positionLerpTime = 0.2f;
     [Range(0.001f, 1f)] public float rotationLerpTime = 0.01f;
@@ -124,9 +128,11 @@ public class SpaceShipController : MonoBehaviour
     {
         if (accelerateInput == 0) {
             engineEffects.SetActive(false);
+            shipAnimator.SetBool("Accelerate", false);
         }
         else {
             engineEffects.SetActive(true);
+            shipAnimator.SetBool("Accelerate", true);
         }
 
         CurrentSpeed = Mathf.Clamp(CurrentSpeed += accelerateInput, -MaxMovementSpeed, MaxMovementSpeed);
