@@ -46,14 +46,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Brake",
-                    "type": "Button",
-                    "id": "9ec9d479-7dd1-4d03-a967-a18f607b3e26",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Build",
                     "type": "Button",
                     "id": "2e61edd7-fb4a-4859-ae1d-eb170c02f142",
@@ -73,6 +65,14 @@
                     "name": "Reload",
                     "type": "Button",
                     "id": "dc733cc4-2769-4f55-92fb-b2e0dde09b7f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SwitchEquipment",
+                    "type": "Button",
+                    "id": "9539f1e8-893e-42bf-a9a3-1528a30aded2",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
@@ -268,28 +268,6 @@
                 },
                 {
                     "name": "",
-                    "id": "2fba9781-4008-473c-bab7-72f86a973c6a",
-                    "path": "<XInputController>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Brake",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "64359669-76bc-436e-b3f5-3dc45a0bd292",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyBoard",
-                    "action": "Brake",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "6691b1af-1130-4d64-b95a-210fbee1d1de",
                     "path": "<XInputController>/buttonWest",
                     "interactions": "",
@@ -342,6 +320,39 @@
                     "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "263b5de8-28a6-4312-9cb8-85acf9f90069",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchEquipment",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "3183be28-cb98-4dd6-aa61-4165ebfe6917",
+                    "path": "<XInputController>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SwitchEquipment",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "e7664d4e-246f-47d2-bb9c-fc06ebffefab",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SwitchEquipment",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

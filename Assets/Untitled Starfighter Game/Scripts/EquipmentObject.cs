@@ -11,8 +11,11 @@ public class EquipmentObject
     public float Volume { get; private set; }
     public float Durability { get; private set; }
     public float Timer { get; private set; }
+    public bool VolumeInfinite { get; private set; }
     public bool Reloading { get; private set; }
-    public bool Triggerable => !Reloading && Volume > 0 && Timer <= 0;
+    public bool Triggerable => !Reloading && (Volume > 0 || VolumeInfinite) && Timer <= 0;
+
+    
 
     public EquipmentObject(int hash)
     {
@@ -24,6 +27,7 @@ public class EquipmentObject
         TemplateHash = hash;
 
         Equipment eq = hash.GetEquipment();
+        if (eq.volume == 0) VolumeInfinite = true;
         Volume = eq.volume;
         Durability = eq.durability;
     }

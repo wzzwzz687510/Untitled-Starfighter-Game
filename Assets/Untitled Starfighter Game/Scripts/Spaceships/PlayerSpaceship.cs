@@ -8,10 +8,15 @@ public class PlayerSpaceship : Spaceship
 {
     public static PlayerSpaceship MainCharacter { get; protected set; }
 
+    [Header("Addon Setting")]
+    public Laser defaultLaser;
+    public float resources;
+
     public bool IsOutsideBoundary { get; protected set; }
     public SpaceShipController Controller { get; protected set; }
 
-    public UnityEvent OnBoundaryEvent;
+    public ValueChangeDelegate OnResourceChangedEvent;
+    [HideInInspector] public UnityEvent OnBoundaryEvent;
 
     private Rigidbody m_rb;
 
@@ -22,6 +27,8 @@ public class PlayerSpaceship : Spaceship
         m_rb = GetComponent<Rigidbody>();
 
         InitializeStatus();
+        EquipmentObjects.Add(new EquipmentObject(defaultLaser.Hash));
+        resources = 0;
     }
 
     private void FixedUpdate()
@@ -53,5 +60,16 @@ public class PlayerSpaceship : Spaceship
     {
         Controller.enabled = false;
         base.OnDestoryed();
+    }
+
+    protected override GameObject ShootWithLaser(Laser laser)
+    {
+        GameObject asteroidGO = base.ShootWithLaser(laser);
+        if (asteroidGO != null) {
+            asteroidGO.GetComponent<Asteroid>().ImpactDurability(-100*Time.deltaTime);
+            resources += 100*Time.deltaTime;
+            OnResourceChangedEvent?.Invoke((int)resources,0);
+        }
+        return asteroidGO;
     }
 }

@@ -6,6 +6,8 @@ using UnityEngine;
 public class Laser : Equipment
 {
     public float range;
+    public GameObject linePrefab;
+    public GameObject impactPrefab;
 
     public Laser() : base(){ type = EquipmentType.Laser; }
 }

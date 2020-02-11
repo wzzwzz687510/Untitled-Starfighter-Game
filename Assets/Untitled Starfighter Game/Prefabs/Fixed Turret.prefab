@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1555999043702474788}
   - component: {fileID: 4127087602397586088}
   - component: {fileID: 3763062485918355759}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Fixed Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2344085641725128387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 751bcee16b56c134bb12c7ef2b4eff3f, type: 3}
+  m_Script: {fileID: 11500000, guid: 618f048c8e387f54f94ce1d5dce42257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shootingStartPoints: {fileID: 4686416412003688523}

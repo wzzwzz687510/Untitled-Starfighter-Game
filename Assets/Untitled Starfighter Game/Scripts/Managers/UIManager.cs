@@ -1,19 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
     [Header("UI Elements")]
-    public Slider durability;
-    public Text volume;
+    public TextMeshProUGUI durability;
+    public TextMeshProUGUI volume;
+    public TextMeshProUGUI resource;
 
     [Header("Pages")]
     public GameObject outsideWarningPage;
     public GameObject wastedPage;
+    public GameObject weaponUI;
+    public GameObject laserUI;
 
     private PlayerSpaceship Player => PlayerSpaceship.MainCharacter;
 
@@ -24,10 +27,12 @@ public class UIManager : MonoBehaviour
 
     public void Start()
     {
+        Player.OnResourceChangedEvent += UpdateResourceUI;
         Player.OnDurabilityChangedEvent += UpdateDurabilityUI;
         Player.OnVolumeChangedEvent += UpdateVolumeUI;
         Player.OnBoundaryEvent.AddListener(UpdateOutsideWarningUI);
         Player.OnDeathEvent.AddListener(DisplayLosePage);
+        Player.OnSwitchEquipmentEvent.AddListener(UpdateEquipmentUI);
     }
 
     public void SetReload()
@@ -41,14 +46,31 @@ public class UIManager : MonoBehaviour
         wastedPage.SetActive(false);
     }
 
+    private void UpdateEquipmentUI()
+    {
+        if (weaponUI.activeSelf) {
+            weaponUI.SetActive(false);
+            laserUI.SetActive(true);
+        }
+        else {
+            weaponUI.SetActive(true);
+            laserUI.SetActive(false);
+        }
+    }
+
+    private void UpdateResourceUI(float value,float useless)
+    {
+        resource.text = "RESERVE - " + value.ToString();
+    }
+
     private void UpdateDurabilityUI(float curD,float maxD)
     {
-        durability.value = curD / maxD;
+        durability.text = curD.ToString();
     }
 
     private void UpdateVolumeUI(float curV, float maxV)
     {
-        volume.text = curV + "/" + maxV;
+        volume.text = curV.ToString();
     }
 
     private void UpdateOutsideWarningUI()
