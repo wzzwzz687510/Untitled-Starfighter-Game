@@ -38,7 +38,7 @@ public class BulletController : MonoBehaviour
     {
         //Debug.Log(layerMask.ToString()+", "+ other.gameObject.layer.ToString());
         if (layerMask == other.gameObject.layer) return;
-        if(other.gameObject.TryGetComponent(out Spaceship spaceship)) {
+        if(other.gameObject.TryGetComponent(out Spaceship spaceship) && !spaceship.Invincible) {
             spaceship.ImpactDurability(-Template.damage);
             Destroy(gameObject);
         }

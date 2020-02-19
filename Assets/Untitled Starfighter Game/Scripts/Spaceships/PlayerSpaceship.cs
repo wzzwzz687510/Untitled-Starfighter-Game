@@ -11,6 +11,7 @@ public class PlayerSpaceship : Spaceship
     [Header("Addon Setting")]
     public Laser defaultLaser;
     public float resources;
+    public float dodgeTime = 0.6f;
 
     public bool IsOutsideBoundary { get; protected set; }
     public SpaceShipController Controller { get; protected set; }
@@ -94,5 +95,10 @@ public class PlayerSpaceship : Spaceship
             shootTarget = target;
             shootTarget.SetHighlight(true);
         }       
+    }
+
+    public void SetInvincible(bool bl)
+    {
+        Invincible = bl;
     }
 }

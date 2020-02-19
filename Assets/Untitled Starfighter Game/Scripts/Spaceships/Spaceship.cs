@@ -38,6 +38,7 @@ public class Spaceship : MonoBehaviour
     public float Durability { get; protected set; }
     public float Armour { get; protected set; }
     public bool IsDeath { get; protected set; }
+    public bool Invincible { get; protected set; }
 
     public int SelectEquipmentID { get; protected set; }
     public List<EquipmentObject> EquipmentObjects { get; protected set; }
@@ -85,7 +86,7 @@ public class Spaceship : MonoBehaviour
 
     public virtual void ImpactDurability(float value)
     {
-        if (IsDeath) return;
+        if (IsDeath || Invincible) return;
         Durability = Mathf.Clamp(Durability + value, 0, defaultDurability);
         OnDurabilityChangedEvent?.Invoke(Durability, defaultDurability);
         if (Durability == 0) OnDestoryed();

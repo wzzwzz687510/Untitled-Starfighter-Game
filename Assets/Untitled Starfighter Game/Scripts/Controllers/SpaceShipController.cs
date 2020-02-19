@@ -86,6 +86,7 @@ public class SpaceShipController : MonoBehaviour
     [Range(0.001f, 1f)] public float rotationLerpTime = 0.01f;
     [Range(0.001f, 1f)] public float viewpointLerpTime = 0.2f;
     [Range(0.001f, 90f)] public float maxRotationAngle = 85f;
+    public float dodgeDistance = 10;
     public GameObject engineEffects;
     public Transform lookatPoint;
     public PlayerSpaceship m_spaceship;
@@ -103,6 +104,7 @@ public class SpaceShipController : MonoBehaviour
     Vector2 viewInput;
     float accelerateInput;
     bool fireInput;
+    bool dodgeInput;
 
     TransformState m_TargetState;
 
@@ -124,6 +126,7 @@ public class SpaceShipController : MonoBehaviour
         inputActions.PlayerControls.Fire.canceled += ctx => fireInput = false;
         inputActions.PlayerControls.Reload.started += ctx => m_spaceship.Reload();
         inputActions.PlayerControls.SwitchEquipment.started += ctx => m_spaceship.SwitchEquipment(ctx.ReadValue<float>() > 0 ? 1 : 0);
+        inputActions.PlayerControls.Dodge.performed += ctx => { if (!dodgeInput) StartCoroutine(DodgeAction()); };
 
         m_TargetState = new TransformState();
         //m_TargetLookatPointState = new TransformState();
@@ -172,6 +175,7 @@ public class SpaceShipController : MonoBehaviour
 
     private void RotateSpaceship(Vector2 input)
     {
+        shipAnimator.SetFloat("Horizontal", input.x);
         if (input.sqrMagnitude < 0.01)
             return;
 
@@ -189,6 +193,19 @@ public class SpaceShipController : MonoBehaviour
         //var viewPointLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / viewpointLerpTime) * Time.deltaTime);
         //m_InterpolatingLookatPointState.LerpTowards(m_TargetLookatPointState, viewPointLerpPct, 0);
         //lookatPoint.localPosition = new Vector3(m_InterpolatingLookatPointState.x, m_InterpolatingLookatPointState.y, m_InterpolatingLookatPointState.z);
+    }
+
+    IEnumerator DodgeAction()
+    {
+        dodgeInput = true;
+        m_TargetState.Translate(movementInput.x * dodgeDistance * Vector3.right);
+        m_spaceship.SetInvincible(true);
+        shipAnimator.SetFloat("AnimSpeed", 1/m_spaceship.dodgeTime);
+        shipAnimator.SetTrigger("Dodge");        
+        yield return new WaitForSeconds(m_spaceship.dodgeTime);
+        shipAnimator.SetFloat("AnimSpeed", 1);
+        m_spaceship.SetInvincible(false);
+        dodgeInput = false;
     }
 
     protected virtual void DetectLockableTargets()

@@ -378,6 +378,28 @@
                 },
                 {
                     "name": "",
+                    "id": "43636c38-c2f4-40cd-af55-d02ffd5134b2",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyBoard",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "debb8ec2-5b0e-4d2e-b3c7-6060e79c4a94",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyBoard",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "446a1c30-99ef-47ca-b74c-b2d0b32e3d26",
                     "path": "<XInputController>/buttonNorth",
                     "interactions": "",
