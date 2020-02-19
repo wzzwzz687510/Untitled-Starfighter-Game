@@ -16,7 +16,7 @@ public class BulletController : MonoBehaviour
         layerMask = mask;
         Template = template;
         timer = template.lifeTime;
-        Direction = direction;
+        Direction = direction.normalized;
     }
 
     private void FixedUpdate()

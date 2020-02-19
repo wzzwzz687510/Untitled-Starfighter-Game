@@ -58,19 +58,38 @@ public class TransformState
     }
 }
 
-[RequireComponent(typeof(Spaceship))]
+[System.Serializable]
+public class AimedTarget
+{
+    public float Timer { get; private set; }
+
+    public AimedTarget(float time = 0)
+    {
+        Timer = time;
+    }
+
+    public void UpdateTimer(float deltaTime)
+    {
+        Timer += deltaTime;
+    }
+}
+
+[RequireComponent(typeof(PlayerSpaceship))]
 public class SpaceShipController : MonoBehaviour
 {
     [Header("Test")]
     public Animator shipAnimator;
+    public LayerMask enemyLayer;
 
     [Header("Spaceship Parameters")]
     [Range(0.001f, 1f)] public float positionLerpTime = 0.2f;
     [Range(0.001f, 1f)] public float rotationLerpTime = 0.01f;
     [Range(0.001f, 1f)] public float viewpointLerpTime = 0.2f;
+    [Range(0.001f, 90f)] public float maxRotationAngle = 85f;
     public GameObject engineEffects;
     public Transform lookatPoint;
-    public Spaceship m_spaceship;
+    public PlayerSpaceship m_spaceship;
+    public Camera viewCamera;
 
     public float CurrentSpeed { get; private set; }
 
@@ -86,14 +105,14 @@ public class SpaceShipController : MonoBehaviour
     bool fireInput;
 
     TransformState m_TargetState;
-    //TransformState m_TargetLookatPointState;
-    //TransformState m_InterpolatingLookatPointState;
+
+    Dictionary<int, AimedTarget> aimDic = new Dictionary<int, AimedTarget>();
 
     private void Awake()
     {
         inputActions = new SpaceShipInputActions();
         inputActions.PlayerControls.MoveHorizontal.performed += ctx => { if (!rightStickInput) movementInput.x = ctx.ReadValue<float>(); };
-        inputActions.PlayerControls.MoveHorizontal.canceled += ctx => { if (!rightStickInput && movementInput.x!=0) movementInput.x = 0; };
+        inputActions.PlayerControls.MoveHorizontal.canceled += ctx => { if (!rightStickInput && movementInput.x != 0) movementInput.x = 0; };
         inputActions.PlayerControls.Move.started += ctx => rightStickInput = true;
         inputActions.PlayerControls.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
         inputActions.PlayerControls.Move.canceled += ctx => { movementInput = Vector2.zero; rightStickInput = false; };
@@ -113,6 +132,7 @@ public class SpaceShipController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        DetectLockableTargets();
         if (fireInput) m_spaceship.Shoot();
         if (accelerateInput == 0 && CurrentSpeed != 0) {
             if (CurrentSpeed > 0) CurrentSpeed = Mathf.Max(0, CurrentSpeed - Time.deltaTime * MaxMovementSpeed);
@@ -157,6 +177,7 @@ public class SpaceShipController : MonoBehaviour
 
         m_TargetState.yaw += input.x * MaxRotationSpeed;
         m_TargetState.pitch -= input.y * MaxRotationSpeed;
+        m_TargetState.pitch = Mathf.Clamp(m_TargetState.pitch, -maxRotationAngle, maxRotationAngle);
     }
 
     private void ApplyChanges()
@@ -168,6 +189,65 @@ public class SpaceShipController : MonoBehaviour
         //var viewPointLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / viewpointLerpTime) * Time.deltaTime);
         //m_InterpolatingLookatPointState.LerpTowards(m_TargetLookatPointState, viewPointLerpPct, 0);
         //lookatPoint.localPosition = new Vector3(m_InterpolatingLookatPointState.x, m_InterpolatingLookatPointState.y, m_InterpolatingLookatPointState.z);
+    }
+
+    protected virtual void DetectLockableTargets()
+    {
+        if (!Physics.CheckSphere(transform.position, m_spaceship.defaultLockRange, enemyLayer)) return;
+
+        Ray detectRay = viewCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+        Debug.DrawRay(detectRay.origin, detectRay.direction, Color.red);
+        RaycastHit[] hits = Physics.SphereCastAll(detectRay, m_spaceship.defaultLockSphereRadius, m_spaceship.defaultLockRange, enemyLayer);
+        bool hasLockedTarget = false;
+        if (hits.Length != 0) {
+            var newDic = new Dictionary<int, AimedTarget>();
+            foreach (var hit in hits) {
+                int hash = hit.transform.name.GetStableHashCode();
+                if (aimDic.ContainsKey(hash)) {
+                    aimDic[hash].UpdateTimer(Time.deltaTime);
+                    newDic.Add(hash, new AimedTarget(aimDic[hash].Timer));
+                }
+                else {
+                    newDic.Add(hash, new AimedTarget());
+                }
+            }
+            aimDic.Clear();
+            aimDic = newDic;
+
+            float minDistance = m_spaceship.defaultLockRange * m_spaceship.defaultLockRange;
+            float targetHash = 0;
+            bool hasWeakPoint = false;
+            foreach (var hit in hits) {              
+                int hash = hit.transform.name.GetStableHashCode();
+                if (aimDic[hash].Timer > m_spaceship.defaultLockTime) {
+                    if (!hasLockedTarget) {
+                        hasLockedTarget = true;
+                    }
+                    else if (hasWeakPoint) {
+                        if(!hit.transform.CompareTag("WeakPoint")|| 
+                            Vector3.SqrMagnitude(transform.position - hit.point) >= minDistance) continue;
+                    }
+                    else {
+                        if (hit.transform.CompareTag("WeakPoint")) hasWeakPoint = true;
+                        else if(Vector3.SqrMagnitude(transform.position - hit.point) >= minDistance) continue;
+                    }
+
+                    m_spaceship.SetShootTargetPosition(true, hit.transform.GetComponent<Spaceship>());
+                    minDistance = Vector3.SqrMagnitude(transform.position - hit.point);
+                    targetHash = hash;
+                }
+            }
+        }
+        else {
+            var colliders = Physics.OverlapSphere(transform.position, m_spaceship.defaultLockSphereRadius, enemyLayer);
+            if (hits.Length != 0) {
+                Debug.Log(111);
+            }
+        }
+
+        if (!hasLockedTarget) {
+            m_spaceship.SetShootTargetPosition(false, null);
+        }
     }
 
     public void OnEnable()

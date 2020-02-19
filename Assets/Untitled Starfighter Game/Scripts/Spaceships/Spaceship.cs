@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
+public struct VisualEffects
+{
+    public GameObject destoryEffect;
+}
+
 [RequireComponent(typeof(Collider),typeof(Rigidbody))]
 public class Spaceship : MonoBehaviour
 {
@@ -12,6 +18,8 @@ public class Spaceship : MonoBehaviour
     public Transform laserStartPoint;
     public Transform shootingStartPoints;
     public Equipment defaultEquipment;
+    public GameObject highlight;
+    public VisualEffects effects;
 
     [Header("Status Setting")]
     public float defaultDurability = 100;
@@ -22,6 +30,9 @@ public class Spaceship : MonoBehaviour
     public float defaultAcrMovementSpeed = 1;
     public float defaultMaxRotationSpeed = 10;
     public float defaultAcrRotationSpeed = 1;
+    public float defaultLockRange = 50;
+    public float defaultLockTime = 0.2f;
+    public float defaultLockSphereRadius = 2;
 
     public TransformState State { get; protected set; }
     public float Durability { get; protected set; }
@@ -31,12 +42,13 @@ public class Spaceship : MonoBehaviour
     public int SelectEquipmentID { get; protected set; }
     public List<EquipmentObject> EquipmentObjects { get; protected set; }
     public EquipmentObject SelectedEquipmentObject => EquipmentObjects[SelectEquipmentID];
+    public List<GameObject> lockableTargets { get; protected set; }
 
-    private Transform bulletsHolder;
-    private float reloadTimer;
-    private Vector3 laserEndPoint;
-    private LineRenderer laserLineRenderer;
-    private ParticleSystem laserImpactEffect;
+    protected Transform bulletsHolder;
+    protected float reloadTimer;
+    protected Vector3 laserEndPoint;
+    protected LineRenderer laserLineRenderer;
+    protected ParticleSystem laserImpactEffect;
 
     public delegate void ValueChangeDelegate(float curV, float maxV);
     public ValueChangeDelegate OnDurabilityChangedEvent;
@@ -64,6 +76,7 @@ public class Spaceship : MonoBehaviour
         EquipmentObjects = new List<EquipmentObject> {
             new EquipmentObject(defaultEquipment.Hash)
         };
+        lockableTargets = new List<GameObject>();
         bulletsHolder = new GameObject("bullets holder").transform;
         State = new TransformState();
         State.SetFromTransform(transform);
@@ -152,6 +165,11 @@ public class Spaceship : MonoBehaviour
         State.UpdateTransform(transform);
     }
 
+    public virtual void SetHighlight(bool bl)
+    {
+        highlight.SetActive(bl);
+    }
+
     protected virtual void OnDestoryed()
     {
         IsDeath = true;
@@ -179,7 +197,7 @@ public class Spaceship : MonoBehaviour
         ImpactEquipmentVolume(-1);
         for (int i = 0; i < shootingStartPoints.childCount; i++) {
             Instantiate(weapon.bullet.prefab, shootingStartPoints.GetChild(i).position, Quaternion.identity, bulletsHolder).
-                GetComponent<BulletController>().InitializeBullet(gameObject.layer, weapon.bullet, transform.forward);
+                GetComponent<BulletController>().InitializeBullet(gameObject.layer, weapon.bullet, shootingStartPoints.forward);
         }
     }
 

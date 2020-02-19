@@ -33,12 +33,12 @@ public class Turret : Spaceship
             (distance/(SelectedEquipmentObject.Template as Weapon).bullet.speed);
 
         Vector3 direction = (predictionTarget - transform.position).normalized;
-        angle = Vector3.Angle(direction, transform.forward);
+        angle = Vector3.Angle(direction, shootingStartPoints.forward);
 
         if (angle < 1) Shoot();
         else {
-            var lookatDir = Vector3.RotateTowards(transform.forward, direction, defaultMaxRotationSpeed * Time.deltaTime / angle,1);
-            transform.LookAt(transform.position+lookatDir);
+            var lookatDir = Vector3.RotateTowards(shootingStartPoints.forward, direction, defaultMaxRotationSpeed * Time.deltaTime / angle,1);
+            shootingStartPoints.LookAt(transform.position+lookatDir);
         }
     }
 
