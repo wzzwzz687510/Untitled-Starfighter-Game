@@ -37,7 +37,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1.75
-        value: {x: 17.479, y: -229.069, z: -11.724001}
+        value: {x: 17.479, y: -229.069, z: -5.492}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -115,7 +115,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1.75
-        value: {x: -1947.5887, y: -318.79095, z: 4028.942}
+        value: {x: -2081.376, y: -466.37534, z: 3945.5984}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -252,7 +252,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.75
-        value: -1947.5887
+        value: -2081.376
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -298,7 +298,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.75
-        value: -318.79095
+        value: -466.37534
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -344,7 +344,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.75
-        value: 4028.942
+        value: 3945.5984
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -482,7 +482,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.75
-        value: -11.724001
+        value: -5.492
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -735,7 +735,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: 
+    path: Alitheia_Body/Top_MG_Body
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -745,17 +745,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: 
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: 
+    path: Alitheia_Body/Top_MG_Body
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -774,8 +764,18 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: 
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Alitheia_Body/Top_MG_Body
+    path: 
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -785,7 +785,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Alitheia_Body/Top_MG_Body
+    path: 
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 1
