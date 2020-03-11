@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f32267645e52bb341a5d3f116db13058
+guid: 3ea6ec2cc2b596f41ba34806c8b4c1f7
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -8,7 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: a57477913897c46af95d590f580878bd, type: 3}
-  svgType: 4
+  svgType: 1
   texturedSpriteMeshType: 0
   svgPixelsPerUnit: 100
   gradientResolution: 64
@@ -28,14 +28,13 @@ ScriptedImporter:
   maxTangentAngleEnabled: 0
   maxTangentAngle: 5
   keepTextureAspectRatio: 1
-  textureSize: 256
+  textureSize: 2048
   textureWidth: 256
   textureHeight: 256
   wrapMode: 0
   filterMode: 1
   sampleCount: 4
   preserveSVGImageAspect: 0
-  useSVGPixelsPerUnit: 0
   spriteData:
     TessellationDetail: 0
     SpriteRect:
@@ -50,6 +49,6 @@ ScriptedImporter:
         y: 0
         width: 0
         height: 0
-      spriteID: a16fdf5290528e443bfd95f8120d6fc7
+      spriteID: 79490292043501b408a1596cd46a031b
       internalID: 0
     PhysicsOutlines: []
