@@ -66,10 +66,13 @@
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Controllers\BulletController.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Controllers\SpaceShipController.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Controllers\SpaceShipInputActions.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\DestroyEffect.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\EquipmentObject.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Extensions.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Managers\LevelManager.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Managers\UIManager.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Menus\MinimapLogic.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Menus\ScreenShake.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Bullet.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Equipment.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Laser.cs" />
@@ -79,7 +82,7 @@
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spaceships\PlayerSpaceship.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spaceships\Spaceship.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spaceships\Turret.cs" />
-    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Weakspot.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\capsulecasttest.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
@@ -117,11 +120,17 @@
     <Reference Include="Unity.RenderPipelines.Core.Editor">
       <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.VectorGraphics">
+      <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.VectorGraphics.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.InputSystem">
       <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InternalAPIEditorBridge.003">
+      <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.003.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -144,6 +153,9 @@
     <Reference Include="Unity.Rider.Editor">
       <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.VectorGraphics.Editor">
+      <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.VectorGraphics.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
       <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
     </Reference>
@@ -156,6 +168,9 @@
     <Reference Include="Unity.ShaderGraph.Editor">
       <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.InternalAPIEngineBridge.003">
+      <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.003.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
       <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
     </Reference>
@@ -164,18 +179,6 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VectorGraphics">
-      <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.VectorGraphics.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InternalAPIEditorBridge.003">
-      <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.003.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VectorGraphics.Editor">
-      <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.VectorGraphics.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InternalAPIEngineBridge.003">
-      <HintPath>D:/wang/Project/Unity/Unity 2019.3f5/USG/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.003.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.0f5/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

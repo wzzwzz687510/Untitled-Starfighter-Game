@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,12 +12,16 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI durability;
     public TextMeshProUGUI volume;
     public TextMeshProUGUI resource;
+    public Image[] selectBG;
 
     [Header("Pages")]
     public GameObject outsideWarningPage;
     public GameObject wastedPage;
     public GameObject weaponUI;
     public GameObject laserUI;
+    public GameObject upgradeUI;
+
+    public int SelectID { get; private set; }
 
     private PlayerSpaceship Player => PlayerSpaceship.MainCharacter;
 
@@ -84,5 +89,28 @@ public class UIManager : MonoBehaviour
         wastedPage.SetActive(true);
     }
 
+    private void ChangeSelectBG()
+    {
+        foreach (var bg in selectBG) {
+            bg.enabled = false;
+        }
 
+        selectBG[SelectID].enabled = true;
+    }
+
+    public void SetNextID()
+    {
+        SelectID++;
+        if (SelectID > 2)
+            SelectID = 0;
+        ChangeSelectBG();
+    }
+
+    public void SetLastID()
+    {
+        SelectID--;
+        if (SelectID < 0)
+            SelectID = 2;
+        ChangeSelectBG();
+    }
 }

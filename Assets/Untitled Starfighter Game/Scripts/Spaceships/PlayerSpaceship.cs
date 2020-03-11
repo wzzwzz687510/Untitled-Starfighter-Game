@@ -11,9 +11,13 @@ public class PlayerSpaceship : Spaceship
     [Header("Addon Setting")]
     public Laser defaultLaser;
     public float resources;
+    public float dodgeTime = 0.6f;
 
     public bool IsOutsideBoundary { get; protected set; }
     public SpaceShipController Controller { get; protected set; }
+
+    protected Spaceship shootTarget;
+    protected bool hasTarget;
 
     public ValueChangeDelegate OnResourceChangedEvent;
     [HideInInspector] public UnityEvent OnBoundaryEvent;
@@ -71,5 +75,36 @@ public class PlayerSpaceship : Spaceship
             OnResourceChangedEvent?.Invoke((int)resources,0);
         }
         return asteroidGO;
+    }
+
+    protected override void ShootWithWeapon(Weapon weapon)
+    {
+        ImpactEquipmentVolume(-1);
+        for (int i = 0; i < shootingStartPoints.childCount; i++) {
+            Instantiate(weapon.bullet.prefab, shootingStartPoints.GetChild(i).position, Quaternion.identity, bulletsHolder).
+                GetComponent<BulletController>().InitializeBullet(gameObject.layer, weapon.bullet,
+                hasTarget && shootTarget != null ? shootTarget.transform.position - shootingStartPoints.GetChild(i).position : transform.forward);
+        }
+    }
+
+    public void ImpactResources(int num)
+    {
+        resources = Mathf.Max(0, resources + num);
+        OnResourceChangedEvent?.Invoke((int)resources, 0);
+    }
+
+    public void SetShootTargetPosition(bool hasTarget,Spaceship target)
+    {
+        this.hasTarget = hasTarget;
+        if (hasTarget && shootTarget != target) {
+            if(shootTarget!=null) shootTarget.SetHighlight(false);
+            shootTarget = target;
+            shootTarget.SetHighlight(true);
+        }       
+    }
+
+    public void SetInvincible(bool bl)
+    {
+        Invincible = bl;
     }
 }
