@@ -87,6 +87,12 @@ public class PlayerSpaceship : Spaceship
         }
     }
 
+    public void ImpactResources(int num)
+    {
+        resources = Mathf.Max(0, resources + num);
+        OnResourceChangedEvent?.Invoke((int)resources, 0);
+    }
+
     public void SetShootTargetPosition(bool hasTarget,Spaceship target)
     {
         this.hasTarget = hasTarget;

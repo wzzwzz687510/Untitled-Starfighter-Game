@@ -76,6 +76,22 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Confirm",
+                    "type": "Button",
+                    "id": "ccfc7b3e-57ad-4996-aa02-854fb7dcae21",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "a5956dfb-8f23-4b90-84ea-3d9cc2e6f56a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -368,7 +384,7 @@
                 {
                     "name": "",
                     "id": "5280217d-da78-49a3-be08-ec53791df2e0",
-                    "path": "<XInputController>/buttonSouth",
+                    "path": "<XInputController>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -434,7 +450,7 @@
                 {
                     "name": "negative",
                     "id": "3183be28-cb98-4dd6-aa61-4165ebfe6917",
-                    "path": "<XInputController>/leftShoulder",
+                    "path": "<XInputController>/dpad/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -445,13 +461,35 @@
                 {
                     "name": "positive",
                     "id": "e7664d4e-246f-47d2-bb9c-fc06ebffefab",
-                    "path": "<XInputController>/rightShoulder",
+                    "path": "<XInputController>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "SwitchEquipment",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "25e776e0-2402-4637-8fa6-61b417ef79d2",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b9d31996-80d3-4845-8015-d27bff576d44",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

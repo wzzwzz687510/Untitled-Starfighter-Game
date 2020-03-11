@@ -89,6 +89,22 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""ccfc7b3e-57ad-4996-aa02-854fb7dcae21"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5956dfb-8f23-4b90-84ea-3d9cc2e6f56a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -381,7 +397,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5280217d-da78-49a3-be08-ec53791df2e0"",
-                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""path"": ""<XInputController>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -447,7 +463,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""3183be28-cb98-4dd6-aa61-4165ebfe6917"",
-                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""path"": ""<XInputController>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -458,13 +474,35 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""e7664d4e-246f-47d2-bb9c-fc06ebffefab"",
-                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""path"": ""<XInputController>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""SwitchEquipment"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""25e776e0-2402-4637-8fa6-61b417ef79d2"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9d31996-80d3-4845-8015-d27bff576d44"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -510,6 +548,8 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         m_PlayerControls_Dodge = m_PlayerControls.FindAction("Dodge", throwIfNotFound: true);
         m_PlayerControls_Reload = m_PlayerControls.FindAction("Reload", throwIfNotFound: true);
         m_PlayerControls_SwitchEquipment = m_PlayerControls.FindAction("SwitchEquipment", throwIfNotFound: true);
+        m_PlayerControls_Confirm = m_PlayerControls.FindAction("Confirm", throwIfNotFound: true);
+        m_PlayerControls_Cancel = m_PlayerControls.FindAction("Cancel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -568,6 +608,8 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControls_Dodge;
     private readonly InputAction m_PlayerControls_Reload;
     private readonly InputAction m_PlayerControls_SwitchEquipment;
+    private readonly InputAction m_PlayerControls_Confirm;
+    private readonly InputAction m_PlayerControls_Cancel;
     public struct PlayerControlsActions
     {
         private @SpaceShipInputActions m_Wrapper;
@@ -581,6 +623,8 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         public InputAction @Dodge => m_Wrapper.m_PlayerControls_Dodge;
         public InputAction @Reload => m_Wrapper.m_PlayerControls_Reload;
         public InputAction @SwitchEquipment => m_Wrapper.m_PlayerControls_SwitchEquipment;
+        public InputAction @Confirm => m_Wrapper.m_PlayerControls_Confirm;
+        public InputAction @Cancel => m_Wrapper.m_PlayerControls_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -617,6 +661,12 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @SwitchEquipment.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
                 @SwitchEquipment.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
                 @SwitchEquipment.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
+                @Confirm.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnConfirm;
+                @Confirm.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnConfirm;
+                @Confirm.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnConfirm;
+                @Cancel.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnCancel;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -648,6 +698,12 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @SwitchEquipment.started += instance.OnSwitchEquipment;
                 @SwitchEquipment.performed += instance.OnSwitchEquipment;
                 @SwitchEquipment.canceled += instance.OnSwitchEquipment;
+                @Confirm.started += instance.OnConfirm;
+                @Confirm.performed += instance.OnConfirm;
+                @Confirm.canceled += instance.OnConfirm;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
             }
         }
     }
@@ -681,5 +737,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         void OnDodge(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnSwitchEquipment(InputAction.CallbackContext context);
+        void OnConfirm(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
     }
 }

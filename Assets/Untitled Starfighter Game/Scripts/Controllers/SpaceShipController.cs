@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -105,6 +106,8 @@ public class SpaceShipController : MonoBehaviour
     float accelerateInput;
     bool fireInput;
     bool dodgeInput;
+    bool switchEquipmentInput;
+    bool buildInput;
 
     TransformState m_TargetState;
 
@@ -125,12 +128,49 @@ public class SpaceShipController : MonoBehaviour
         inputActions.PlayerControls.Fire.performed += ctx => fireInput = true;
         inputActions.PlayerControls.Fire.canceled += ctx => fireInput = false;
         inputActions.PlayerControls.Reload.started += ctx => m_spaceship.Reload();
-        inputActions.PlayerControls.SwitchEquipment.started += ctx => m_spaceship.SwitchEquipment(ctx.ReadValue<float>() > 0 ? 1 : 0);
+        inputActions.PlayerControls.Build.performed += ctx => { buildInput = !buildInput; UIManager.Instance.upgradeUI.SetActive(buildInput); };
+        inputActions.PlayerControls.SwitchEquipment.started += ctx => {
+            if (!buildInput) {
+                switchEquipmentInput = !switchEquipmentInput;
+                m_spaceship.SwitchEquipment(switchEquipmentInput ? 1 : 0);
+            }
+            else {
+                if (ctx.ReadValue<float>() == 1)
+                    UIManager.Instance.SetNextID();
+                else if (ctx.ReadValue<float>() == -1)
+                    UIManager.Instance.SetLastID();
+            }
+        };
         inputActions.PlayerControls.Dodge.performed += ctx => { if (!dodgeInput) StartCoroutine(DodgeAction()); };
+        inputActions.PlayerControls.Confirm.performed += ctx => {
+            if (buildInput) {
+                ApplyUpgrade(UIManager.Instance.SelectID);
+            }
+        };
+        inputActions.PlayerControls.Cancel.performed += ctx => {
+            if (buildInput) {
+                buildInput = false;
+                UIManager.Instance.upgradeUI.SetActive(buildInput);
+            }
+        };
 
         m_TargetState = new TransformState();
         //m_TargetLookatPointState = new TransformState();
         //m_InterpolatingLookatPointState = new TransformState();
+    }
+
+    private void ApplyUpgrade(int selectID)
+    {
+        if (selectID == 0 && m_spaceship.resources >= 100) {
+            m_spaceship.ImpactResources(-100);
+            m_spaceship.ImpactDurability(m_spaceship.defaultDurability);
+        }
+        else if (selectID == 1 && m_spaceship.resources >= 500) {
+            m_spaceship.ImpactResources(-500);
+        }
+        else if (selectID == 2 && m_spaceship.resources >= 500) {
+            m_spaceship.ImpactResources(-500);
+        }
     }
 
     private void FixedUpdate()
