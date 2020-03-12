@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Rigidbody),typeof(SpaceShipController))]
 public class PlayerSpaceship : Spaceship
 {
     public static PlayerSpaceship MainCharacter { get; protected set; }
