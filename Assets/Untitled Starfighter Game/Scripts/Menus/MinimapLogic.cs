@@ -7,6 +7,11 @@ public class MinimapLogic : MonoBehaviour
     //References the player.
     public Transform player;
 
+    private void Start()
+    {
+        if (!player) player.Find("MainCharacter");
+    }
+
     //Gets called after Update and FixedUpdate.
     void LateUpdate()
     {

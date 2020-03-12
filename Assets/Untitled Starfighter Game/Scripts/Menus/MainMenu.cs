@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public string GameSceneBuildIndex;
+    public int GameSceneBuildIndex;
     public GameObject mainCamera;
 
     // Start is called before the first frame update
@@ -27,7 +27,10 @@ public class MainMenu : MonoBehaviour
 
     public void Quit()
     {
-      UnityEditor.EditorApplication.isPlaying = false;
-		  Application.Quit();
-	}
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+    }
 }
