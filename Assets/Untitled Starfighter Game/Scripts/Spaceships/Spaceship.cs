@@ -120,8 +120,7 @@ public class Spaceship : MonoBehaviour
                 break;
             default:
                 break;
-        }
-        
+        }        
     }
 
     public virtual void Shoot()

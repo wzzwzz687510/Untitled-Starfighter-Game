@@ -177,6 +177,7 @@ public class SpaceShipController : MonoBehaviour
     {
         DetectLockableTargets();
         if (fireInput) m_spaceship.Shoot();
+        else m_spaceship.StopLaser();
         if (accelerateInput == 0 && CurrentSpeed != 0) {
             if (CurrentSpeed > 0) CurrentSpeed = Mathf.Max(0, CurrentSpeed - Time.deltaTime * MaxMovementSpeed);
             else CurrentSpeed = Mathf.Min(0, CurrentSpeed + Time.deltaTime * MaxMovementSpeed);

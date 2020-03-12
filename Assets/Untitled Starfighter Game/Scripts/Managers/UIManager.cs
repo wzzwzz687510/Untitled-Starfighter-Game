@@ -9,9 +9,10 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     [Header("UI Elements")]
-    public TextMeshProUGUI durability;
-    public TextMeshProUGUI volume;
-    public TextMeshProUGUI resource;
+    public TextMeshProUGUI durabilityText;
+    public TextMeshProUGUI volumeText;
+    public TextMeshProUGUI resourceText;
+    public Slider resourceSlider;
     public Image[] selectBG;
 
     [Header("Pages")]
@@ -20,6 +21,7 @@ public class UIManager : MonoBehaviour
     public GameObject weaponUI;
     public GameObject laserUI;
     public GameObject upgradeUI;
+    public GameObject reloadUI;
 
     public int SelectID { get; private set; }
 
@@ -42,7 +44,8 @@ public class UIManager : MonoBehaviour
 
     public void SetReload()
     {
-        volume.text = "Reloading";
+        //volume.text = "Reloading";
+        reloadUI.SetActive(true);
     }
 
     private void HideAllUI()
@@ -65,17 +68,19 @@ public class UIManager : MonoBehaviour
 
     private void UpdateResourceUI(float value,float useless)
     {
-        resource.text = "RESERVE - " + value.ToString();
+        resourceText.text = value.ToString();
+        resourceSlider.value = value;
     }
 
     private void UpdateDurabilityUI(float curD,float maxD)
     {
-        durability.text = curD.ToString();
+        durabilityText.text = curD.ToString();
     }
 
     private void UpdateVolumeUI(float curV, float maxV)
     {
-        volume.text = curV.ToString();
+        volumeText.text = curV.ToString();
+        reloadUI.SetActive(false);
     }
 
     private void UpdateOutsideWarningUI()

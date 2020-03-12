@@ -107,4 +107,13 @@ public class PlayerSpaceship : Spaceship
     {
         Invincible = bl;
     }
+
+    public void StopLaser()
+    {
+        if (SelectEquipmentID == 1) {
+            laserLineRenderer.SetPosition(0, laserStartPoint.position);
+            laserLineRenderer.SetPosition(1, laserStartPoint.position);
+            laserImpactEffect.Stop();
+        }
+    }
 }
