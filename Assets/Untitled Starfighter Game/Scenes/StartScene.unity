@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1894,8 +1894,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.59758186, g: 0.58646315, b: 0.6509434, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 0.9764151, b: 0.9875818, a: 1}
+  m_Intensity: 4.96
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

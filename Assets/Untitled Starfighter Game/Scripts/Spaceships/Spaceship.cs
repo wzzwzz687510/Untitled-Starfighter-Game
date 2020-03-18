@@ -70,6 +70,11 @@ public class Spaceship : MonoBehaviour
         }
     }
 
+    protected virtual void Start()
+    {
+        InitializeStatus();
+    }
+
     public virtual void InitializeStatus()
     {
         Durability = defaultDurability;

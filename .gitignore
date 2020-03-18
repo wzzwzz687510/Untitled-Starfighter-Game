@@ -9,3 +9,5 @@ Logs/
 obj/
 Temp/
 Assets/EffectExamples/
+Assets/SceneDependencyCache/
+*.csproj
