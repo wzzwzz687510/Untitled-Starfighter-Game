@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI volumeText;
     public TextMeshProUGUI resourceText;
     public Slider resourceSlider;
+    public Toggle[] ammoGroup;
     public Image[] selectBG;
 
     [Header("Pages")]
@@ -30,6 +32,13 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         if (!Instance) Instance = this;
+    }
+
+    private void Update()
+    {
+        if (Player.IsDeath && Input.GetKeyDown(KeyCode.R)) {
+            SceneManager.LoadScene(0);
+        }
     }
 
     public void Start()
@@ -80,6 +89,10 @@ public class UIManager : MonoBehaviour
     private void UpdateVolumeUI(float curV, float maxV)
     {
         volumeText.text = curV.ToString();
+
+        for (int i = 0; i < ammoGroup.Length; i++) {
+            ammoGroup[i].isOn = i < curV;
+        }
         reloadUI.SetActive(false);
     }
 

@@ -80,7 +80,7 @@ public class PlayerSpaceship : Spaceship
     {
         ImpactEquipmentVolume(-1);
         for (int i = 0; i < shootingStartPoints.childCount; i++) {
-            Instantiate(weapon.bullet.prefab, shootingStartPoints.GetChild(i).position, Quaternion.identity, bulletsHolder).
+            Instantiate(weapon.bullet.prefab, shootingStartPoints.GetChild(i).position, Quaternion.identity, BulletsHolder).
                 GetComponent<BulletController>().InitializeBullet(gameObject.layer, weapon.bullet,
                 hasTarget && shootTarget != null ? shootTarget.transform.position - shootingStartPoints.GetChild(i).position : transform.forward);
         }

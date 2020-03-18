@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public struct VisualEffects
@@ -13,6 +12,8 @@ public struct VisualEffects
 [RequireComponent(typeof(Collider),typeof(Rigidbody))]
 public class Spaceship : MonoBehaviour
 {
+    public static Transform BulletsHolder { get; protected set; }
+
     [Header("Preset objects")]
     public LayerMask asteroidLayer;
     public Transform laserStartPoint;
@@ -44,12 +45,13 @@ public class Spaceship : MonoBehaviour
     public List<EquipmentObject> EquipmentObjects { get; protected set; }
     public EquipmentObject SelectedEquipmentObject => EquipmentObjects[SelectEquipmentID];
     public List<GameObject> lockableTargets { get; protected set; }
-
-    protected Transform bulletsHolder;
+    
     protected float reloadTimer;
     protected Vector3 laserEndPoint;
     protected LineRenderer laserLineRenderer;
     protected ParticleSystem laserImpactEffect;
+
+    bool initialized;
 
     public delegate void ValueChangeDelegate(float curV, float maxV);
     public ValueChangeDelegate OnDurabilityChangedEvent;
@@ -57,23 +59,25 @@ public class Spaceship : MonoBehaviour
     [HideInInspector] public UnityEvent OnDeathEvent;
     [HideInInspector] public UnityEvent OnSwitchEquipmentEvent;
 
+    protected virtual void Awake()
+    {
+        if(!BulletsHolder) BulletsHolder = new GameObject("bullets holder").transform;
+    }
+
     protected virtual void Update()
     {
+        if (!initialized) return;
         if (!SelectedEquipmentObject.Triggerable) SelectedEquipmentObject.UpdateTimer(-Time.deltaTime);
         reloadTimer -= Time.deltaTime;
         if (reloadTimer < 0) {
             ResetEquipmentVolume();
         }
-
-        if(IsDeath&& Input.GetKeyDown(KeyCode.R)) {
-            SceneManager.LoadScene(0);
-        }
     }
 
-    protected virtual void Start()
-    {
-        InitializeStatus();
-    }
+    //protected virtual void Start()
+    //{
+    //    InitializeStatus();
+    //}
 
     public virtual void InitializeStatus()
     {
@@ -82,11 +86,12 @@ public class Spaceship : MonoBehaviour
         EquipmentObjects = new List<EquipmentObject> {
             new EquipmentObject(defaultEquipment.Hash)
         };
-        lockableTargets = new List<GameObject>();
-        bulletsHolder = new GameObject("bullets holder").transform;
+        lockableTargets = new List<GameObject>();       
         State = new TransformState();
         State.SetFromTransform(transform);
         SelectEquipmentID = 0;
+
+        initialized = true;
     }
 
     public virtual void ImpactDurability(float value)
@@ -201,7 +206,7 @@ public class Spaceship : MonoBehaviour
     {
         ImpactEquipmentVolume(-1);
         for (int i = 0; i < shootingStartPoints.childCount; i++) {
-            Instantiate(weapon.bullet.prefab, shootingStartPoints.GetChild(i).position, Quaternion.identity, bulletsHolder).
+            Instantiate(weapon.bullet.prefab, shootingStartPoints.GetChild(i).position, Quaternion.identity, BulletsHolder).
                 GetComponent<BulletController>().InitializeBullet(gameObject.layer, weapon.bullet, shootingStartPoints.forward);
         }
     }
