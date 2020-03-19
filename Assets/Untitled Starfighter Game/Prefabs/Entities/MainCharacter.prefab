@@ -306,15 +306,15 @@ MonoBehaviour:
   highlight: {fileID: 0}
   effects:
     destoryEffect: {fileID: 0}
-  defaultDurability: 1000
+  defaultDurability: 100
   defaultArmour: 0
-  defaultMaxMovementSpeed: 16
+  defaultMaxMovementSpeed: 30
   defaultAcrMovementSpeed: 1
   defaultMaxRotationSpeed: 1
   defaultAcrRotationSpeed: 1
   defaultLockRange: 100
   defaultLockTime: 0.1
-  defaultLockSphereRadius: 50
+  defaultLockSphereRadius: 6
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls: []

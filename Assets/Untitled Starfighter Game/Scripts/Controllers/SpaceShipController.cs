@@ -281,7 +281,8 @@ public class SpaceShipController : MonoBehaviour
                     if (!hasLockedTarget) {
                         hasLockedTarget = true;
                     }
-                    else if (hasWeakPoint) {
+
+                    if (hasWeakPoint) {
                         if(!hit.transform.CompareTag("WeakPoint")|| 
                             Vector3.SqrMagnitude(transform.position - hit.point) >= minDistance) continue;
                     }
@@ -322,5 +323,17 @@ public class SpaceShipController : MonoBehaviour
         movementInput = Vector2.zero;
         viewInput = Vector2.zero;
         accelerateInput = 0;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        DrawGizmos();
+    }
+
+    void DrawGizmos()
+    {
+        Color colour = Color.grey;
+        Gizmos.color = new Color(colour.r, colour.g, colour.b, 0.3f);
+        Gizmos.DrawSphere(transform.position, m_spaceship.defaultLockSphereRadius);
     }
 }
