@@ -24,7 +24,7 @@ public class BoidSchool : MonoBehaviour
     UnityAction updateAction;
     BoidSettings settings;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Boids = new List<Boid>();
     }
