@@ -29,6 +29,12 @@ public class BoidSchool : MonoBehaviour
         Boids = new List<Boid>();
     }
 
+    public void RemoveBoid(Boid boid)
+    {
+        Boids.Remove(boid);
+        updateAction?.Invoke();
+    }
+
     public void RegisterUpdateAction(UnityAction action, BoidSettings settings)
     {
         updateAction = action;
@@ -53,6 +59,7 @@ public class BoidSchool : MonoBehaviour
         for (int i = 0; i < spawnCount; i++) {
             Boid boid = Instantiate(prefab, transform.position, Quaternion.identity);
             boid.gameObject.name += i;
+            boid.GetComponent<EnemyFighter>().RegisterSchool(this);
             boid.Initialize(settings, target);
             Boids.Add(boid);
             yield return new WaitForSeconds(spawnInterval);
@@ -65,6 +72,7 @@ public class BoidSchool : MonoBehaviour
             Vector3 pos = transform.position + Random.insideUnitSphere * spawnRadius;
             Boid boid = Instantiate(prefab);
             boid.gameObject.name += i;
+            boid.GetComponent<EnemyFighter>().RegisterSchool(this);
             boid.transform.position = pos;
             boid.transform.forward = Random.insideUnitSphere;
             boid.Initialize(settings, target);

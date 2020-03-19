@@ -56,6 +56,7 @@ public class Spaceship : MonoBehaviour
     public delegate void ValueChangeDelegate(float curV, float maxV);
     public ValueChangeDelegate OnDurabilityChangedEvent;
     public ValueChangeDelegate OnVolumeChangedEvent;
+    public delegate void SpaceshipDelegate(Spaceship id);
     [HideInInspector] public UnityEvent OnDeathEvent;
     [HideInInspector] public UnityEvent OnSwitchEquipmentEvent;
 

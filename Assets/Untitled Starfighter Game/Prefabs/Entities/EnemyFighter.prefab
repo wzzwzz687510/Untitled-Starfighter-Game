@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6727559726259059433}
   - component: {fileID: 6727559726259059432}
   - component: {fileID: 6727559726259059435}
-  - component: {fileID: 6727559726259059434}
   - component: {fileID: 17810845049663534}
+  - component: {fileID: 1353620714406561168}
   m_Layer: 9
   m_Name: EnemyFighter
   m_TagString: Untagged
@@ -33,6 +33,7 @@ Transform:
   m_Children:
   - {fileID: 6727559726475512432}
   - {fileID: 7527654869630943490}
+  - {fileID: 1697748836325548250}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -66,7 +67,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6727559726259059434
+--- !u!114 &17810845049663534
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,14 +76,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 6727559726259059221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b67d9103f76b55e458842d1b8c23541e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8efc10d4b5c280a4c8ccdab6ac9aab9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0, z: 0}
+  forward: {x: 0, y: 0, z: 0}
+  avgFlockHeading: {x: 0, y: 0, z: 0}
+  avgAvoidanceHeading: {x: 0, y: 0, z: 0}
+  centreOfFlockmates: {x: 0, y: 0, z: 0}
+  numPerceivedFlockmates: 0
+--- !u!114 &1353620714406561168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6727559726259059221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a016afc00d3257f4b9dab9d548e8fb55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   asteroidLayer:
     serializedVersion: 2
     m_Bits: 1024
   laserStartPoint: {fileID: 0}
-  shootingStartPoints: {fileID: 0}
+  shootingStartPoints: {fileID: 1697748836325548250}
   defaultEquipment: {fileID: 11400000, guid: a2f6916b7a59088428dc5ca8424a009f, type: 2}
   highlight: {fileID: 7829055328102747351}
   effects:
@@ -103,24 +122,6 @@ MonoBehaviour:
   OnSwitchEquipmentEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &17810845049663534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6727559726259059221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc10d4b5c280a4c8ccdab6ac9aab9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  position: {x: 0, y: 0, z: 0}
-  forward: {x: 0, y: 0, z: 0}
-  avgFlockHeading: {x: 0, y: 0, z: 0}
-  avgAvoidanceHeading: {x: 0, y: 0, z: 0}
-  centreOfFlockmates: {x: 0, y: 0, z: 0}
-  numPerceivedFlockmates: 0
 --- !u!1 &6727559726475512435
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,6 +152,67 @@ Transform:
   - {fileID: 1740539154284585471}
   m_Father: {fileID: 6727559726259059433}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7952817028767685271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4677095295964338963}
+  m_Layer: 9
+  m_Name: point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4677095295964338963
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7952817028767685271}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 3.21}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1697748836325548250}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8442307360579211463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1697748836325548250}
+  m_Layer: 9
+  m_Name: Shoot Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1697748836325548250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8442307360579211463}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4677095295964338963}
+  m_Father: {fileID: 6727559726259059433}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &322795064
 PrefabInstance:
