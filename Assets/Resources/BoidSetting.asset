@@ -9,21 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: DefaultBoidSetting
+  m_Script: {fileID: 11500000, guid: a3c5bc5fe5cc7ab47a9de73e7b1392f7, type: 3}
+  m_Name: BoidSetting
   m_EditorClassIdentifier: Assembly-CSharp::BoidSettings
-  minSpeed: 10
-  maxSpeed: 30
-  perceptionRadius: 10
-  avoidanceRadius: 20
-  maxSteerForce: 3
-  alignWeight: 2
-  cohesionWeight: 1
+  minSpeed: 20
+  maxSpeed: 24
+  perceptionRadius: 25
+  avoidanceRadius: 10
+  maxSteerForce: 5
+  alignWeight: 1
+  cohesionWeight: 2
   seperateWeight: 2.5
-  targetWeight: 2
+  targetWeight: 2.5
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 1281
-  boundsRadius: 5
+    m_Bits: 257
+  boundsRadius: 0.8
   avoidCollisionWeight: 20
   collisionAvoidDst: 5

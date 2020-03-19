@@ -67,7 +67,7 @@
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Boids\BoidHelper.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Boids\BoidManager.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Boids\BoidSchool.cs" />
-    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Boids\BoidSetting.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Boids\BoidSettings.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Controllers\BulletController.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Controllers\SpaceShipController.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Controllers\SpaceShipInputActions.cs" />

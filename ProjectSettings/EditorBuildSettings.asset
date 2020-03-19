@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Untitled Starfighter Game/Scenes/StartScene.unity
     guid: b295d6f8ffaf42e48aeeefa0205d7326
   - enabled: 1
-    path: Assets/Untitled Starfighter Game/Scenes/GameScene.unity
-    guid: 1a45f216ad312d342a15adc1404e8305
+    path: Assets/Untitled Starfighter Game/Scenes/VerticalSliceScene.unity
+    guid: 2ca20c0f475bcb54487c0c77f9ce5da2
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 15982da0a4d7d0746819847f4302d584,
       type: 2}

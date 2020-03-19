@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -16089,7 +16089,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595401123}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4, y: 52, z: -240}
+  m_LocalPosition: {x: -17, y: 52, z: -236}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -36297,7 +36297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57737904436e5d41a261929983dc631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: b39f779cc84296746838158b3361dc5a, type: 2}
+  settings: {fileID: 11400000, guid: a09b5789a11c37d47bd8596f93d3dbe7, type: 2}
   compute: {fileID: 7200000, guid: c51b961c8b9d746f1a2f242fa7bf1a31, type: 3}
 --- !u!114 &1239339468
 MonoBehaviour:
@@ -36324,7 +36324,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1239402635
 GameObject:
@@ -42221,6 +42221,11 @@ PrefabInstance:
       propertyPath: defaultDurability
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6833587217621361569, guid: d361903a8dff74d43a4382f1a404c2f0,
+        type: 3}
+      propertyPath: asteroidLayer.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 6833587217621361574, guid: d361903a8dff74d43a4382f1a404c2f0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -42259,7 +42264,7 @@ PrefabInstance:
     - target: {fileID: 6833587217621361574, guid: d361903a8dff74d43a4382f1a404c2f0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6833587217621361574, guid: d361903a8dff74d43a4382f1a404c2f0,
         type: 3}
