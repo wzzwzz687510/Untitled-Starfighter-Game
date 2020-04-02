@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 8d409a87c76f69b429c7f21c0b9ce2ff
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Baloo Tamma 2
+  fontNames:
+  - Baloo Tamma 2
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: d657c4b3da9c6214894d3e355a65d84a, type: 3}
+  - {fileID: 12800000, guid: 9a85d8ba22549f347a58d188ba6f8b88, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
