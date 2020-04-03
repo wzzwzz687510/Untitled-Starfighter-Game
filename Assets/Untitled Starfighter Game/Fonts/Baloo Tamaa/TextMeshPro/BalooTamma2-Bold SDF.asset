@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: BalooTamma2-Bold SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -1203459408
   material: {fileID: 2596464261285552440}
-  materialHashCode: 0
+  materialHashCode: 281724475
   m_Version: 1.1.0
   m_SourceFontFileGUID: d657c4b3da9c6214894d3e355a65d84a
   m_SourceFontFile_EditorRef: {fileID: 0}

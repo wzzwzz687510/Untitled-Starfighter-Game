@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI durabilityText;
     public TextMeshProUGUI volumeText;
     public TextMeshProUGUI resourceText;
+    public TextMeshProUGUI CountdownTextElement;
     public Slider resourceSlider;
     public Toggle[] ammoGroup;
     public Image[] selectBG;
@@ -24,6 +25,14 @@ public class UIManager : MonoBehaviour
     public GameObject laserUI;
     public GameObject upgradeUI;
     public GameObject reloadUI;
+    public GameObject pauseMenuGUI;
+    public GameObject inGameGUI;
+
+    private float countdownTimeInSeconds = 7.5f;
+
+    public static bool GameIsPaused = false;
+
+    private float currentTime;
 
     public int SelectID { get; private set; }
 
@@ -36,9 +45,31 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Player.IsDeath && Input.GetKeyDown(KeyCode.R)) {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+          if (GameIsPaused)
+          {
+            Resume();
+          }
+          else
+          {
+            Pause();
+          }
+        }
+        else if (Player.IsDeath && Input.GetKeyDown(KeyCode.R)) {
             SceneManager.LoadScene(0);
         }
+    }
+
+    private void LateUpdate()
+    {
+      if(currentTime>0) {
+        currentTime -= 1 * Time.deltaTime;
+        CountdownTextElement.text = currentTime.ToString ("f1");
+          if (currentTime <= 0) {
+          //Do something.
+          Debug.Log("COUNTDOWN FINISHED!");
+        }
+      }
     }
 
     public void Start()
@@ -49,6 +80,7 @@ public class UIManager : MonoBehaviour
         Player.OnBoundaryEvent.AddListener(UpdateOutsideWarningUI);
         Player.OnDeathEvent.AddListener(DisplayLosePage);
         Player.OnSwitchEquipmentEvent.AddListener(UpdateEquipmentUI);
+        currentTime = countdownTimeInSeconds;
     }
 
     public void SetReload()
@@ -131,4 +163,21 @@ public class UIManager : MonoBehaviour
             SelectID = 2;
         ChangeSelectBG();
     }
+
+    private void Pause()
+    {
+      inGameGUI.SetActive(false);
+      pauseMenuGUI.SetActive(true);
+      Time.timeScale = 0;
+      GameIsPaused = true;
+    }
+
+    private void Resume()
+    {
+      pauseMenuGUI.SetActive(false);
+      inGameGUI.SetActive(true);
+      Time.timeScale = 1;
+      GameIsPaused = false;
+    }
+
 }

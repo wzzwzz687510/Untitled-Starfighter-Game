@@ -6,21 +6,20 @@ using TMPro;
 public class DialogueType : MonoBehaviour
 {
   public TextMeshProUGUI textDisplay;
-  public string[] sentence;
+  public string[] dialogueLines;
   private int index;
   public float typingSpeed;
 
-    // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Type());
+      StartCoroutine(LetterType());
     }
 
-    IEnumerator Type()
+    IEnumerator LetterType()
     {
-      yield return new WaitForSeconds(3.75f);
+      yield return new WaitForSeconds(3.75f); //Waiting for dialogue anim to finish.
 
-      foreach(char letter in sentence[index].ToCharArray())
+      foreach(char letter in dialogueLines[index].ToCharArray())
       {
         textDisplay.text += letter;
         yield return new WaitForSeconds(typingSpeed);
