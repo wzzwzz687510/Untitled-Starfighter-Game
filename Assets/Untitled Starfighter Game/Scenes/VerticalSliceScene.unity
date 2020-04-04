@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2943,7 +2943,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98155963}
-  m_LocalRotation: {x: -0.00000008295486, y: -1, z: 1e-45, w: -1e-45}
+  m_LocalRotation: {x: -0.00000008295486, y: -1, z: -3e-45, w: -1e-45}
   m_LocalPosition: {x: 0, y: 3, z: 12}
   m_LocalScale: {x: 0.1, y: 0.10000002, z: 0.100000024}
   m_Children: []
@@ -5275,7 +5275,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 178002134}
-  m_LocalRotation: {x: -0.00000008295486, y: -1, z: 1e-45, w: -1e-45}
+  m_LocalRotation: {x: -0.00000008295486, y: -1, z: -3e-45, w: -1e-45}
   m_LocalPosition: {x: 0, y: 3, z: 12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -18719,6 +18719,7 @@ MonoBehaviour:
   durabilityText: {fileID: 1263689411}
   volumeText: {fileID: 627916804}
   resourceText: {fileID: 1361317964}
+  CountdownTextElement: {fileID: 0}
   resourceSlider: {fileID: 147709995}
   ammoGroup:
   - {fileID: 221698570}
@@ -18761,6 +18762,8 @@ MonoBehaviour:
   laserUI: {fileID: 762548502}
   upgradeUI: {fileID: 896620605}
   reloadUI: {fileID: 1379902223}
+  pauseMenuGUI: {fileID: 0}
+  inGameGUI: {fileID: 0}
 --- !u!4 &654708391
 Transform:
   m_ObjectHideFlags: 0
