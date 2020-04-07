@@ -6,10 +6,16 @@ public class EnemyFighter : Spaceship
 {
     BoidSchool school;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     public void RegisterSchool(BoidSchool school)
     {
         this.school = school;
-        InitializeStatus();
+
+        base.InitializeDefaultParameters();
     }
 
     protected override void OnDestoryed()
@@ -22,7 +28,7 @@ public class EnemyFighter : Spaceship
     protected override void Update()
     {
         base.Update();
-        if (Vector3.Distance(PlayerSpaceship.MainCharacter.transform.position, transform.position) < defaultLockRange) Shoot();
+        if (Vector3.Distance(PlayerSpaceship.MainCharacter.transform.position, transform.position) < defaultLockRange) TryShoot();
     }
 
 }

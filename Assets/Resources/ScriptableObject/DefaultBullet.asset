@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DefaultBullet
   m_EditorClassIdentifier: 
   damage: 1
-  speed: 50
+  speed: 100
   lifeTime: 10
   prefab: {fileID: 5140894681501802951, guid: b0edbf5f7e403014893c6f052c7ee34f, type: 3}

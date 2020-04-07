@@ -2,44 +2,104 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : Spaceship
+public class Turret : ArmedObject
 {
+
+    [Header("Rotation Part")]
+    public Transform horizontalPart;
+    public Transform verticalPart;
+
     [Header("Turret Parameters")]
+    public bool isIsolated;
+    public bool isTest;
     public float detectRange = 100;
+    public float defaultMaxRotationSpeed = 10;
+    public Transform target;
 
-    private Vector3 predictionTarget;
+    public bool LockingTarget { get; protected set; }
+
+    protected float horizontalAngle;
+    protected float verticalAngle;
+
+    private Vector3 predictionPosition;
+    private Vector3 targetDirection;
+    private Vector3 aimingDirection;
     private float distance;
-    private float angle;
+    private float deltaAngle;
+    private bool lockable;
 
-    private void Awake()
+    public void PrepareShooting()
     {
-        InitializeStatus();
+        if (isTest) {
+            targetDirection = (target.position - shootStartPoints.position).normalized;
+            deltaAngle = Vector3.Angle(targetDirection, aimingDirection);
+            LockingTarget = deltaAngle < 1;
+            lockable = Vector3.Dot(targetDirection, transform.up) >= 0;
+        }
+        else {
+            CalculatePredictionPosition();
+        }
+
+        if (LockingTarget) {
+            base.TryShoot();
+        }
+        else {
+            if (lockable) RotateTurret(); // Try to lock the target.
+
+            // Set each part local rotation
+            horizontalPart.localEulerAngles = new Vector3(0, horizontalAngle, 0);
+            verticalPart.localEulerAngles = new Vector3(verticalAngle, 0, 0);
+        }
+        //Debug.DrawLine(shootStartPoints.position, shootStartPoints.position + 3*aimingDirection);
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    protected override void InitializeDefaultParameters()
+    {
+        base.InitializeDefaultParameters();
+
+        aimingDirection = shootStartPoints.forward;
     }
 
     private void FixedUpdate()
     {
-        distance = Vector3.Distance(transform.position, PlayerSpaceship.MainCharacter.transform.position);
+        if (!isIsolated) return;
+        CalculateDistanceBetweenTarget();
         if (distance < detectRange) {
             //Debug.Log("Player Enter Attack Zone");
-            TryShoot();
+            PrepareShooting();
         }        
     }
 
-    private void TryShoot()
+    private void CalculateDistanceBetweenTarget()
     {
-        predictionTarget = PlayerSpaceship.MainCharacter.transform.position + 
-            PlayerSpaceship.MainCharacter.transform.forward * 
+        distance = Vector3.Distance(shootStartPoints.position, PlayerSpaceship.MainCharacter.transform.position);
+    }
+
+    private void CalculatePredictionPosition()
+    {
+        predictionPosition = PlayerSpaceship.MainCharacter.transform.position +
+            PlayerSpaceship.MainCharacter.transform.forward *
             PlayerSpaceship.MainCharacter.Controller.CurrentSpeed *
-            (distance/(SelectedEquipmentObject.Template as Weapon).bullet.speed);
+            (distance / (MainEquipment.Template as Weapon).bullet.speed);
 
-        Vector3 direction = (predictionTarget - transform.position).normalized;
-        angle = Vector3.Angle(direction, shootingStartPoints.forward);
+        targetDirection = (predictionPosition - shootStartPoints.position).normalized;
+        deltaAngle = Vector3.Angle(targetDirection, aimingDirection);
 
-        if (angle < 1) Shoot();
-        else {
-            var lookatDir = Vector3.RotateTowards(shootingStartPoints.forward, direction, defaultMaxRotationSpeed * Time.deltaTime / angle,1);
-            shootingStartPoints.LookAt(transform.position+lookatDir);
-        }
+        LockingTarget = deltaAngle < 1;
+        lockable = Vector3.Dot(targetDirection, transform.up) >= 0;
+    }
+
+    private void RotateTurret()
+    {
+        aimingDirection = Vector3.RotateTowards(aimingDirection, targetDirection, defaultMaxRotationSpeed * Time.deltaTime / deltaAngle, 1);
+        Vector3 projectV = Vector3.ProjectOnPlane(aimingDirection, transform.up);
+        horizontalAngle = (Vector3.Dot(transform.right, aimingDirection) > 0 ? 1 : -1) * Vector3.Angle(transform.forward, projectV);
+        verticalAngle = -Vector3.Angle(projectV, aimingDirection);     
     }
 
     protected override void OnDestoryed()

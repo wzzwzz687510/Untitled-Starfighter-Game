@@ -22,14 +22,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Look",
-                    "type": "Button",
-                    "id": "2e124168-4701-46d9-8b38-bf3525d828f4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Fire",
                     "type": "Button",
                     "id": "da4cfab8-4d9a-48d5-a63b-2d6e61662b52",
@@ -46,7 +38,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Build",
+                    "name": "Upgrade",
                     "type": "Button",
                     "id": "2e61edd7-fb4a-4859-ae1d-eb170c02f142",
                     "expectedControlType": "",
@@ -70,7 +62,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "SwitchEquipment",
+                    "name": "D-Pad",
                     "type": "Button",
                     "id": "9539f1e8-893e-42bf-a9a3-1528a30aded2",
                     "expectedControlType": "",
@@ -89,6 +81,14 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "a5956dfb-8f23-4b90-84ea-3d9cc2e6f56a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SpeedBoost",
+                    "type": "Button",
+                    "id": "d0754c16-57eb-4c1d-b5e6-f494f2a122ad",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
@@ -217,61 +217,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "2D Vector",
-                    "id": "a752b6dd-b2e1-4e2e-a8bb-2cfb74035480",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "d48d2d98-60e9-46dd-a1ef-d6d383e3c31d",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyBoard",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "bab6308c-2197-4151-8ebd-e393d7c27a8e",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyBoard",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "382359c9-1944-417d-9ae2-9f26e4cbc29c",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyBoard",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "ecac2350-0249-41b6-a77b-799d5474d21d",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyBoard",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "3c0c9578-eec7-4d0d-b6c2-20a965f7fae0",
                     "path": "<XInputController>/rightTrigger",
@@ -316,37 +261,15 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
-                    "id": "4c7c5039-79e1-4eae-91c8-66a3d7ab9f6f",
-                    "path": "1DAxis",
+                    "name": "",
+                    "id": "0ec3223e-8ca2-4a33-b9f5-150951ef4dcd",
+                    "path": "<XInputController>/leftStick/y",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "Accelerate",
-                    "isComposite": true,
+                    "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "ba1190ad-89b7-488e-802b-6199a69f01dc",
-                    "path": "<XInputController>/leftStick/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Accelerate",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "35359dec-368b-4fd4-b241-7b040f8885c1",
-                    "path": "<XInputController>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Accelerate",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -355,7 +278,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Build",
+                    "action": "Upgrade",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -366,7 +289,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyBoard",
-                    "action": "Build",
+                    "action": "Upgrade",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -437,37 +360,15 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
-                    "id": "263b5de8-28a6-4312-9cb8-85acf9f90069",
-                    "path": "1DAxis",
+                    "name": "",
+                    "id": "f398f9a9-fe6f-4d89-91f8-bfe7e95aad05",
+                    "path": "<XInputController>/dpad",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SwitchEquipment",
-                    "isComposite": true,
+                    "groups": "Gamepad",
+                    "action": "D-Pad",
+                    "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "3183be28-cb98-4dd6-aa61-4165ebfe6917",
-                    "path": "<XInputController>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "SwitchEquipment",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "e7664d4e-246f-47d2-bb9c-fc06ebffefab",
-                    "path": "<XInputController>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "SwitchEquipment",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -488,6 +389,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b78099bb-182c-4984-90d6-ef1abbc5ecbb",
+                    "path": "<XInputController>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SpeedBoost",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

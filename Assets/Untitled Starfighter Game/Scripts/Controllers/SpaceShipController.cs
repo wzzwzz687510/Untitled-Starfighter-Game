@@ -88,10 +88,17 @@ public class SpaceShipController : MonoBehaviour
     [Range(0.001f, 1f)] public float viewpointLerpTime = 0.2f;
     [Range(0.001f, 90f)] public float maxRotationAngle = 85f;
     public float dodgeDistance = 10;
-    public GameObject engineEffects;
+    public float dodgeInterval = 1;
     public Transform lookatPoint;
     public PlayerSpaceship m_spaceship;
     public Camera viewCamera;
+
+    [Header("Particles")]
+    public GameObject engineEffects;
+    public GameObject dodgeEffect;
+    public GameObject boostHolder;
+    public GameObject trailsHolder;
+    public ParticleSystem[] preSpeedUp;
 
     public float CurrentSpeed { get; private set; }
 
@@ -104,10 +111,15 @@ public class SpaceShipController : MonoBehaviour
     bool rightStickInput;
     Vector2 viewInput;
     float accelerateInput;
+    float BoostInput;
     bool fireInput;
     bool dodgeInput;
     bool switchEquipmentInput;
-    bool buildInput;
+    bool upgradeInput;
+    bool boosting;
+
+    float spaceshipDefaultMaxSpeed;
+    float dodgeTimer;
 
     TransformState m_TargetState;
 
@@ -121,40 +133,42 @@ public class SpaceShipController : MonoBehaviour
         inputActions.PlayerControls.Move.started += ctx => rightStickInput = true;
         inputActions.PlayerControls.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
         inputActions.PlayerControls.Move.canceled += ctx => { movementInput = Vector2.zero; rightStickInput = false; };
-        //inputActions.PlayerControls.Look.performed += ctx => viewInput = ctx.ReadValue<Vector2>();
-        //inputActions.PlayerControls.Look.canceled += ctx => viewInput = Vector2.zero;
         inputActions.PlayerControls.Accelerate.performed += ctx => accelerateInput = ctx.ReadValue<float>();
         inputActions.PlayerControls.Accelerate.canceled += ctx => accelerateInput = 0;
+        inputActions.PlayerControls.SpeedBoost.performed += ctx => BoostInput = ctx.ReadValue<float>();
+        inputActions.PlayerControls.SpeedBoost.canceled += ctx => BoostInput = 0;
         inputActions.PlayerControls.Fire.performed += ctx => fireInput = true;
         inputActions.PlayerControls.Fire.canceled += ctx => fireInput = false;
         inputActions.PlayerControls.Reload.started += ctx => m_spaceship.Reload();
-        inputActions.PlayerControls.Build.performed += ctx => { buildInput = !buildInput; UIManager.Instance.upgradeUI.SetActive(buildInput); };
-        inputActions.PlayerControls.SwitchEquipment.started += ctx => {
-            if (!buildInput) {
+        inputActions.PlayerControls.Upgrade.performed += ctx => { upgradeInput = !upgradeInput; UIManager.Instance.DisplayUpgradePage(upgradeInput); };
+        inputActions.PlayerControls.DPad.started += ctx => {
+            if (!upgradeInput) {
                 switchEquipmentInput = !switchEquipmentInput;
                 m_spaceship.SwitchEquipment(switchEquipmentInput ? 1 : 0);
             }
             else {
-                if (ctx.ReadValue<float>() == 1)
+                if (ctx.ReadValue<Vector2>().x == 1)
                     UIManager.Instance.SetNextID();
-                else if (ctx.ReadValue<float>() == -1)
+                else if (ctx.ReadValue<Vector2>().x == -1)
                     UIManager.Instance.SetLastID();
             }
         };
-        inputActions.PlayerControls.Dodge.performed += ctx => { if (!dodgeInput) StartCoroutine(DodgeAction()); };
+        inputActions.PlayerControls.Dodge.performed += ctx => { if (!dodgeInput && dodgeTimer<0) StartCoroutine(DodgeAction()); };
         inputActions.PlayerControls.Confirm.performed += ctx => {
-            if (buildInput) {
+            if (upgradeInput) {
                 ApplyUpgrade(UIManager.Instance.SelectID);
             }
         };
         inputActions.PlayerControls.Cancel.performed += ctx => {
-            if (buildInput) {
-                buildInput = false;
-                UIManager.Instance.upgradeUI.SetActive(buildInput);
+            if (upgradeInput) {
+                upgradeInput = false;
+                UIManager.Instance.upgradeUI.SetActive(upgradeInput);
             }
         };
 
         m_TargetState = new TransformState();
+        dodgeEffect.transform.parent = null;
+        spaceshipDefaultMaxSpeed = m_spaceship.defaultMaxMovementSpeed;
         //m_TargetLookatPointState = new TransformState();
         //m_InterpolatingLookatPointState = new TransformState();
     }
@@ -175,14 +189,25 @@ public class SpaceShipController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        dodgeTimer -= Time.deltaTime;
         DetectLockableTargets();
-        if (fireInput) m_spaceship.Shoot();
+        if (fireInput) m_spaceship.OnFireInput();
         else m_spaceship.StopLaser();
         if (accelerateInput == 0 && CurrentSpeed != 0) {
             if (CurrentSpeed > 0) CurrentSpeed = Mathf.Max(0, CurrentSpeed - Time.deltaTime * MaxMovementSpeed);
             else CurrentSpeed = Mathf.Min(0, CurrentSpeed + Time.deltaTime * MaxMovementSpeed);
         }
-        //TranslateViewpoint(viewInput);
+        if (BoostInput != 0 && !boosting) {
+            boostHolder.SetActive(false);
+            trailsHolder.SetActive(false);
+            StopCoroutine(DisplayBoostEffect());
+            StartCoroutine(DisplayBoostEffect());
+        }
+        else if(BoostInput == 0) {
+            m_spaceship.defaultMaxMovementSpeed = Mathf.Max(spaceshipDefaultMaxSpeed, MaxMovementSpeed - Time.deltaTime * 100);
+            boostHolder.SetActive(false);
+            boosting = false;
+        }
         RotateSpaceship(movementInput);
         TranslateSpaceship();
 
@@ -214,6 +239,25 @@ public class SpaceShipController : MonoBehaviour
     //    m_TargetLookatPointState.y = dir.y;
     //}
 
+    IEnumerator DisplayBoostEffect()
+    {
+        boosting = true;
+
+        boostHolder.SetActive(true);
+
+        foreach (ParticleSystem part in preSpeedUp) {
+            part.Play();
+        }
+
+        yield return new WaitForSeconds(1);
+
+        m_TargetState.Translate(Vector3.forward * 1);
+        m_spaceship.defaultMaxMovementSpeed = 80;
+
+        trailsHolder.SetActive(true);
+
+    }
+
     private void RotateSpaceship(Vector2 input)
     {
         shipAnimator.SetFloat("Horizontal", input.x);
@@ -239,13 +283,19 @@ public class SpaceShipController : MonoBehaviour
     IEnumerator DodgeAction()
     {
         dodgeInput = true;
-        m_TargetState.Translate(movementInput.x * dodgeDistance * Vector3.right);
+        dodgeTimer = dodgeInterval;
+        dodgeEffect.transform.position = transform.position;
+        dodgeEffect.transform.rotation = transform.rotation;
+        dodgeEffect.SetActive(true);
+        //float dir = movementInput.x == 0 ? 1 : movementInput.x;
+        m_TargetState.Translate(dodgeDistance * movementInput);
         m_spaceship.SetInvincible(true);
-        shipAnimator.SetFloat("AnimSpeed", 1/m_spaceship.dodgeTime);
+        //shipAnimator.SetFloat("AnimSpeed", 1/m_spaceship.dodgeTime);
         shipAnimator.SetTrigger("Dodge");        
         yield return new WaitForSeconds(m_spaceship.dodgeTime);
-        shipAnimator.SetFloat("AnimSpeed", 1);
+        //shipAnimator.SetFloat("AnimSpeed", 1);
         m_spaceship.SetInvincible(false);
+        dodgeEffect.SetActive(false);
         dodgeInput = false;
     }
 
@@ -259,8 +309,15 @@ public class SpaceShipController : MonoBehaviour
         bool hasLockedTarget = false;
         if (hits.Length != 0) {
             var newDic = new Dictionary<int, AimedTarget>();
+
+            //Debug.Log("-------------------------------");
+            //foreach (var hit in hits) {              
+            //    Debug.Log(hit.collider.gameObject.name);
+            //}
+            //Debug.Log("-------------------------------");
+
             foreach (var hit in hits) {
-                int hash = hit.transform.name.GetStableHashCode();
+                int hash = hit.collider.gameObject.name.GetStableHashCode();
                 if (aimDic.ContainsKey(hash)) {
                     aimDic[hash].UpdateTimer(Time.deltaTime);
                     newDic.Add(hash, new AimedTarget(aimDic[hash].Timer));
@@ -276,7 +333,7 @@ public class SpaceShipController : MonoBehaviour
             float targetHash = 0;
             bool hasWeakPoint = false;
             foreach (var hit in hits) {              
-                int hash = hit.transform.name.GetStableHashCode();
+                int hash = hit.collider.gameObject.name.GetStableHashCode();
                 if (aimDic[hash].Timer > m_spaceship.defaultLockTime) {
                     if (!hasLockedTarget) {
                         hasLockedTarget = true;
@@ -291,18 +348,18 @@ public class SpaceShipController : MonoBehaviour
                         else if(Vector3.SqrMagnitude(transform.position - hit.point) >= minDistance) continue;
                     }
 
-                    m_spaceship.SetShootTargetPosition(true, hit.transform.GetComponent<Spaceship>());
+                    m_spaceship.SetShootTargetPosition(true, hit.collider.gameObject.GetComponent<EntityObject>());
                     minDistance = Vector3.SqrMagnitude(transform.position - hit.point);
                     targetHash = hash;
                 }
             }
         }
-        else {
-            var colliders = Physics.OverlapSphere(transform.position, m_spaceship.defaultLockSphereRadius, enemyLayer);
-            if (hits.Length != 0) {
-                Debug.Log(111);
-            }
-        }
+        //else {
+        //    var colliders = Physics.OverlapSphere(transform.position, m_spaceship.defaultLockSphereRadius, enemyLayer);
+        //    if (hits.Length != 0) {
+        //        Debug.Log(111);
+        //    }
+        //}
 
         if (!hasLockedTarget) {
             m_spaceship.SetShootTargetPosition(false, null);

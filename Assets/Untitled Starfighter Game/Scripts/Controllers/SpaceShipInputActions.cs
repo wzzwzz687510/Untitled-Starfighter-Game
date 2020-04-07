@@ -35,14 +35,6 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Look"",
-                    ""type"": ""Button"",
-                    ""id"": ""2e124168-4701-46d9-8b38-bf3525d828f4"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Fire"",
                     ""type"": ""Button"",
                     ""id"": ""da4cfab8-4d9a-48d5-a63b-2d6e61662b52"",
@@ -59,7 +51,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Build"",
+                    ""name"": ""Upgrade"",
                     ""type"": ""Button"",
                     ""id"": ""2e61edd7-fb4a-4859-ae1d-eb170c02f142"",
                     ""expectedControlType"": """",
@@ -83,7 +75,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""SwitchEquipment"",
+                    ""name"": ""D-Pad"",
                     ""type"": ""Button"",
                     ""id"": ""9539f1e8-893e-42bf-a9a3-1528a30aded2"",
                     ""expectedControlType"": """",
@@ -102,6 +94,14 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""a5956dfb-8f23-4b90-84ea-3d9cc2e6f56a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SpeedBoost"",
+                    ""type"": ""Button"",
+                    ""id"": ""d0754c16-57eb-4c1d-b5e6-f494f2a122ad"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -230,61 +230,6 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""a752b6dd-b2e1-4e2e-a8bb-2cfb74035480"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""d48d2d98-60e9-46dd-a1ef-d6d383e3c31d"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyBoard"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""bab6308c-2197-4151-8ebd-e393d7c27a8e"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyBoard"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""382359c9-1944-417d-9ae2-9f26e4cbc29c"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyBoard"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""ecac2350-0249-41b6-a77b-799d5474d21d"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyBoard"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""3c0c9578-eec7-4d0d-b6c2-20a965f7fae0"",
                     ""path"": ""<XInputController>/rightTrigger"",
@@ -329,37 +274,15 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""4c7c5039-79e1-4eae-91c8-66a3d7ab9f6f"",
-                    ""path"": ""1DAxis"",
+                    ""name"": """",
+                    ""id"": ""0ec3223e-8ca2-4a33-b9f5-150951ef4dcd"",
+                    ""path"": ""<XInputController>/leftStick/y"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Accelerate"",
-                    ""isComposite"": true,
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""ba1190ad-89b7-488e-802b-6199a69f01dc"",
-                    ""path"": ""<XInputController>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Accelerate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""35359dec-368b-4fd4-b241-7b040f8885c1"",
-                    ""path"": ""<XInputController>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Accelerate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -368,7 +291,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Build"",
+                    ""action"": ""Upgrade"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -379,7 +302,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyBoard"",
-                    ""action"": ""Build"",
+                    ""action"": ""Upgrade"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -450,37 +373,15 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""263b5de8-28a6-4312-9cb8-85acf9f90069"",
-                    ""path"": ""1DAxis"",
+                    ""name"": """",
+                    ""id"": ""f398f9a9-fe6f-4d89-91f8-bfe7e95aad05"",
+                    ""path"": ""<XInputController>/dpad"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwitchEquipment"",
-                    ""isComposite"": true,
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""D-Pad"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""3183be28-cb98-4dd6-aa61-4165ebfe6917"",
-                    ""path"": ""<XInputController>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""SwitchEquipment"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""e7664d4e-246f-47d2-bb9c-fc06ebffefab"",
-                    ""path"": ""<XInputController>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""SwitchEquipment"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -501,6 +402,17 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b78099bb-182c-4984-90d6-ef1abbc5ecbb"",
+                    ""path"": ""<XInputController>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SpeedBoost"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -541,15 +453,15 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         m_PlayerControls = asset.FindActionMap("Player Controls", throwIfNotFound: true);
         m_PlayerControls_MoveHorizontal = m_PlayerControls.FindAction("MoveHorizontal", throwIfNotFound: true);
         m_PlayerControls_Move = m_PlayerControls.FindAction("Move", throwIfNotFound: true);
-        m_PlayerControls_Look = m_PlayerControls.FindAction("Look", throwIfNotFound: true);
         m_PlayerControls_Fire = m_PlayerControls.FindAction("Fire", throwIfNotFound: true);
         m_PlayerControls_Accelerate = m_PlayerControls.FindAction("Accelerate", throwIfNotFound: true);
-        m_PlayerControls_Build = m_PlayerControls.FindAction("Build", throwIfNotFound: true);
+        m_PlayerControls_Upgrade = m_PlayerControls.FindAction("Upgrade", throwIfNotFound: true);
         m_PlayerControls_Dodge = m_PlayerControls.FindAction("Dodge", throwIfNotFound: true);
         m_PlayerControls_Reload = m_PlayerControls.FindAction("Reload", throwIfNotFound: true);
-        m_PlayerControls_SwitchEquipment = m_PlayerControls.FindAction("SwitchEquipment", throwIfNotFound: true);
+        m_PlayerControls_DPad = m_PlayerControls.FindAction("D-Pad", throwIfNotFound: true);
         m_PlayerControls_Confirm = m_PlayerControls.FindAction("Confirm", throwIfNotFound: true);
         m_PlayerControls_Cancel = m_PlayerControls.FindAction("Cancel", throwIfNotFound: true);
+        m_PlayerControls_SpeedBoost = m_PlayerControls.FindAction("SpeedBoost", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -601,30 +513,30 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
     private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
     private readonly InputAction m_PlayerControls_MoveHorizontal;
     private readonly InputAction m_PlayerControls_Move;
-    private readonly InputAction m_PlayerControls_Look;
     private readonly InputAction m_PlayerControls_Fire;
     private readonly InputAction m_PlayerControls_Accelerate;
-    private readonly InputAction m_PlayerControls_Build;
+    private readonly InputAction m_PlayerControls_Upgrade;
     private readonly InputAction m_PlayerControls_Dodge;
     private readonly InputAction m_PlayerControls_Reload;
-    private readonly InputAction m_PlayerControls_SwitchEquipment;
+    private readonly InputAction m_PlayerControls_DPad;
     private readonly InputAction m_PlayerControls_Confirm;
     private readonly InputAction m_PlayerControls_Cancel;
+    private readonly InputAction m_PlayerControls_SpeedBoost;
     public struct PlayerControlsActions
     {
         private @SpaceShipInputActions m_Wrapper;
         public PlayerControlsActions(@SpaceShipInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @MoveHorizontal => m_Wrapper.m_PlayerControls_MoveHorizontal;
         public InputAction @Move => m_Wrapper.m_PlayerControls_Move;
-        public InputAction @Look => m_Wrapper.m_PlayerControls_Look;
         public InputAction @Fire => m_Wrapper.m_PlayerControls_Fire;
         public InputAction @Accelerate => m_Wrapper.m_PlayerControls_Accelerate;
-        public InputAction @Build => m_Wrapper.m_PlayerControls_Build;
+        public InputAction @Upgrade => m_Wrapper.m_PlayerControls_Upgrade;
         public InputAction @Dodge => m_Wrapper.m_PlayerControls_Dodge;
         public InputAction @Reload => m_Wrapper.m_PlayerControls_Reload;
-        public InputAction @SwitchEquipment => m_Wrapper.m_PlayerControls_SwitchEquipment;
+        public InputAction @DPad => m_Wrapper.m_PlayerControls_DPad;
         public InputAction @Confirm => m_Wrapper.m_PlayerControls_Confirm;
         public InputAction @Cancel => m_Wrapper.m_PlayerControls_Cancel;
+        public InputAction @SpeedBoost => m_Wrapper.m_PlayerControls_SpeedBoost;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -640,33 +552,33 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMove;
-                @Look.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLook;
-                @Look.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLook;
-                @Look.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLook;
                 @Fire.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnFire;
                 @Accelerate.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAccelerate;
                 @Accelerate.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAccelerate;
                 @Accelerate.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAccelerate;
-                @Build.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBuild;
-                @Build.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBuild;
-                @Build.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBuild;
+                @Upgrade.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnUpgrade;
+                @Upgrade.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnUpgrade;
+                @Upgrade.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnUpgrade;
                 @Dodge.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDodge;
                 @Dodge.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDodge;
                 @Dodge.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDodge;
                 @Reload.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnReload;
                 @Reload.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnReload;
                 @Reload.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnReload;
-                @SwitchEquipment.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
-                @SwitchEquipment.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
-                @SwitchEquipment.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
+                @DPad.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPad;
+                @DPad.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPad;
+                @DPad.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPad;
                 @Confirm.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnConfirm;
                 @Confirm.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnConfirm;
                 @Confirm.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnConfirm;
                 @Cancel.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnCancel;
                 @Cancel.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnCancel;
                 @Cancel.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnCancel;
+                @SpeedBoost.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSpeedBoost;
+                @SpeedBoost.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSpeedBoost;
+                @SpeedBoost.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSpeedBoost;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -677,33 +589,33 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Look.started += instance.OnLook;
-                @Look.performed += instance.OnLook;
-                @Look.canceled += instance.OnLook;
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
                 @Accelerate.started += instance.OnAccelerate;
                 @Accelerate.performed += instance.OnAccelerate;
                 @Accelerate.canceled += instance.OnAccelerate;
-                @Build.started += instance.OnBuild;
-                @Build.performed += instance.OnBuild;
-                @Build.canceled += instance.OnBuild;
+                @Upgrade.started += instance.OnUpgrade;
+                @Upgrade.performed += instance.OnUpgrade;
+                @Upgrade.canceled += instance.OnUpgrade;
                 @Dodge.started += instance.OnDodge;
                 @Dodge.performed += instance.OnDodge;
                 @Dodge.canceled += instance.OnDodge;
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
-                @SwitchEquipment.started += instance.OnSwitchEquipment;
-                @SwitchEquipment.performed += instance.OnSwitchEquipment;
-                @SwitchEquipment.canceled += instance.OnSwitchEquipment;
+                @DPad.started += instance.OnDPad;
+                @DPad.performed += instance.OnDPad;
+                @DPad.canceled += instance.OnDPad;
                 @Confirm.started += instance.OnConfirm;
                 @Confirm.performed += instance.OnConfirm;
                 @Confirm.canceled += instance.OnConfirm;
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
+                @SpeedBoost.started += instance.OnSpeedBoost;
+                @SpeedBoost.performed += instance.OnSpeedBoost;
+                @SpeedBoost.canceled += instance.OnSpeedBoost;
             }
         }
     }
@@ -730,14 +642,14 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
     {
         void OnMoveHorizontal(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
-        void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnAccelerate(InputAction.CallbackContext context);
-        void OnBuild(InputAction.CallbackContext context);
+        void OnUpgrade(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
-        void OnSwitchEquipment(InputAction.CallbackContext context);
+        void OnDPad(InputAction.CallbackContext context);
         void OnConfirm(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnSpeedBoost(InputAction.CallbackContext context);
     }
 }

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI CountdownTextElement;
     public Slider resourceSlider;
     public Toggle[] ammoGroup;
-    public Image[] selectBG;
+    public Button[] upgradeSlots;
+    public EventSystem eventSystem;
 
     [Header("Pages")]
     public GameObject outsideWarningPage;
@@ -25,8 +27,8 @@ public class UIManager : MonoBehaviour
     public GameObject laserUI;
     public GameObject upgradeUI;
     public GameObject reloadUI;
-    public GameObject pauseMenuGUI;
-    public GameObject inGameGUI;
+    public Canvas pauseMenuGUI;
+    public Canvas inGameGUI;
 
     private float countdownTimeInSeconds = 7.5f;
 
@@ -45,31 +47,29 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-          if (GameIsPaused)
-          {
-            Resume();
-          }
-          else
-          {
-            Pause();
-          }
+        if (Input.GetKeyDown(KeyCode.P)) {
+            if (GameIsPaused) {
+                Resume();
+            }
+            else {
+                Pause();
+            }
         }
-        else if (Player.IsDeath && Input.GetKeyDown(KeyCode.R)) {
+        else if (Player.IsDestroyed && Input.GetKeyDown(KeyCode.R)) {
             SceneManager.LoadScene(0);
         }
     }
 
     private void LateUpdate()
     {
-      if(currentTime>0) {
-        currentTime -= 1 * Time.deltaTime;
-        CountdownTextElement.text = currentTime.ToString ("f1");
-          if (currentTime <= 0) {
-          //Do something.
-          Debug.Log("COUNTDOWN FINISHED!");
+        if (currentTime > 0) {
+            currentTime -= 1 * Time.deltaTime;
+            CountdownTextElement.text = currentTime.ToString("f1");
+            if (currentTime <= 0) {
+                //Do something.
+                Debug.Log("COUNTDOWN FINISHED!");
+            }
         }
-      }
     }
 
     public void Start()
@@ -78,7 +78,7 @@ public class UIManager : MonoBehaviour
         Player.OnDurabilityChangedEvent += UpdateDurabilityUI;
         Player.OnVolumeChangedEvent += UpdateVolumeUI;
         Player.OnBoundaryEvent.AddListener(UpdateOutsideWarningUI);
-        Player.OnDeathEvent.AddListener(DisplayLosePage);
+        Player.OnDestoryedEvent.AddListener(DisplayLosePage);
         Player.OnSwitchEquipmentEvent.AddListener(UpdateEquipmentUI);
         currentTime = countdownTimeInSeconds;
     }
@@ -87,6 +87,18 @@ public class UIManager : MonoBehaviour
     {
         //volume.text = "Reloading";
         reloadUI.SetActive(true);
+    }
+
+    public void SetSelectGameObject(GameObject target)
+    {
+        eventSystem.SetSelectedGameObject(null);
+        eventSystem.SetSelectedGameObject(target);
+    }
+
+    public void DisplayUpgradePage(bool bl)
+    {
+        upgradeUI.SetActive(bl);
+        SetSelectGameObject(upgradeSlots[SelectID].gameObject);
     }
 
     private void HideAllUI()
@@ -115,7 +127,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateDurabilityUI(float curD,float maxD)
     {
-        durabilityText.text = curD.ToString();
+        durabilityText.text = curD.ToString("f0");
     }
 
     private void UpdateVolumeUI(float curV, float maxV)
@@ -139,21 +151,12 @@ public class UIManager : MonoBehaviour
         wastedPage.SetActive(true);
     }
 
-    private void ChangeSelectBG()
-    {
-        foreach (var bg in selectBG) {
-            bg.enabled = false;
-        }
-
-        selectBG[SelectID].enabled = true;
-    }
-
     public void SetNextID()
     {
         SelectID++;
         if (SelectID > 2)
             SelectID = 0;
-        ChangeSelectBG();
+        SetSelectGameObject(upgradeSlots[SelectID].gameObject);
     }
 
     public void SetLastID()
@@ -161,21 +164,21 @@ public class UIManager : MonoBehaviour
         SelectID--;
         if (SelectID < 0)
             SelectID = 2;
-        ChangeSelectBG();
+        SetSelectGameObject(upgradeSlots[SelectID].gameObject);
     }
 
     private void Pause()
     {
-      inGameGUI.SetActive(false);
-      pauseMenuGUI.SetActive(true);
+      inGameGUI.enabled = false;
+      pauseMenuGUI.enabled = true;
       Time.timeScale = 0;
       GameIsPaused = true;
     }
 
     private void Resume()
     {
-      pauseMenuGUI.SetActive(false);
-      inGameGUI.SetActive(true);
+      pauseMenuGUI.enabled = false;
+      inGameGUI.enabled = true;
       Time.timeScale = 1;
       GameIsPaused = false;
     }
