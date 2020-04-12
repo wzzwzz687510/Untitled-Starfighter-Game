@@ -334,6 +334,7 @@ public class SpaceShipController : MonoBehaviour
             bool hasWeakPoint = false;
             foreach (var hit in hits) {              
                 int hash = hit.collider.gameObject.name.GetStableHashCode();
+                if (!hit.collider.gameObject.TryGetComponent(out EntityObject eo)) continue;
                 if (aimDic[hash].Timer > m_spaceship.defaultLockTime) {
                     if (!hasLockedTarget) {
                         hasLockedTarget = true;
@@ -348,7 +349,7 @@ public class SpaceShipController : MonoBehaviour
                         else if(Vector3.SqrMagnitude(transform.position - hit.point) >= minDistance) continue;
                     }
 
-                    m_spaceship.SetShootTargetPosition(true, hit.collider.gameObject.GetComponent<EntityObject>());
+                    m_spaceship.SetShootTargetPosition(true, eo);
                     minDistance = Vector3.SqrMagnitude(transform.position - hit.point);
                     targetHash = hash;
                 }

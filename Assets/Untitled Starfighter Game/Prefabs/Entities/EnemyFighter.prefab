@@ -99,18 +99,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDurability: 3
   defaultArmour: 0
+  vfx:
+    highlight: {fileID: 7829055328102747351}
+    destoryEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664,
+      type: 3}
   OnDestoryedEvent:
     m_PersistentCalls:
       m_Calls: []
   defaultMainEquipment: {fileID: 11400000, guid: a2f6916b7a59088428dc5ca8424a009f,
     type: 2}
   shootStartPoints: {fileID: 1697748836325548250}
-  asteroidLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  highlight: {fileID: 7829055328102747351}
-  particleEffects:
-    destoryEffect: {fileID: 0}
   defaultMaxMovementSpeed: 1
   defaultAcrMovementSpeed: 1
   defaultMaxRotationSpeed: 10

@@ -269,7 +269,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDurability: 100
   defaultArmour: 0
-  highlight: {fileID: 7451476866746835359}
+  vfx:
+    highlight: {fileID: 7451476866746835359}
+    destoryEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664,
+      type: 3}
   OnDestoryedEvent:
     m_PersistentCalls:
       m_Calls: []
