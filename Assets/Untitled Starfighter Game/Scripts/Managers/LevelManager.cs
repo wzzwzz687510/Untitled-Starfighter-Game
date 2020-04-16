@@ -16,22 +16,28 @@ public class LevelManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) {  
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
-        }
+//        if (Input.GetKeyDown(KeyCode.Escape)) {  
+//#if UNITY_EDITOR
+//            UnityEditor.EditorApplication.isPlaying = false;
+//#else
+//            Application.Quit();
+//#endif
+//        }
     }
 
     public bool CheckIsInsideBoundary(Vector3 position)
     {
-        return position.magnitude < boundaryRadius + Mathf.Epsilon;
+        return (position-transform.position).magnitude < boundaryRadius + Mathf.Epsilon;
     }
 
     public Vector3 GetToBoundaryVector(Vector3 position)
     {
-        return position.normalized * boundaryRadius - position;
+        return (position - transform.position).normalized * boundaryRadius - position;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0, 1, 0, 0.4f);
+        Gizmos.DrawSphere(transform.position, boundaryRadius);
     }
 }

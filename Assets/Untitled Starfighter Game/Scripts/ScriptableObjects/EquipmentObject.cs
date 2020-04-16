@@ -56,5 +56,4 @@ public class EquipmentObject
     {
         Reloading = bl;        
     }
-
 }

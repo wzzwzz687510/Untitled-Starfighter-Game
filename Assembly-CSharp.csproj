@@ -62,7 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Asteroid.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Boids\Boid.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Boids\BoidHelper.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Boids\BoidManager.cs" />
@@ -72,9 +71,8 @@
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Controllers\MainMenuController.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Controllers\SpaceShipController.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Controllers\SpaceShipInputActions.cs" />
-    <Compile Include="Assets\Untitled Starfighter Game\Scripts\DestroyEffect.cs" />
-    <Compile Include="Assets\Untitled Starfighter Game\Scripts\EnemyWarningArea.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Entities\ArmedObject.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Entities\Asteroid.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Entities\CapitalShip.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Entities\EnemyFighter.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Entities\EntityObject.cs" />
@@ -82,8 +80,6 @@
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Entities\PlayerSpaceship.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Entities\Spaceship.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Entities\Turret.cs" />
-    <Compile Include="Assets\Untitled Starfighter Game\Scripts\EquipmentObject.cs" />
-    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Extensions.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Managers\LevelManager.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Menus\DialogueType.cs" />
@@ -91,13 +87,19 @@
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Menus\MinimapLogic.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Menus\PauseMenu.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\Menus\ScreenShake.cs" />
-    <Compile Include="Assets\Untitled Starfighter Game\Scripts\ParticleRotation.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Bullet.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Equipment.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\EquipmentObject.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Laser.cs" />
     <Compile Include="Assets\Untitled Starfighter Game\Scripts\ScriptableObjects\Weapon.cs" />
-    <Compile Include="Assets\Untitled Starfighter Game\Scripts\SimpleCameraController.cs" />
-    <Compile Include="Assets\Untitled Starfighter Game\Scripts\capsulecasttest.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spawner\AsteroidSpawner.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Spawner\EnemyWarningArea.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Utility\AxisRotation.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Utility\DestroyEffect.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Utility\Extensions.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Utility\ParticleRotation.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Utility\SimpleCameraController.cs" />
+    <Compile Include="Assets\Untitled Starfighter Game\Scripts\Utility\capsulecasttest.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

@@ -24,7 +24,7 @@ public class CapitalShip : Spaceship
         weakspots = GetComponentsInChildren<EntityObject>().Where(obj => obj != this).ToArray();
 
         foreach (var weakspot in weakspots) {
-            weakspot.OnDurabilityChangedEvent += DealWeakDamage;
+            weakspot.OnShootedEvent += DealWeakDamage;
             weakspot.gameObject.layer = gameObject.layer;
             weakspot.tag = "WeakPoint";
         }
@@ -69,15 +69,15 @@ public class CapitalShip : Spaceship
         resetTurretArray = true;
     }
 
-    private void DealWeakDamage(float value,float maxDurability)
+    private void DealWeakDamage(float damage)
     {
-        ImpactDurability(magnification * value);
+        ImpactDurability(magnification * damage);
     }
 
     protected override void OnDestoryed()
     {
         foreach (var weakspot in weakspots) {
-            weakspot.OnDurabilityChangedEvent -= DealWeakDamage;
+            weakspot.OnShootedEvent -= DealWeakDamage;
         }
         base.OnDestoryed();
     }

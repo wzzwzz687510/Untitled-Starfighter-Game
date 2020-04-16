@@ -142,21 +142,21 @@ public class SpaceShipController : MonoBehaviour
         inputActions.PlayerControls.Reload.started += ctx => m_spaceship.Reload();
         inputActions.PlayerControls.Upgrade.performed += ctx => { upgradeInput = !upgradeInput; UIManager.Instance.DisplayUpgradePage(upgradeInput); };
         inputActions.PlayerControls.DPad.started += ctx => {
-            if (!upgradeInput) {
-                switchEquipmentInput = !switchEquipmentInput;
-                m_spaceship.SwitchEquipment(switchEquipmentInput ? 1 : 0);
-            }
-            else {
+            if (upgradeInput) { 
                 if (ctx.ReadValue<Vector2>().x == 1)
                     UIManager.Instance.SetNextID();
                 else if (ctx.ReadValue<Vector2>().x == -1)
                     UIManager.Instance.SetLastID();
             }
         };
+        inputActions.PlayerControls.SwitchEquipment.performed += ctx => {
+            switchEquipmentInput = !switchEquipmentInput;
+            m_spaceship.SwitchEquipment(switchEquipmentInput ? 1 : 0);
+        };
         inputActions.PlayerControls.Dodge.performed += ctx => { if (!dodgeInput && dodgeTimer<0) StartCoroutine(DodgeAction()); };
         inputActions.PlayerControls.Confirm.performed += ctx => {
             if (upgradeInput) {
-                ApplyUpgrade(UIManager.Instance.SelectID);
+                UIManager.Instance.ApplyUpgrade();
             }
         };
         inputActions.PlayerControls.Cancel.performed += ctx => {
@@ -173,41 +173,32 @@ public class SpaceShipController : MonoBehaviour
         //m_InterpolatingLookatPointState = new TransformState();
     }
 
-    private void ApplyUpgrade(int selectID)
-    {
-        if (selectID == 0 && m_spaceship.resources >= 100) {
-            m_spaceship.ImpactResources(-100);
-            m_spaceship.ImpactDurability(m_spaceship.defaultDurability);
-        }
-        else if (selectID == 1 && m_spaceship.resources >= 500) {
-            m_spaceship.ImpactResources(-500);
-        }
-        else if (selectID == 2 && m_spaceship.resources >= 500) {
-            m_spaceship.ImpactResources(-500);
-        }
-    }
-
     private void FixedUpdate()
     {
         dodgeTimer -= Time.deltaTime;
         DetectLockableTargets();
+
         if (fireInput) m_spaceship.OnFireInput();
         else m_spaceship.StopLaser();
+
         if (accelerateInput == 0 && CurrentSpeed != 0) {
             if (CurrentSpeed > 0) CurrentSpeed = Mathf.Max(0, CurrentSpeed - Time.deltaTime * MaxMovementSpeed);
             else CurrentSpeed = Mathf.Min(0, CurrentSpeed + Time.deltaTime * MaxMovementSpeed);
         }
-        if (BoostInput != 0 && !boosting) {
+
+        if (accelerateInput != 0 && BoostInput != 0 && !boosting && m_spaceship.resources != 0) {
             boostHolder.SetActive(false);
             trailsHolder.SetActive(false);
             StopCoroutine(DisplayBoostEffect());
             StartCoroutine(DisplayBoostEffect());
         }
-        else if(BoostInput == 0) {
-            m_spaceship.defaultMaxMovementSpeed = Mathf.Max(spaceshipDefaultMaxSpeed, MaxMovementSpeed - Time.deltaTime * 100);
-            boostHolder.SetActive(false);
-            boosting = false;
+        else if(BoostInput == 0 || m_spaceship.resources == 0) {
+            StopBoostEffect();
         }
+        if (boosting) {
+            m_spaceship.ImpactResources(-10*Time.deltaTime);
+        }
+
         RotateSpaceship(movementInput);
         TranslateSpaceship();
 
@@ -219,6 +210,8 @@ public class SpaceShipController : MonoBehaviour
         if (accelerateInput == 0) {
             engineEffects.SetActive(false);
             shipAnimator.SetBool("Accelerate", false);
+
+            StopBoostEffect();
         }
         else {
             engineEffects.SetActive(true);
@@ -238,6 +231,14 @@ public class SpaceShipController : MonoBehaviour
     //    m_TargetLookatPointState.x = dir.x;
     //    m_TargetLookatPointState.y = dir.y;
     //}
+
+    void StopBoostEffect()
+    {
+        StopCoroutine(DisplayBoostEffect());
+        m_spaceship.defaultMaxMovementSpeed = Mathf.Max(spaceshipDefaultMaxSpeed, MaxMovementSpeed - Time.deltaTime * 100);
+        boostHolder.SetActive(false);
+        boosting = false;
+    }
 
     IEnumerator DisplayBoostEffect()
     {

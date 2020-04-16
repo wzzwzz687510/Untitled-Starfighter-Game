@@ -27,6 +27,8 @@ public class EntityObject : MonoBehaviour
     public delegate void ValueChangeDelegate(float curV, float maxV);
     public ValueChangeDelegate OnDurabilityChangedEvent;
     public ValueChangeDelegate OnAmourChangeEvent;
+    public delegate void SingleValueDelegate(float value);
+    public SingleValueDelegate OnShootedEvent;
     [HideInInspector] public UnityEvent OnDestoryedEvent;
 
     protected virtual void Awake()
@@ -39,6 +41,11 @@ public class EntityObject : MonoBehaviour
 
     }
 
+    protected virtual void Start()
+    {
+        InitializeAfterAwakeParameters();
+    }
+
     protected virtual void InitializeDefaultParameters()
     {
         MaxDurability = defaultDurability;
@@ -48,9 +55,15 @@ public class EntityObject : MonoBehaviour
         Armour = defaultArmour;
     }
 
+    protected virtual void InitializeAfterAwakeParameters()
+    {
+
+    }
+
     public virtual void OnShooted(Vector3 direction, float damage)
     {
         ImpactDurability(-Mathf.Abs(damage));
+        OnShootedEvent?.Invoke(-Mathf.Abs(damage));
     }
 
     public virtual void ImpactDurability(float value)

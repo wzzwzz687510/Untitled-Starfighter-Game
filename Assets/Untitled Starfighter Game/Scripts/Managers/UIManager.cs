@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+    [Header("Setting")]
+    public float outBoundaryAllowBackTime = 7.5f;
+
     [Header("UI Elements")]
     public TextMeshProUGUI durabilityText;
     public TextMeshProUGUI volumeText;
@@ -20,6 +23,26 @@ public class UIManager : MonoBehaviour
     public Button[] upgradeSlots;
     public EventSystem eventSystem;
 
+    [Header("Laser Elements")]
+    public Slider laserHeatBar;
+    public Image laserHeatBarFill;
+    public Color normalColour;
+    public Color overheatColour;
+
+
+    [Header("Armour Slot")]
+    public Toggle armourSlotPrefab;
+    public Transform topArmourSlotHolder;
+    public Transform bottomArmourSlotHolder;
+    public Transform leftArmourSlotHolder;
+    public Transform rightArmourSlotHolder;
+
+    private int armourCount;
+    private Toggle[] topArmourSlots;
+    private Toggle[] bottomArmourSlots;
+    private Toggle[] leftArmourSlots;
+    private Toggle[] rightArmourSlots;
+
     [Header("Pages")]
     public GameObject outsideWarningPage;
     public GameObject wastedPage;
@@ -27,22 +50,35 @@ public class UIManager : MonoBehaviour
     public GameObject laserUI;
     public GameObject upgradeUI;
     public GameObject reloadUI;
+    public GameObject cooldownUI;
     public Canvas pauseMenuGUI;
     public Canvas inGameGUI;
 
-    private float countdownTimeInSeconds = 7.5f;
-
-    public static bool GameIsPaused = false;
-
-    private float currentTime;
-
     public int SelectID { get; private set; }
+
+    private bool GameIsPaused = false;
+    private float outBoundaryTimer;
 
     private PlayerSpaceship Player => PlayerSpaceship.MainCharacter;
 
     private void Awake()
     {
-        if (!Instance) Instance = this;
+        if (!Instance) Instance = this;        
+    }
+
+    private void Start()
+    {
+        BindEvent();
+        outBoundaryTimer = outBoundaryAllowBackTime;
+
+        UpdateAllPlayerInfoUI();
+    }
+
+    private void UpdateAllPlayerInfoUI()
+    {
+        UpdateResourceUI(Player.resources,0);
+        UpdateDurabilityUI(Player.Durability,Player.MaxDurability);
+        UpdateArmourUI(0, 0);
     }
 
     private void Update()
@@ -62,37 +98,60 @@ public class UIManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (currentTime > 0) {
-            currentTime -= 1 * Time.deltaTime;
-            CountdownTextElement.text = currentTime.ToString("f1");
-            if (currentTime <= 0) {
+        if (outsideWarningPage.activeSelf) {
+            outBoundaryTimer = Mathf.Max(0, outBoundaryTimer - Time.deltaTime);
+            CountdownTextElement.text = outBoundaryTimer.ToString("f1");
+            if (outBoundaryTimer <= 0) {
                 //Do something.
-                Debug.Log("COUNTDOWN FINISHED!");
+                Vector3 toBoundary = LevelManager.Instance.GetToBoundaryVector(Player.transform.position);
+                Player.ImpactDurability(-toBoundary.magnitude * Time.deltaTime);
             }
         }
     }
 
-    public void Start()
+    public void BindEvent()
     {
         Player.OnResourceChangedEvent += UpdateResourceUI;
         Player.OnDurabilityChangedEvent += UpdateDurabilityUI;
         Player.OnVolumeChangedEvent += UpdateVolumeUI;
-        Player.OnBoundaryEvent.AddListener(UpdateOutsideWarningUI);
+        Player.OnAmourChangeEvent += UpdateArmourUI;
+        Player.OnSpaceShipOutBoundaryEvent.AddListener(UpdateOutsideWarningUI);
         Player.OnDestoryedEvent.AddListener(DisplayLosePage);
-        Player.OnSwitchEquipmentEvent.AddListener(UpdateEquipmentUI);
-        currentTime = countdownTimeInSeconds;
+        Player.OnEquipmentSwitchedEvent.AddListener(UpdateEquipmentUI);
+        Player.OnLaserHeatChangedEvent.AddListener(UpdateLaserHeatBar);
     }
 
     public void SetReload()
     {
-        //volume.text = "Reloading";
-        reloadUI.SetActive(true);
+        if (weaponUI.activeSelf) {
+            reloadUI.SetActive(true);
+        }
+        else {
+
+            cooldownUI.SetActive(Player.LaserStun);
+        }
     }
 
     public void SetSelectGameObject(GameObject target)
     {
         eventSystem.SetSelectedGameObject(null);
         eventSystem.SetSelectedGameObject(target);
+    }
+
+    public void ApplyUpgrade()
+    {
+        if (SelectID == 0 && Player.resources >= 450) {
+            Player.ImpactResources(-450);
+            Player.UpgradeArmour();
+        }
+        else if (SelectID == 1 && Player.resources >= 250) {
+            Player.ImpactResources(-250);
+            Player.ImpactDurability(100);
+        }
+        else if (SelectID == 2 && Player.resources >= 600) {
+            Player.ImpactResources(-600);
+            var shootPoint = Instantiate(Player.shootStartPoints.GetChild(0), Player.shootStartPoints);
+        }
     }
 
     public void DisplayUpgradePage(bool bl)
@@ -105,6 +164,43 @@ public class UIManager : MonoBehaviour
     {
         outsideWarningPage.SetActive(false);
         wastedPage.SetActive(false);
+    }
+
+    private void AddArmourSlots()
+    {
+        int deltaNumber = Mathf.FloorToInt(Player.MaxArmour - armourCount);
+        armourCount += deltaNumber;
+        for (int i = 0; i < deltaNumber; i++) {
+            Instantiate(armourSlotPrefab, topArmourSlotHolder);
+            Instantiate(armourSlotPrefab, bottomArmourSlotHolder);
+            Instantiate(armourSlotPrefab, leftArmourSlotHolder);
+            Instantiate(armourSlotPrefab, rightArmourSlotHolder);
+        }
+
+        topArmourSlots = topArmourSlotHolder.GetComponentsInChildren<Toggle>();
+        bottomArmourSlots = bottomArmourSlotHolder.GetComponentsInChildren<Toggle>();
+        leftArmourSlots = leftArmourSlotHolder.GetComponentsInChildren<Toggle>();
+        rightArmourSlots = rightArmourSlotHolder.GetComponentsInChildren<Toggle>();
+    }
+
+    private void UpdateArmourUI(float op,float op2)
+    {
+        if (armourCount < Player.MaxArmour) {
+            AddArmourSlots();
+        }
+
+        for (int i = 0; i < armourCount; i++) {
+            topArmourSlots[i].isOn = i < Player.TopArmour;
+            bottomArmourSlots[i].isOn = i < Player.BottomArmour;
+            leftArmourSlots[i].isOn = i < Player.LeftArmour;
+            rightArmourSlots[i].isOn = i < Player.RightArmour;
+        }
+    }
+
+    private void UpdateLaserHeatBar()
+    {
+        laserHeatBar.value = Player.LaserHeat / Player.laserLimitHeat;
+        laserHeatBarFill.color = Player.LaserStun ? overheatColour : normalColour;
     }
 
     private void UpdateEquipmentUI()
@@ -143,6 +239,7 @@ public class UIManager : MonoBehaviour
     private void UpdateOutsideWarningUI()
     {
         outsideWarningPage.SetActive(Player.IsOutsideBoundary);
+        outBoundaryTimer = outBoundaryAllowBackTime;
     }
 
     private void DisplayLosePage()
@@ -164,6 +261,12 @@ public class UIManager : MonoBehaviour
         SelectID--;
         if (SelectID < 0)
             SelectID = 2;
+        SetSelectGameObject(upgradeSlots[SelectID].gameObject);
+    }
+
+    public void SetSelectID(int id)
+    {
+        SelectID = id;
         SetSelectGameObject(upgradeSlots[SelectID].gameObject);
     }
 

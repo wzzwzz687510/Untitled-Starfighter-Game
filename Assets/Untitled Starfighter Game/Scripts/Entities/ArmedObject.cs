@@ -39,7 +39,7 @@ public class ArmedObject : EntityObject
         if (!MainEquipment.Triggerable) MainEquipment.UpdateTimer(-Time.deltaTime);
         autoReloadTimer -= Time.deltaTime;
         if (autoReloadTimer < 0) {
-            ResetEquipmentVolume();
+            ResetEquipmentVolume(selectEquipmentID);
         }
     }
 
@@ -55,13 +55,6 @@ public class ArmedObject : EntityObject
     protected virtual void ImpactEquipmentVolume(float value)
     {
         MainEquipment.UpdateVolume(value);
-        OnVolumeChangedEvent?.Invoke(MainEquipment.Volume, MainEquipment.Template.volume);
-    }
-
-    protected virtual void ResetEquipmentVolume()
-    {
-        autoReloadTimer = MainEquipment.Template.reloadDuration;
-        MainEquipment.ResetVolume();
         OnVolumeChangedEvent?.Invoke(MainEquipment.Volume, MainEquipment.Template.volume);
     }
 
@@ -84,15 +77,25 @@ public class ArmedObject : EntityObject
         //Debug.Log("Reload");
         if (!MainEquipment.Reloading && !MainEquipment.VolumeInfinite && MainEquipment.Volume != MainEquipment.Template.volume) {
             MainEquipment.SetReload(true);
-            StartCoroutine(WaitForReload());
+            StartCoroutine(WaitForReload(selectEquipmentID));
         }
     }
 
-    protected virtual IEnumerator WaitForReload()
+    protected virtual void ResetEquipmentVolume(int selectID)
     {
-        yield return new WaitForSeconds(MainEquipment.Template.reloadDuration);
-        ResetEquipmentVolume();
-        MainEquipment.SetReload(false);
+        
+        equipmentObjects[selectID].ResetVolume();
+        equipmentObjects[selectID].SetReload(false);
+        if (selectID == selectEquipmentID) {
+            autoReloadTimer = equipmentObjects[selectID].Template.reloadDuration;
+            OnVolumeChangedEvent?.Invoke(MainEquipment.Volume, MainEquipment.Template.volume);
+        }           
+    }
+
+    protected virtual IEnumerator WaitForReload(int selectID)
+    {
+        yield return new WaitForSeconds(equipmentObjects[selectID].Template.reloadDuration);
+        ResetEquipmentVolume(selectID);
     }
 
     protected virtual void ShootWithWeapon()
