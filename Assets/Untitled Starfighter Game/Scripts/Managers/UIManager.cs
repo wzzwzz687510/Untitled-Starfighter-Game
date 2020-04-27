@@ -54,6 +54,13 @@ public class UIManager : MonoBehaviour
     public Canvas pauseMenuGUI;
     public Canvas inGameGUI;
 
+    [Header("Scene Management")]
+    public GameObject loadingScreen;
+    public TextMeshProUGUI progressText;
+    public GameObject loseEndScreen;
+    public GameObject winEndScreen;
+    public GameObject pauseScreen;
+
     public int SelectID { get; private set; }
 
     private bool GameIsPaused = false;
@@ -63,7 +70,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (!Instance) Instance = this;        
+        if (!Instance) Instance = this;
     }
 
     private void Start()
@@ -162,6 +169,7 @@ public class UIManager : MonoBehaviour
 
     private void HideAllUI()
     {
+        inGameGUI.enabled = false;
         outsideWarningPage.SetActive(false);
         wastedPage.SetActive(false);
     }
@@ -270,20 +278,57 @@ public class UIManager : MonoBehaviour
         SetSelectGameObject(upgradeSlots[SelectID].gameObject);
     }
 
-    private void Pause()
+    public void Pause()
     {
       inGameGUI.enabled = false;
-      pauseMenuGUI.enabled = true;
+      pauseScreen.SetActive(true);
       Time.timeScale = 0;
       GameIsPaused = true;
     }
 
-    private void Resume()
+    public void Resume()
     {
-      pauseMenuGUI.enabled = false;
+      pauseScreen.SetActive(false);
       inGameGUI.enabled = true;
       Time.timeScale = 1;
       GameIsPaused = false;
+    }
+
+    public void Quit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    public void MainMenu(int sceneIndex)
+    {
+        Time.timeScale = 1;
+        StartCoroutine(LoadAsync(sceneIndex));
+    }
+
+    public void Restart(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
+    }
+
+    IEnumerator LoadAsync(int sceneIndex)
+    {
+        loseEndScreen.SetActive(false);
+        winEndScreen.SetActive(false);
+        pauseScreen.SetActive(false);
+        loadingScreen.SetActive(true);
+        yield return new WaitForSeconds(5.0f);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
+        //functionalityElement.SetActive(false);
+        loadingScreen.SetActive(true);
+        while (!operation.isDone) {
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            progressText.text = (int)(progress * 100f) + "%";
+            yield return null;
+        }
     }
 
 }
