@@ -120,7 +120,7 @@ public class PlayerSpaceship : Spaceship
         TopArmour = defaultArmour;
         BottomArmour = defaultArmour;
 
-        resources = 600;
+        resources = 200;
     }
 
     protected override void InitializeAfterAwakeParameters()

@@ -41,7 +41,7 @@ public class MainMenu : MonoBehaviour
             lowQualityText.SetActive(true);
             mediumQualityText.SetActive(false);
             highQualityText.SetActive(false);
-            decreaseQualityBtn.interactable = false;
+            //decreaseQualityBtn.interactable = false;
         }
         else if (QualitySettings.GetQualityLevel() == 1) {
             mediumQualityText.SetActive(true);
@@ -54,7 +54,7 @@ public class MainMenu : MonoBehaviour
             highQualityText.SetActive(true);
             lowQualityText.SetActive(false);
             mediumQualityText.SetActive(false);
-            increaseQualityBtn.interactable = false;
+            //increaseQualityBtn.interactable = false;
         }
     }
 
