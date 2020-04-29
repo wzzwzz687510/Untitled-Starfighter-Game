@@ -106,6 +106,7 @@ public class UIManager : MonoBehaviour
     private void LateUpdate()
     {
         if (outsideWarningPage.activeSelf) {
+            // inGameGUI.enabled = false;
             outBoundaryTimer = Mathf.Max(0, outBoundaryTimer - Time.deltaTime);
             CountdownTextElement.text = outBoundaryTimer.ToString("f1");
             if (outBoundaryTimer <= 0) {
@@ -114,6 +115,10 @@ public class UIManager : MonoBehaviour
                 Player.ImpactDurability(-toBoundary.magnitude * Time.deltaTime);
             }
         }
+        // else
+        // {
+        //   inGameGUI.enabled = true;
+        // }
     }
 
     public void BindEvent()
