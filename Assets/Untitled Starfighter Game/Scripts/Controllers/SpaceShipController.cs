@@ -140,7 +140,7 @@ public class SpaceShipController : MonoBehaviour
         inputActions.PlayerControls.Fire.performed += ctx => fireInput = true;
         inputActions.PlayerControls.Fire.canceled += ctx => fireInput = false;
         inputActions.PlayerControls.Reload.started += ctx => m_spaceship.Reload();
-        inputActions.PlayerControls.Upgrade.performed += ctx => { upgradeInput = !upgradeInput; UIManager.Instance.DisplayUpgradePage(upgradeInput); };
+        inputActions.PlayerControls.Upgrade.performed += ctx => { upgradeInput = !UIManager.Instance.upgradeUI.activeSelf; UIManager.Instance.DisplayUpgradePage(upgradeInput); };
         inputActions.PlayerControls.DPad.started += ctx => {
             if (upgradeInput) { 
                 if (ctx.ReadValue<Vector2>().x == 1)
