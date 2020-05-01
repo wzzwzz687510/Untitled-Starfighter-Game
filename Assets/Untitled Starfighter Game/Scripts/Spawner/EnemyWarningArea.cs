@@ -18,7 +18,9 @@ public class EnemyWarningArea : BoidSchool
     {
         if (!spawned && Vector3.SqrMagnitude(PlayerSpaceship.MainCharacter.transform.position - transform.position) < detectRange * detectRange) {
             spawned = true;
-            InitializeSchool();          
+            InitializeSchool();    
+            MissionManager.Instance.OnSpawnDefenders();
+            AudioManager.Instance.PlayBattleBGM();
         }
     }
 }

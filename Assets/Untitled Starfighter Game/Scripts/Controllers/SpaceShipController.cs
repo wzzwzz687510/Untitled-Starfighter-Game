@@ -165,6 +165,7 @@ public class SpaceShipController : MonoBehaviour
                 UIManager.Instance.upgradeUI.SetActive(upgradeInput);
             }
         };
+        inputActions.PlayerControls.Menu.performed += ctx => UIManager.Instance.OnMenuButtonPressed();
 
         m_TargetState = new TransformState();
         dodgeEffect.transform.parent = null;
@@ -178,8 +179,18 @@ public class SpaceShipController : MonoBehaviour
         dodgeTimer -= Time.deltaTime;
         DetectLockableTargets();
 
-        if (fireInput) m_spaceship.OnFireInput();
-        else m_spaceship.StopLaser();
+        if (fireInput && !m_spaceship.Reloading) {
+            m_spaceship.OnFireInput();
+        }
+        else {
+            if(!m_spaceship.IsLaser) {
+                AudioManager.Instance.SetMGClip(false);
+            }
+            else {
+                AudioManager.Instance.SetMLClip(false);
+            }
+            m_spaceship.StopLaser();
+        }
 
         if (accelerateInput == 0 && CurrentSpeed != 0) {
             if (CurrentSpeed > 0) CurrentSpeed = Mathf.Max(0, CurrentSpeed - Time.deltaTime * MaxMovementSpeed);
@@ -194,6 +205,7 @@ public class SpaceShipController : MonoBehaviour
         }
         else if(BoostInput == 0 || m_spaceship.resources == 0) {
             StopBoostEffect();
+            AudioManager.Instance.SetBoost(false);
         }
         if (boosting) {
             m_spaceship.ImpactResources(-10*Time.deltaTime);
@@ -207,13 +219,15 @@ public class SpaceShipController : MonoBehaviour
 
     private void TranslateSpaceship()
     {
-        if (accelerateInput == 0) {
+        if (accelerateInput == 0 || Physics.Raycast(new Ray(transform.position,transform.forward),0.1f)) {
             engineEffects.SetActive(false);
             shipAnimator.SetBool("Accelerate", false);
+            AudioManager.Instance.SetEngine(false);
 
             StopBoostEffect();
         }
         else {
+            AudioManager.Instance.SetEngine(true);
             engineEffects.SetActive(true);
             shipAnimator.SetBool("Accelerate", true);
         }
@@ -256,6 +270,7 @@ public class SpaceShipController : MonoBehaviour
         m_spaceship.defaultMaxMovementSpeed = 80;
 
         trailsHolder.SetActive(true);
+        AudioManager.Instance.SetBoost(true);
 
     }
 

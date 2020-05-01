@@ -60,6 +60,7 @@ public class MainMenuController : MonoBehaviour
         eventSystem.firstSelectedGameObject = tmpMainButtons[0].gameObject;
 
         inputActions = new SpaceShipInputActions();
+        inputActions.PlayerControls.Move.performed += ctx => OnPressDPad(ctx.ReadValue<Vector2>());
         inputActions.PlayerControls.DPad.started += ctx => OnPressDPad(ctx.ReadValue<Vector2>());
         inputActions.PlayerControls.Cancel.started += ctx => OnPressCancel();
     }

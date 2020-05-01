@@ -19,6 +19,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI resourceText;
     public TextMeshProUGUI CountdownTextElement;
     public Slider resourceSlider;
+    public Button restartButtonLose;
+    public Button restartButtonVictory;
+    public Button pauseButton;
     public Toggle[] ammoGroup;
     public Button[] upgradeSlots;
     public EventSystem eventSystem;
@@ -45,7 +48,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Pages")]
     public GameObject outsideWarningPage;
-    public GameObject wastedPage;
+    public GameObject defeatedPage;
+    public GameObject victoryPage;
     public GameObject weaponUI;
     public GameObject laserUI;
     public GameObject upgradeUI;
@@ -88,21 +92,6 @@ public class UIManager : MonoBehaviour
         UpdateArmourUI(0, 0);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P)) {
-            if (GameIsPaused) {
-                Resume();
-            }
-            else {
-                Pause();
-            }
-        }
-        else if (Player.IsDestroyed && Input.GetKeyDown(KeyCode.R)) {
-            SceneManager.LoadScene(0);
-        }
-    }
-
     private void LateUpdate()
     {
         if (outsideWarningPage.activeSelf) {
@@ -119,6 +108,16 @@ public class UIManager : MonoBehaviour
         // {
         //   inGameGUI.enabled = true;
         // }
+    }
+
+    public void OnMenuButtonPressed()
+    {
+        if (GameIsPaused) {
+            Resume();
+        }
+        else if (inGameGUI.enabled) {
+            Pause();
+        }
     }
 
     public void BindEvent()
@@ -155,14 +154,17 @@ public class UIManager : MonoBehaviour
         if (SelectID == 0 && Player.resources >= 450) {
             Player.ImpactResources(-450);
             Player.UpgradeArmour();
+            AudioManager.Instance.PlayUpgradeClip();
         }
         else if (SelectID == 1 && Player.resources >= 250) {
             Player.ImpactResources(-250);
             Player.ImpactDurability(100);
+            AudioManager.Instance.PlayUpgradeClip();
         }
         else if (SelectID == 2 && Player.resources >= 600) {
             Player.ImpactResources(-600);
             var shootPoint = Instantiate(Player.shootStartPoints.GetChild(0), Player.shootStartPoints);
+            AudioManager.Instance.PlayUpgradeClip();
         }
     }
 
@@ -176,7 +178,8 @@ public class UIManager : MonoBehaviour
     {
         inGameGUI.enabled = false;
         outsideWarningPage.SetActive(false);
-        wastedPage.SetActive(false);
+        defeatedPage.SetActive(false);
+        victoryPage.SetActive(false);
     }
 
     private void AddArmourSlots()
@@ -246,7 +249,10 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < ammoGroup.Length; i++) {
             ammoGroup[i].isOn = i < curV;
         }
-        reloadUI.SetActive(false);
+        if (reloadUI.activeSelf) {
+            AudioManager.Instance.PlayReloadCompleteClip();
+            reloadUI.SetActive(false);
+        }
     }
 
     private void UpdateOutsideWarningUI()
@@ -255,10 +261,22 @@ public class UIManager : MonoBehaviour
         outBoundaryTimer = outBoundaryAllowBackTime;
     }
 
-    private void DisplayLosePage()
+    public void DisplayLosePage()
     {
         HideAllUI();
-        wastedPage.SetActive(true);
+        defeatedPage.SetActive(true);
+        restartButtonLose.Select();
+        Player.Controller.enabled = false;
+        AudioManager.Instance.PlayGameoverClip();
+    }
+
+    public void DisplayVictoryPage()
+    {
+        HideAllUI();
+        victoryPage.SetActive(true);
+        restartButtonVictory.Select();
+        Player.Controller.enabled = false;
+        AudioManager.Instance.PlayVictoryBGM();
     }
 
     public void SetNextID()
@@ -285,18 +303,24 @@ public class UIManager : MonoBehaviour
 
     public void Pause()
     {
-      inGameGUI.enabled = false;
-      pauseScreen.SetActive(true);
-      Time.timeScale = 0;
-      GameIsPaused = true;
+        inGameGUI.enabled = false;
+        pauseScreen.SetActive(true);
+        Time.timeScale = 0;
+        GameIsPaused = true;
+        pauseButton.Select();
+
+        outsideWarningPage.SetActive(false);
     }
 
     public void Resume()
     {
-      pauseScreen.SetActive(false);
-      inGameGUI.enabled = true;
-      Time.timeScale = 1;
-      GameIsPaused = false;
+        pauseScreen.SetActive(false);
+        inGameGUI.enabled = true;
+        Time.timeScale = 1;
+        GameIsPaused = false;
+        eventSystem.SetSelectedGameObject(null);
+
+        if (Player.IsOutsideBoundary) outsideWarningPage.SetActive(true);
     }
 
     public void Quit()
@@ -314,8 +338,9 @@ public class UIManager : MonoBehaviour
         StartCoroutine(LoadAsync(sceneIndex));
     }
 
-    public void Restart(int sceneIndex)
+    public void LoadScene(int sceneIndex)
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(sceneIndex);
     }
 

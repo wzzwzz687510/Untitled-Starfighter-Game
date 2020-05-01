@@ -8,6 +8,7 @@ public class PlayerSpaceship : Spaceship
     public static PlayerSpaceship MainCharacter { get; protected set; }
 
     [Header("Player Ship Parameters")]
+    public GameObject model;
     public Transform laserStartPoint;
     protected Vector3 laserEndPoint;
     protected LineRenderer laserLineRenderer;
@@ -25,6 +26,7 @@ public class PlayerSpaceship : Spaceship
     public float RightArmour { get; protected set; }
 
     public float LaserHeat { get; protected set; }
+    public bool IsLaser { get; protected set; }
     public bool LaserStun { get; protected set; }
     public bool IsOutsideBoundary { get; protected set; }
     public SpaceShipController Controller { get; protected set; }
@@ -43,7 +45,7 @@ public class PlayerSpaceship : Spaceship
     public override void Reload()
     {
         base.Reload();
-
+        AudioManager.Instance.PlayReloadClip();
         UIManager.Instance.SetReload();
     }
 
@@ -134,7 +136,14 @@ public class PlayerSpaceship : Spaceship
     protected override bool TryShoot()
     {
         if (!MainEquipment.Triggerable) {
-            if (MainEquipment.Volume == 0) Reload();
+            if (MainEquipment.Volume == 0) {
+                if (!IsLaser) {
+                    AudioManager.Instance.SetMGClip(false);
+                    AudioManager.Instance.PlayWeaponReleaseClip();
+                }
+
+                if (!MainEquipment.VolumeInfinite) Reload();
+            }
             return false;
         }
         autoReloadTimer = MainEquipment.Template.reloadDuration;
@@ -156,6 +165,9 @@ public class PlayerSpaceship : Spaceship
 
     protected override void OnDestoryed()
     {
+        m_rb.isKinematic = true;
+        model.SetActive(false);
+        GetComponent<Collider>().enabled = false;
         Controller.enabled = false;
         OnDestoryedEvent?.Invoke();
     }
@@ -227,11 +239,13 @@ public class PlayerSpaceship : Spaceship
 
     protected virtual void SwitchToWeaponTypeEquipment(Weapon weapon)
     {
+        IsLaser = false;
         OnVolumeChangedEvent?.Invoke(MainEquipment.Volume, MainEquipment.Template.volume);
     }
 
     protected virtual void SwitchToLaserTypeEquipment(Laser laser)
     {
+        IsLaser = true;
         if (laserLineRenderer) Destroy(laserLineRenderer.gameObject);
         if (laserImpactEffect) Destroy(laserImpactEffect.gameObject);
         laserLineRenderer = Instantiate(laser.linePrefab).GetComponent<LineRenderer>();
@@ -244,18 +258,23 @@ public class PlayerSpaceship : Spaceship
     protected virtual void ShootWithLaser(Laser laser)
     {
         if (LaserStun) return;
-        LaserHeat += 20 * Time.deltaTime;
-        LaserStun = LaserHeat > laserLimitHeat;
-
+        
         GameObject asteroidGO = GetLaserTarget(laser);
-        if (asteroidGO != null) {            
+        if (asteroidGO != null) {
+            AudioManager.Instance.SetMLClip(true);
+            LaserHeat += 20 * Time.deltaTime;
+            LaserStun = LaserHeat > laserLimitHeat;
             resources += asteroidGO.GetComponent<Asteroid>().ImpactDurability(-300 * Time.deltaTime);
             OnResourceChangedEvent?.Invoke((int)resources,0);
+        }
+        else {
+            AudioManager.Instance.SetMLClip(false);
         }
     }
 
     protected virtual void ShootWithWeapon(Weapon weapon)
     {
+        AudioManager.Instance.SetMGClip(true);
         ImpactEquipmentVolume(-1);
         for (int i = 0; i < shootStartPoints.childCount; i++) {
             Instantiate(weapon.bullet.prefab, shootStartPoints.GetChild(i).position, Quaternion.identity, BulletsHolder).

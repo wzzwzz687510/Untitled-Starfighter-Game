@@ -92,6 +92,7 @@ public class EntityObject : MonoBehaviour
         IsDestroyed = true;
         if (vfx.destoryEffect)
             Instantiate(vfx.destoryEffect, transform.position, Quaternion.identity).transform.localScale *= 10;
+        AudioManager.Instance.PlayExplosionClip();
         OnDestoryedEvent?.Invoke();
         Destroy(gameObject);
     }

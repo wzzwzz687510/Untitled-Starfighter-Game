@@ -113,6 +113,14 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""f2286658-43e3-4e0f-a40d-52336e262a57"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -555,6 +563,28 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                     ""action"": ""SwitchEquipment"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3c88596b-d1ec-4a85-8823-c18ebb3bd468"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyBoard"",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e07172ab-bc1b-42c4-bd53-8351b4dc483c"",
+                    ""path"": ""<XInputController>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -603,6 +633,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         m_PlayerControls_Cancel = m_PlayerControls.FindAction("Cancel", throwIfNotFound: true);
         m_PlayerControls_SpeedBoost = m_PlayerControls.FindAction("SpeedBoost", throwIfNotFound: true);
         m_PlayerControls_SwitchEquipment = m_PlayerControls.FindAction("SwitchEquipment", throwIfNotFound: true);
+        m_PlayerControls_Menu = m_PlayerControls.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -664,6 +695,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControls_Cancel;
     private readonly InputAction m_PlayerControls_SpeedBoost;
     private readonly InputAction m_PlayerControls_SwitchEquipment;
+    private readonly InputAction m_PlayerControls_Menu;
     public struct PlayerControlsActions
     {
         private @SpaceShipInputActions m_Wrapper;
@@ -680,6 +712,7 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         public InputAction @Cancel => m_Wrapper.m_PlayerControls_Cancel;
         public InputAction @SpeedBoost => m_Wrapper.m_PlayerControls_SpeedBoost;
         public InputAction @SwitchEquipment => m_Wrapper.m_PlayerControls_SwitchEquipment;
+        public InputAction @Menu => m_Wrapper.m_PlayerControls_Menu;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -725,6 +758,9 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @SwitchEquipment.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
                 @SwitchEquipment.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
                 @SwitchEquipment.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSwitchEquipment;
+                @Menu.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMenu;
+                @Menu.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMenu;
+                @Menu.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMenu;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -765,6 +801,9 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
                 @SwitchEquipment.started += instance.OnSwitchEquipment;
                 @SwitchEquipment.performed += instance.OnSwitchEquipment;
                 @SwitchEquipment.canceled += instance.OnSwitchEquipment;
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
             }
         }
     }
@@ -801,5 +840,6 @@ public class @SpaceShipInputActions : IInputActionCollection, IDisposable
         void OnCancel(InputAction.CallbackContext context);
         void OnSpeedBoost(InputAction.CallbackContext context);
         void OnSwitchEquipment(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

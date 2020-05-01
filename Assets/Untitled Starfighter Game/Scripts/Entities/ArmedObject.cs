@@ -10,6 +10,8 @@ public class ArmedObject : EntityObject
     public Equipment defaultMainEquipment;
     public Transform shootStartPoints;
 
+    public bool Reloading { get; protected set; }
+
     protected EquipmentObject MainEquipment { get {
             if (equipmentObjects.Count > selectEquipmentID) {
                 return equipmentObjects[selectEquipmentID];
@@ -94,8 +96,10 @@ public class ArmedObject : EntityObject
 
     protected virtual IEnumerator WaitForReload(int selectID)
     {
+        Reloading = true;
         yield return new WaitForSeconds(equipmentObjects[selectID].Template.reloadDuration);
         ResetEquipmentVolume(selectID);
+        Reloading = false;
     }
 
     protected virtual void ShootWithWeapon()

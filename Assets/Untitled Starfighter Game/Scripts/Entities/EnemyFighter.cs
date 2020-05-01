@@ -21,6 +21,9 @@ public class EnemyFighter : Spaceship
     protected override void OnDestoryed()
     {
         school.RemoveBoid(GetComponent<Boid>());
+        if(school.Boids.Count == 0) {
+            MissionManager.Instance.OnDestroyAllDefenders();
+        }
         base.OnDestoryed();
     }
 

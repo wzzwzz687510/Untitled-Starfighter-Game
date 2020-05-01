@@ -34,6 +34,7 @@ public class FloatingTurret : EntityObject
 
     protected override void OnDestoryed()
     {
+        MissionManager.Instance.OnSentryDestroyed();
         base.OnDestoryed();
     }
 }
