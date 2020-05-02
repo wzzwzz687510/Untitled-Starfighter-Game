@@ -38,7 +38,7 @@ public class BulletController : MonoBehaviour
     {
         //Debug.Log(layerMask.ToString()+", "+ other.gameObject.layer.ToString());
         if (layerMask == other.gameObject.layer) return;
-        if (other.gameObject.TryGetComponent(out EntityObject eo) && !eo.Invincible) {
+        if (other.gameObject.TryGetComponent(out EntityObject eo)) {
             eo.OnShooted((transform.position - other.transform.position).normalized, Template.damage);
             Destroy(gameObject);
         }

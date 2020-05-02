@@ -321,6 +321,39 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "1D Axis",
+                    "id": "38c77723-5db5-476b-8d5b-44cb19f63ccd",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveHorizontal",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "f471a56b-63b1-4f42-af57-c324ca330e66",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyBoard",
+                    "action": "MoveHorizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "c4c56159-0954-4f16-b6a0-c6921ed9ea4a",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyBoard",
+                    "action": "MoveHorizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "5280217d-da78-49a3-be08-ec53791df2e0",
                     "path": "<XInputController>/rightShoulder",
@@ -422,7 +455,7 @@
                 {
                     "name": "left",
                     "id": "32ddcb6a-b472-4499-8727-61bbf918867e",
-                    "path": "<Keyboard>/a",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyBoard",
@@ -433,7 +466,7 @@
                 {
                     "name": "right",
                     "id": "e794d6af-0b13-42ee-8409-ec235b5ba336",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyBoard",

@@ -208,7 +208,7 @@ public class SpaceShipController : MonoBehaviour
             AudioManager.Instance.SetBoost(false);
         }
         if (boosting) {
-            m_spaceship.ImpactResources(-10*Time.deltaTime);
+            m_spaceship.ImpactResources(-2*Time.deltaTime);
         }
 
         RotateSpaceship(movementInput);

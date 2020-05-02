@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a016afc00d3257f4b9dab9d548e8fb55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultDurability: 3
+  defaultDurability: 10
   defaultArmour: 0
   vfx:
     highlight: {fileID: 7829055328102747351}

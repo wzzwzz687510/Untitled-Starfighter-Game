@@ -48,14 +48,24 @@ public class DialogueManager : MonoBehaviour
     private Dialogue lastDialogue;
 
     private bool isAnim;
+    private bool isWaiting;
+    private Queue<Dialogue> dialogues = new Queue<Dialogue>();
     private Coroutine curCoroutine;
+
+    public IEnumerator WaitForDialogueAnimation()
+    {
+        isWaiting = true;
+        yield return curCoroutine;
+
+        while (dialogues.Count!= 0) {
+            yield return StartCoroutine(DialogueTemplate(dialogues.Dequeue()));
+        }
+
+        isWaiting = false;
+    }
 
     public IEnumerator DialogueTemplate(Dialogue dialogue)
     {
-        if (isAnim) {
-            yield return curCoroutine;
-        }
-
         isAnim = true;
 
         if (lastDialogue!=null) {
@@ -93,6 +103,7 @@ public class DialogueManager : MonoBehaviour
                                 characterNotifierBackground.DOFade(0, 1f * animationSpeed).SetAutoKill(false);
                                 characterSpeechBackground.DOFade(0, 1f * animationSpeed).SetAutoKill(false);
                                 characterSpeech.DOFade(0, 1f * animationSpeed).SetAutoKill(false);
+        yield return d_CharEnd_Tween.WaitForCompletion();
 
         isAnim = false;
     }
@@ -106,42 +117,55 @@ public class DialogueManager : MonoBehaviour
         characterNotifierBackground.DOFade(0, 0).SetAutoKill(false);
         characterSpeechBackground.DOFade(0, 0).SetAutoKill(false);
     }
+
+    private void DisplayOneDialogue(Dialogue dialogue)
+    {
+        if (isAnim) {
+            dialogues.Enqueue(dialogue);
+            if (!isWaiting) {
+                StartCoroutine(WaitForDialogueAnimation());
+            }
+        }
+        else {
+            curCoroutine = StartCoroutine(DialogueTemplate(dialogue));
+        }
+    }
     //-------------SALVADOR SCRAPBEARD ANIMATIONS-------------
     public void Dialogue_SS_Var1()
     {
-        curCoroutine = StartCoroutine(DialogueTemplate(dSS_Var1));
+        DisplayOneDialogue(dSS_Var1);
     }
     //-------------BETTY BLACKSCREW ANIMATIONS-------------
     public void Dialogue_BB_Var1()
     {
-        curCoroutine = StartCoroutine(DialogueTemplate(dBB_Var1));
+        DisplayOneDialogue(dBB_Var1);
     }
     public void Dialogue_BB_Var2()
     {
-        curCoroutine = StartCoroutine(DialogueTemplate(dBB_Var2));
+        DisplayOneDialogue(dBB_Var2);
     }
     //-------------R3X ANIMATIONS-------------
     public void Dialogue_R3X_Var1()
     {
-        curCoroutine = StartCoroutine(DialogueTemplate(dR3X_Var1));
+        DisplayOneDialogue(dR3X_Var1);
     }
     public void Dialogue_R3X_Var2()
     {
-        curCoroutine = StartCoroutine(DialogueTemplate(dR3X_Var2));
+        DisplayOneDialogue(dR3X_Var2);
     }
     //-------------ALFONSO WHIZBANG ANIMATIONS-------------
     public void Dialogue_AW_Var1()
     {
-        curCoroutine = StartCoroutine(DialogueTemplate(dAW_Var1));
+        DisplayOneDialogue(dAW_Var1);
     }
     //-------------KRONK ERROR009 ANIMATIONS-------------
     public void Dialogue_KE_Var1()
     {
-        curCoroutine = StartCoroutine(DialogueTemplate(dKE_Var1));
+        DisplayOneDialogue(dKE_Var1);
     }
     public void Dialogue_KE_Var2()
     {
-        curCoroutine = StartCoroutine(DialogueTemplate(dKE_Var2));
+        DisplayOneDialogue(dKE_Var2);
     }
     //-------------CANNONBALL BOB ANIMATIONS-------------
     // public IEnumerator Dialogue_CB_Var1()

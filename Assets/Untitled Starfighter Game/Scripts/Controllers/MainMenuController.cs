@@ -9,6 +9,9 @@ public class MainMenuController : MonoBehaviour
 {
     public enum Panel { TmpMain, Main, Options, Graphics, Audio };
 
+    [Header("Viewer")]
+    public float speed = 1;
+    public Transform model;
     [Header("Event System")]
     public AudioSource highlightSound;
     public AudioSource clickSound;
@@ -25,11 +28,12 @@ public class MainMenuController : MonoBehaviour
     private Button currentSelectButton;
     private SpaceShipInputActions inputActions;
 
+    float dir;
+
     public void SetPanel(string targetPanel)
     {
         currentPanel = (Panel)Enum.Parse(typeof(Panel), targetPanel);
-        currentSelectButton = panelDic[currentPanel][0];
-        currentSelectButton.Select();
+        SelectCurrentPanelButton();
     }
 
     public void OnEnable()
@@ -60,17 +64,33 @@ public class MainMenuController : MonoBehaviour
         eventSystem.firstSelectedGameObject = tmpMainButtons[0].gameObject;
 
         inputActions = new SpaceShipInputActions();
+        inputActions.PlayerControls.MoveHorizontal.started += ctx => dir = ctx.ReadValue<float>();
+        inputActions.PlayerControls.MoveHorizontal.canceled += ctx => dir = 0;
         inputActions.PlayerControls.Move.performed += ctx => OnPressDPad(ctx.ReadValue<Vector2>());
         inputActions.PlayerControls.DPad.started += ctx => OnPressDPad(ctx.ReadValue<Vector2>());
         inputActions.PlayerControls.Cancel.started += ctx => OnPressCancel();
     }
 
+    private void Update()
+    {
+        if (dir != 0) {
+            model.Rotate(model.up, Time.deltaTime * speed * dir);
+        }
+    }
+
     private void OnPressDPad(Vector2 value)
     {
         if (!currentSelectButton || currentSelectButton.gameObject != eventSystem.currentSelectedGameObject) {
+            if (!eventSystem.currentSelectedGameObject) SelectCurrentPanelButton();
             currentSelectButton = eventSystem.currentSelectedGameObject.GetComponent<Button>();
             highlightSound.Play();
         }           
+    }
+
+    private void SelectCurrentPanelButton()
+    {
+        currentSelectButton = panelDic[currentPanel][0];
+        currentSelectButton.Select();
     }
 
     private void OnPressCancel()

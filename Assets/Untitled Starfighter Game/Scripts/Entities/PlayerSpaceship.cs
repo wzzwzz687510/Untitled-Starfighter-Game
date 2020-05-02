@@ -40,6 +40,7 @@ public class PlayerSpaceship : Spaceship
     [HideInInspector] public UnityEvent OnLaserHeatChangedEvent;
 
     private Rigidbody m_rb;
+    private bool firstTimeDodge;
 
     #region Overrided Function
     public override void Reload()
@@ -51,6 +52,11 @@ public class PlayerSpaceship : Spaceship
 
     public override void OnShooted(Vector3 direction, float damage)
     {
+        if (Invincible && !firstTimeDodge) {
+            firstTimeDodge = true;
+            MissionManager.Instance.dialogueManager.Dialogue_BB_Var2();
+        }
+
         float dotValue = Vector3.Dot(transform.up, direction);
         if (dotValue > 0.5) {
             // Deal up damage;
@@ -165,13 +171,18 @@ public class PlayerSpaceship : Spaceship
 
     protected override void OnDestoryed()
     {
+        SetKinematic();
+        OnDestoryedEvent?.Invoke();
+    }
+    #endregion
+    public void SetKinematic()
+    {
         m_rb.isKinematic = true;
         model.SetActive(false);
         GetComponent<Collider>().enabled = false;
         Controller.enabled = false;
-        OnDestoryedEvent?.Invoke();
     }
-    #endregion
+
     public void UpgradeArmour()
     {
         MaxArmour += 2;

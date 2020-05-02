@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using Cinemachine.PostFX;
+using UnityEngine.Rendering.Universal;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,6 +14,10 @@ public class UIManager : MonoBehaviour
 
     [Header("Setting")]
     public float outBoundaryAllowBackTime = 7.5f;
+    public float normalHealthIntensity = 0.15f;
+    public float inDangerHealthIntensity = 0.255f;
+    public Color normalHealthColour;
+    public Color inDangerHealthColour;
 
     [Header("UI Elements")]
     public TextMeshProUGUI durabilityText;
@@ -24,6 +30,7 @@ public class UIManager : MonoBehaviour
     public Button pauseButton;
     public Toggle[] ammoGroup;
     public Button[] upgradeSlots;
+    public CinemachineVolumeSettings cinemachineVolumeSettings;
     public EventSystem eventSystem;
 
     [Header("Laser Elements")]
@@ -68,7 +75,10 @@ public class UIManager : MonoBehaviour
     public int SelectID { get; private set; }
 
     private bool GameIsPaused = false;
+    private bool middleDamage;
+    private bool fatalDamage;
     private float outBoundaryTimer;
+    private Vignette vignetteRef;
 
     private PlayerSpaceship Player => PlayerSpaceship.MainCharacter;
 
@@ -81,6 +91,7 @@ public class UIManager : MonoBehaviour
     {
         BindEvent();
         outBoundaryTimer = outBoundaryAllowBackTime;
+        cinemachineVolumeSettings.m_Profile.TryGet(out vignetteRef);
 
         UpdateAllPlayerInfoUI();
     }
@@ -154,6 +165,7 @@ public class UIManager : MonoBehaviour
         if (SelectID == 0 && Player.resources >= 450) {
             Player.ImpactResources(-450);
             Player.UpgradeArmour();
+            MissionManager.Instance.dialogueManager.Dialogue_AW_Var1();
             AudioManager.Instance.PlayUpgradeClip();
         }
         else if (SelectID == 1 && Player.resources >= 250) {
@@ -237,9 +249,21 @@ public class UIManager : MonoBehaviour
         resourceSlider.value = value;
     }
 
-    private void UpdateDurabilityUI(float curD,float maxD)
+    private void UpdateDurabilityUI(float curD, float maxD)
     {
         durabilityText.text = curD.ToString("f0");
+        if (vignetteRef) {
+            vignetteRef.color.value = Color.Lerp(inDangerHealthColour, normalHealthColour, curD / 100.0f);
+            vignetteRef.intensity.value = Mathf.Lerp(inDangerHealthIntensity, normalHealthIntensity, curD / 100.0f);
+        }
+        if (!middleDamage && curD < 80) {
+            middleDamage = true;
+            MissionManager.Instance.dialogueManager.Dialogue_BB_Var1();
+        }
+        if (!fatalDamage && curD < 20) {
+            fatalDamage = true;
+            MissionManager.Instance.dialogueManager.Dialogue_KE_Var1();
+        }
     }
 
     private void UpdateVolumeUI(float curV, float maxV)
@@ -266,7 +290,7 @@ public class UIManager : MonoBehaviour
         HideAllUI();
         defeatedPage.SetActive(true);
         restartButtonLose.Select();
-        Player.Controller.enabled = false;
+        Player.SetKinematic();
         AudioManager.Instance.PlayGameoverClip();
     }
 
@@ -275,7 +299,7 @@ public class UIManager : MonoBehaviour
         HideAllUI();
         victoryPage.SetActive(true);
         restartButtonVictory.Select();
-        Player.Controller.enabled = false;
+        Player.SetKinematic();
         AudioManager.Instance.PlayVictoryBGM();
     }
 
